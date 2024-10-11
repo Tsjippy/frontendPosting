@@ -5,6 +5,7 @@
 
 ### Changed
 - deps
+- redering of asset urls
 
 ### Fixed
 
