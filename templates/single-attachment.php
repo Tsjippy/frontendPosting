@@ -26,7 +26,7 @@ get_header(); ?>
 
 					the_post();
 
-                    $url	= plugins_url('pictures/media.png', __DIR__);
+                    $url	= SIM\pathToUrl(MODULE_PATH.'pictures/media.png');
 
                     $categories = wp_get_post_terms(
                         get_the_ID(),
@@ -83,7 +83,7 @@ get_header(); ?>
                             ?>
                             <div class='vimeo media meta'>
                                 <?php
-                                $imageUrl   = plugins_url('pictures/vimeo.png', __DIR__);
+                                $imageUrl   = SIM\pathToUrl(MODULE_PATH.'pictures/vimeo.png');
                                 $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media_icon'>";
                                 echo "<a href='https://vimeo.com/$vimeoId' title='vimeo id'>$icon $vimeoId</a>";
                                 ?>

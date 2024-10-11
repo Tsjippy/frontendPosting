@@ -330,7 +330,7 @@ class FrontEndContent{
 			['html'=>SIM\userSelect("Select a person to show the link to",true)],
 		);
 
-		$plugins['select_user'] = plugins_url("../js/tiny_mce.js?ver=".MODULE_VERSION, __DIR__);
+		$plugins['select_user'] = SIM\pathToUrl(MODULE_PATH."js/tiny_mce.js?ver=".MODULE_VERSION);
 
 		return $plugins;
 	}

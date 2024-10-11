@@ -25,7 +25,7 @@ add_action( 'enqueue_block_editor_assets', function(){
 
     wp_enqueue_script(
         'sim-expiry-date-block',
-        plugins_url('blocks/expiry-date/build/index.js', __DIR__),
+        SIM\pathToUrl(MODULE_PATH.'blocks/expiry-date/build/index.js'),
         [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
         MODULE_VERSION
     );
