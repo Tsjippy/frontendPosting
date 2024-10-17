@@ -1047,7 +1047,7 @@ class FrontEndContent{
 		$postContent 	= preg_replace("/(&lt;|<)(del|ins) .*?(>|&gt;)/im", "", $postContent);
 
 		// Checks for opening and closing formating tags
-		$tags	= ['b', 'strong', 'i', 'em', 'mark', 'small', 'sub', 'sup', 'span'];
+		$tags			= ['b', 'strong', 'i', 'em', 'mark', 'small', 'sub', 'sup', 'span'];
 		$pattern		= '';
 		foreach($tags as $tag){
 			if(!empty($pattern)){
@@ -1055,6 +1055,7 @@ class FrontEndContent{
 			}
 			$pattern	.= "<\/$tag>\s*<$tag>";	// Closing tag, followed by zero or more spaces followed by an opening tag
 		}
+
 		$postContent 	= preg_replace_callback("/$pattern/i", function(){
 			return ' ';
 		}, $postContent);
