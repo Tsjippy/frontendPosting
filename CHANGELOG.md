@@ -8,6 +8,7 @@
 
 ### Fixed
 - global css reference
+- issue with tinymce
 
 ### Updated
 - blocks
