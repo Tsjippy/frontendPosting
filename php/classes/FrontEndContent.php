@@ -50,7 +50,7 @@ class FrontEndContent{
 
 		if(get_class($this) == __NAMESPACE__.'\FrontEndContent'){
 			//Add tinymce plugin
-			add_filter('mce_external_plugins', array($this, 'addTinymcePlugin'),999);
+			add_filter('mce_external_plugins', array($this, 'addTinymcePlugin'), 999);
 
 			//add tinymce button
 			add_filter('mce_buttons', array($this,'registerButtons'));
@@ -330,7 +330,11 @@ class FrontEndContent{
 			['html'=>SIM\userSelect("Select a person to show the link to",true)],
 		);
 
-		$plugins['select_user'] = SIM\pathToUrl(MODULE_PATH."js/tiny_mce.js?ver=".MODULE_VERSION);
+		$url					= SIM\pathToUrl(MODULE_PATH."js/tiny_mce.js?ver=".MODULE_VERSION);
+
+		if($url){
+			$plugins['select_user'] = $url;
+		}
 
 		return $plugins;
 	}
