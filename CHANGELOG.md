@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- removed anomhynous functions
 
 ### Fixed
 
 ### Updated
+
+## [8.0.3] - 2024-11-18
+
+
+### Changed
+- removed anomhynous functions
 
 ## [8.0.2] - 2024-10-17
 
