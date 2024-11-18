@@ -2,8 +2,8 @@
 namespace SIM\FRONTENDPOSTING;
 use SIM;
 
-add_action( 'rest_api_init',  __NAMESPACE__.'\restApiInit');
-function restApiInit() {
+add_action( 'rest_api_init',  __NAMESPACE__.'\restApiInitBlocks');
+function restApiInitBlocks() {
 	// show post list
 	register_rest_route( 
 		RESTAPIPREFIX.'/frontendposting',  
