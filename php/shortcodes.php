@@ -137,7 +137,8 @@ function pendingPages(){
 }
 
 //Shortcode to display number of pending posts and pages
-add_shortcode('pending_post_icon', function (){
+add_shortcode('pending_post_icon', __NAMESPACE__.'\pendingPostIcon');
+function pendingPostIcon(){
 	//Get all the posts with a pending status
 	$pendingPosts 	= get_posts( 
 		array(
@@ -160,7 +161,7 @@ add_shortcode('pending_post_icon', function (){
 		$pendingTotal = count($pendingPosts) + count($pendingRevisions);
 		return "<span class='numberCircle'>$pendingTotal</span>";
 	}
-});
+}
 
 //Add shortcode for the post edit form
 add_shortcode("front_end_post", function(){
@@ -169,7 +170,8 @@ add_shortcode("front_end_post", function(){
 });
 
 //Add shortcode for the post edit form
-add_shortcode("old-pages", function(){
+add_shortcode("old-pages", __NAMESPACE__.'\oldPages');
+function oldPages(){
 	$oldPages	= getOldPages();
 
 	$html	= '<table class="sim-table">';
@@ -207,4 +209,4 @@ add_shortcode("old-pages", function(){
 	$html	.= '</table>';
 
 	return $html;
-});
+}

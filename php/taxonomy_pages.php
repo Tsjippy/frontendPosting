@@ -3,7 +3,8 @@ namespace SIM\FRONTENDPOSTING;
 use SIM;
 
 // filter library if needed
-add_filter( 'ajax_query_attachments_args', function($query){
+add_filter( 'ajax_query_attachments_args',  __NAMESPACE__.'\attachmentArgs');
+function attachmentArgs($query){
     if(!empty($_REQUEST['query']['category'])){
         $category = $_REQUEST['query']['category'];
 
@@ -17,9 +18,10 @@ add_filter( 'ajax_query_attachments_args', function($query){
     }
 
     return $query;
-} );
+}
 
-add_action( 'init', function () {
+add_action( 'init', __NAMESPACE__.'\initTaxonomies');
+function initTaxonomies() {
 
     $taxonomies = array( 'category', 'post_tag' ); // add the 2 tax to ...
     foreach ( $taxonomies as $tax ) {
@@ -27,7 +29,7 @@ add_action( 'init', function () {
     }
 
 	SIM\createTaxonomies('attachment_cat', 'attachment', 'attachments');
-});
+}
 
 /**
  * Add categories to attachment page
@@ -36,7 +38,8 @@ add_action( 'init', function () {
  * we create a checkbox who update a hidden input wiht the comma seperated checkboxes
  */
 
-add_filter( 'attachment_fields_to_edit', function($formFields, $post ){
+add_filter( 'attachment_fields_to_edit', __NAMESPACE__.'\attachmentFieldsToEdit', 10, 2);
+function attachmentFieldsToEdit($formFields, $post ){
     $categories	= get_categories( array(
 		'orderby' 		=> 'name',
 		'order'   		=> 'ASC',
@@ -88,9 +91,10 @@ add_filter( 'attachment_fields_to_edit', function($formFields, $post ){
 	$formFields['attachment_cat']['label']	= 'Categories';
 
     return $formFields;
-}, 10, 2);
+}
 
-add_action('sim_before_archive', function($type){
+add_action('sim_before_archive', __NAMESPACE__.'\beforeArchive');
+function beforeArchive($type){
     $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
 	if(is_numeric($url)){
 		if($type == 'event'){
@@ -101,9 +105,10 @@ add_action('sim_before_archive', function($type){
 
 		echo "<a href='$url?type=$type' class='button'>$text</a><br>";
 	}
-});
+}
 
-add_filter('sim_empty_description', function($message, $post){
+add_filter('sim_empty_description', __NAMESPACE__.'\emptyDescription', 10, 2);
+function emptyDescription($message, $post){
     $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
 	$message	= "<div style='margin-top:10px;'>";
 		$message	.= "This {$post->post_type} lacks a description.<br>";
@@ -112,10 +117,11 @@ add_filter('sim_empty_description', function($message, $post){
 	$message	.= '</div>';
 
 	return $message;
-}, 10, 2);
+}
 
-add_filter('sim-empty-taxonomy', function($message, $type){
+add_filter('sim-empty-taxonomy', __NAMESPACE__.'\emptyTax', 10, 2);
+function emptyTax($message, $type){
 	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
 	$message	.= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
 	return $message;
-}, 10, 2);
+}

@@ -3,7 +3,8 @@ namespace SIM\ARCHIVE;
 use SIM;
 
 // Registering custom post status
-add_action( 'init', function (){
+add_action( 'init', __NAMESPACE__.'\initPostStatus');
+function initPostStatus(){
     register_post_status('archived', array(
         'label'                     => _x( 'Archived', 'post' ),
         'public'                    => false,
@@ -13,7 +14,7 @@ add_action( 'init', function (){
         'protected'                 => true,
         'label_count'               => _n_noop( 'Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>' ),
     ) );
-} );
+}
 
 // Using jQuery to add it to post status dropdown
 /* add_action('admin_footer-edit', __NAMESPACE__.'\addPostStatus');
@@ -93,7 +94,8 @@ function addPostStatus(){
 
 // Display "— Archived" after post name on the dashobard, like you would see "— Draft" for draft posts.
 // Not shown when viewing only archived posts because that would be redundant.
-add_filter( 'display_post_states', function ( $statuses ) {
+add_filter( 'display_post_states', __NAMESPACE__.'\displayPostStatus');
+function displayPostStatus( $statuses ) {
     global $post; // we need it to check current post status
     
     if( get_query_var( 'post_status' ) != 'archived' ){ // not for pages with all posts of this status
@@ -103,4 +105,4 @@ add_filter( 'display_post_states', function ( $statuses ) {
     }
     
     return $statuses; // returning the array with default statuses
-});
+}

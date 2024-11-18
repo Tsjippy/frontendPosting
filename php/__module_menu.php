@@ -11,7 +11,8 @@ DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
 DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 
-add_filter('sim_submenu_description', function($description, $moduleSlug){
+add_filter('sim_submenu_description', __NAMESPACE__.'\subMenuDescription', 10, 2);
+function subMenuDescription($description, $moduleSlug){
 	//module slug should be the same as the constant
 	if($moduleSlug != MODULE_SLUG)	{
 		return $description;
@@ -33,9 +34,10 @@ add_filter('sim_submenu_description', function($description, $moduleSlug){
 	}
 
 	return $description.ob_get_clean();
-}, 10, 2);
+}
 
-add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings){
+add_filter('sim_submenu_options', __NAMESPACE__.'\subMenuOptions', 10, 3);
+function subMenuOptions($optionsHtml, $moduleSlug, $settings){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG){
 		return $optionsHtml;
@@ -114,9 +116,10 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 	</label>
 	<?php
 	return ob_get_clean();
-}, 10, 3);
+}
 
-add_filter('sim_email_settings', function($optionsHtml, $moduleSlug, $settings){
+add_filter('sim_email_settings', __NAMESPACE__.'\emailSettings', 10, 3);
+function emailSettings($optionsHtml, $moduleSlug, $settings){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG){
 		return $optionsHtml;
@@ -170,9 +173,10 @@ add_filter('sim_email_settings', function($optionsHtml, $moduleSlug, $settings){
 	$email->printInputs($settings);
 
 	return ob_get_clean();
-}, 10, 3);
+}
 
-add_filter('sim_module_updated', function($options, $moduleSlug, $oldOptions){
+add_filter('sim_module_updated', __NAMESPACE__.'\moduleUpdated', 10, 3);
+function moduleUpdated($options, $moduleSlug, $oldOptions){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG){
 		return $options;
@@ -186,9 +190,10 @@ add_filter('sim_module_updated', function($options, $moduleSlug, $oldOptions){
 	scheduleTasks();
 
 	return $options;
-}, 10, 3);
+}
 
-add_filter('display_post_states', function ( $states, $post ) {
+add_filter('display_post_states', __NAMESPACE__.'\postStatus', 10, 2);
+function postStatus( $states, $post ) {
 
     if ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'front_end_post_pages', false))) {
         $states[] = __('Frontend posting page');
@@ -197,9 +202,10 @@ add_filter('display_post_states', function ( $states, $post ) {
     }
 
     return $states;
-}, 10, 2);
+}
 
-add_action('sim_module_deactivated', function($moduleSlug, $options){
+add_action('sim_module_deactivated', __NAMESPACE__.'\moduleDeactivate', 10, 2);
+function moduleDeactivate($moduleSlug, $options){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG)	{
 		return;
@@ -209,4 +215,4 @@ add_action('sim_module_deactivated', function($moduleSlug, $options){
 		// Remove the auto created page
 		wp_delete_post($page, true);
 	}
-}, 10, 2);
+}

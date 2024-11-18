@@ -2,14 +2,15 @@
 namespace SIM\FRONTENDPOSTING;
 use SIM;
 
-add_action('init', function(){
+add_action('init', __NAMESPACE__.'\initTasks');
+function initTasks(){
 	//add action for use in scheduled task
 	add_action( 'expired_posts_check_action', __NAMESPACE__.'\expiredPostsCheck' );
 	add_action( 'page_age_warning_action', __NAMESPACE__.'\pageAgeWarning' );
 	add_action( 'publish_posts_action', __NAMESPACE__.'\publishPost' );
 	add_action( 'publish_sheduled_posts_action', __NAMESPACE__.'\publish_missed_posts' );
 	
-});
+}
 
 function scheduleTasks(){
     SIM\scheduleTask('expired_posts_check_action', 'daily');
@@ -188,11 +189,12 @@ function publish_missed_posts(){
 }
 
 // Remove scheduled tasks upon module deactivatio
-add_action('sim_module_deactivated', function($moduleSlug){
+add_action('sim_module_deactivated', __NAMESPACE__.'\moduleDeactivated');
+function moduleDeactivated($moduleSlug){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG)	{return;}
 
 	wp_clear_scheduled_hook( 'expired_posts_check_action' );
 	wp_clear_scheduled_hook( 'page_age_warning_action' );
 	wp_clear_scheduled_hook( 'publish_sheduled_posts_action' );
-});
+}

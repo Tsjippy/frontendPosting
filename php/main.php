@@ -91,17 +91,19 @@ function sendPendingPostWarning( object $post, $update){
 }
 
 //Delete the indicator that the warning has been send
-add_action(  'transition_post_status',  function ( $newStatus, $oldStatus, $post ) {
+add_action(  'transition_post_status', __NAMESPACE__.'\onStatusChange', 10, 3 );
+function onStatusChange( $newStatus, $oldStatus, $post ) {
 	if ($newStatus == 'publish' && $oldStatus == 'pending'){
 		delete_post_meta($post->ID, 'pending_notification_send');
 	}
-}, 10, 3 );
+}
 
 //Allow display attributes in post content
-add_filter( 'safe_style_css', function( $styles ) {
+add_filter( 'safe_style_css',  __NAMESPACE__.'\safeStyles');
+function safeStyles( $styles ) {
     $styles[] = 'display';
     return $styles;
-} );
+}
 
 /**
  * Checks if the current user is allowed to edit a post
@@ -138,7 +140,8 @@ function allowedToEdit($post){
 }
 
 //Add post edit button
-add_filter( 'the_content', function ( $content ) {
+add_filter( 'the_content', __NAMESPACE__.'\filterContent', 15);
+function filterContent( $content ) {
 	//Do not show if:
 	if (
 		!is_user_logged_in() 							||	// not logged in or
@@ -188,12 +191,13 @@ add_filter( 'the_content', function ( $content ) {
 	$buttonHtml	= apply_filters('post-edit-button', $buttonHtml, $post, $content);
 
 	return $buttonHtml."<div class='content-wrapper'>$content</div>";
-}, 15);
+}
 
-add_filter('sim-template-filter', function($templateFile){
+add_filter('sim-template-filter',  __NAMESPACE__.'\templateFilter');
+function templateFilter($templateFile){
 	if(str_contains($templateFile, 'single-attachment')){
 		return MODULE_PATH.'templates/single-attachment.php';
 	}
 
 	return $templateFile;
-});
+}

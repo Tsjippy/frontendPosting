@@ -2,7 +2,8 @@
 namespace SIM\FRONTENDPOSTING;
 use SIM;
 
-add_action('init', function () {
+add_action('init', __NAMESPACE__.'\initBlocks');
+function initBlocks() {
 	register_block_type(
 		__DIR__ . '/your_posts/build',
 		array(
@@ -16,23 +17,8 @@ add_action('init', function () {
 			'render_callback' => __NAMESPACE__.'\pendingPages',
 		)
 	);
-});
 
-add_action( 'enqueue_block_editor_assets', function(){
-	SIM\registerScripts();
-
-	wp_enqueue_script( 'sim_table_script');
-
-    wp_enqueue_script(
-        'sim-expiry-date-block',
-        SIM\pathToUrl(MODULE_PATH.'blocks/expiry-date/build/index.js'),
-        [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
-        MODULE_VERSION
-    );
-});
-
-// register custom meta tag field
-add_action( 'init', function(){
+	// register custom meta tag field
 	register_post_meta( '', 'expirydate', array(
         'show_in_rest' 	    => true,
         'single' 		    => true,
@@ -48,4 +34,18 @@ add_action( 'init', function(){
 		'default'			=> false,
 		'sanitize_callback' => 'sanitize_text_field'
     ) );
-} );
+}
+
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__.'\loadBlockAssets');
+function loadBlockAssets(){
+	SIM\registerScripts();
+
+	wp_enqueue_script( 'sim_table_script');
+
+    wp_enqueue_script(
+        'sim-expiry-date-block',
+        SIM\pathToUrl(MODULE_PATH.'blocks/expiry-date/build/index.js'),
+        [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
+        MODULE_VERSION
+    );
+}

@@ -2,7 +2,8 @@
 namespace SIM\FRONTENDPOSTING;
 use SIM;
 
-add_action( 'wp_after_insert_post', function($postId, $post){
+add_action( 'wp_after_insert_post',  __NAMESPACE__.'\afterInsertPost', 10, 2);
+function afterInsertPost($postId, $post){
     if(has_shortcode($post->post_content, 'front_end_post')){
         global $Modules;
 
@@ -14,9 +15,10 @@ add_action( 'wp_after_insert_post', function($postId, $post){
 
         update_option('sim_modules', $Modules);
     }
-}, 10, 2);
+}
 
-add_action( 'wp_trash_post', function($postId){
+add_action( 'wp_trash_post',  __NAMESPACE__.'\trashPost');
+function trashPost($postId){
     global $Modules;
     $index  = array_search($postId, $Modules[MODULE_SLUG]['front_end_post_pages']);
     if($index){
@@ -24,10 +26,10 @@ add_action( 'wp_trash_post', function($postId){
         $Modules[MODULE_SLUG]['front_end_post_pages']   = array_values($Modules[MODULE_SLUG]['front_end_post_pages']);
         update_option('sim_modules', $Modules);
     }
-} );
+}
 
-add_action( 'wp_enqueue_scripts', function () {
-
+add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\loadAssets');
+function loadAssets() {
     wp_register_style('sim_frontend_style', SIM\pathToUrl(MODULE_PATH.'css/frontend_posting.min.css'), array(), MODULE_VERSION);
 	
     //Load js
@@ -45,9 +47,10 @@ add_action( 'wp_enqueue_scripts', function () {
     if(is_numeric(get_the_ID()) && in_array(get_the_ID(), $frontEndPostPages)){
         wp_enqueue_style('sim_frontend_style');
     }
-});
+}
 
-add_action( 'wp_enqueue_media', function(){
+add_action( 'wp_enqueue_media', __NAMESPACE__.'\loadMediaAssets');
+function loadMediaAssets(){
     wp_enqueue_script('sim_library_cat_script', SIM\pathToUrl(MODULE_PATH.'js/library.min.js'), [], MODULE_VERSION);
     wp_localize_script(
         'sim_library_cat_script',
@@ -57,4 +60,4 @@ add_action( 'wp_enqueue_media', function(){
             'hide_empty' 	=> false
         ) )
     );
-});
+}

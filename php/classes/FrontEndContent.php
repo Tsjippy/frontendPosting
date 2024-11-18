@@ -25,6 +25,7 @@ class FrontEndContent{
 	public $categories;
 	public $actionText;
 	public $oldPost;
+	public $orgPost;
 
 	public function __construct(){
 		$this->postId			= isset($_GET['post_id']) ? $_GET['post_id'] : '' ;
@@ -122,9 +123,9 @@ class FrontEndContent{
 				echo "</div>";
 			}
 
-			$this->update	= 'false';
+			$this->update	= false;
 			if(is_numeric($this->postId) && $this->post->post_status == 'publish'){
-				$this->update	= 'true';
+				$this->update	= true;
 			}
 			echo "<button class='button sim $hidden show' id='showallfields'>Show all fields</button>";
 
@@ -385,27 +386,35 @@ class FrontEndContent{
 	public function fillPostData(){
 		//Load existing post data
 		if(is_numeric($this->postId)){
-			// Check if there are pending changes
-			$args = array(
-				'post_parent' => $this->postId,
-				'post_type'   => 'change',
-				'post_status' => 'inherit',
-			);
+			$this->post			= get_post($this->postId);
+			
+			if($this->post->post_status == 'inherit'){
+				$this->orgPost 		= get_post($this->post->post_parent);
+				while($this->orgPost->post_status == 'inherit'){
+					$this->orgPost	= get_post($this->orgPost->post_parent);
+				}
 
-			$revisions = get_children( $args );
-
-			if(empty($revisions)){
-				$this->post 									= get_post($this->postId);
-			// Load the first revision if there is one.
+				$this->postParent	= $this->orgPost->post_parent;
+				$this->postType 	= $this->orgPost->post_type;
 			}else{
-				$this->post										= array_values($revisions)[0];
-				$this->postId									= $this->post->ID;
+				// Check if there are pending changes
+				$args = array(
+					'post_parent' => $this->postId,
+					'post_type'   => 'change',
+					'post_status' => 'inherit',
+				);
+
+				$revisions = get_children( $args );
+
+				// Load the first revision of this post so that we have the latest updates
+				if(!empty($revisions)){
+					$this->post			= get_post($revisions[0]);
+				}
+
+				$this->postParent	= $this->post->post_parent;
+				$this->postType 	= $this->post->post_type;
 			}
-			$this->postParent 									= $this->post->post_parent;
-			$this->postType 									= $this->post->post_type;
-			if($this->postType == 'change'){
-				$this->postType = get_post_type($this->postParent);
-			}
+
 			$this->postTitle 									= $this->post->post_title;
 			$this->postContent 									= $this->post->post_content;
 			$this->postImageId									= get_post_thumbnail_id($this->postId);
@@ -417,7 +426,7 @@ class FrontEndContent{
 			$this->postType 	= $_GET['type'];
 		}
 
-		$this->postName 										= str_replace("_lite","",$this->postType);
+		$this->postName 										= str_replace("_lite", "", $this->postType);
 
 		//show lite version of location by default
 		if(str_contains($this->postType, '_lite')){
@@ -437,127 +446,132 @@ class FrontEndContent{
 	 *
 	**/
 	public function showChanges(){
-		if($this->update && isset($this->post->post_type) && $this->post->post_type == 'change'){
-			// Get changes in title and content
-			if(!function_exists('wp_get_revision_ui_diff')){
-				include_once ABSPATH . 'wp-admin/includes/revision.php';
-			}
-
-			add_filter( "_wp_post_revision_field_post_content", function($text){
-				return preg_replace('/<!-- .* -->/i', '', $text);
-			});
-
-			$result		= wp_get_revision_ui_diff($this->post->post_parent, $this->post->post_parent, $this->post->ID);
-
-			// Get changes in meta values
-			$newMeta	= get_post_meta($this->postId);
-			$oldMeta	= get_post_meta($this->postParent);
-
-			//exclude certain keys
-			$exclusion	= ['pending_notification_send', '_edit_lock', '_edit_last', '_themeisle_gutenberg_block_stylesheet', '_wp_page_template'];
-			foreach($exclusion as $exclude){
-				if(isset($oldMeta[$exclude])){
-					unset($oldMeta[$exclude]);
-				}
-
-				if(isset($newMeta[$exclude])){
-					unset($newMeta[$exclude]);
-				}
-			}
-
-			// Unserialize the meta values
- 			foreach($newMeta as &$meta){
-				$meta[0]	= maybe_unserialize($meta[0]);
-
-				if(empty($meta[0])){
-					$meta[0]	= '';
-				}
-
-				$meta	= trim(maybe_serialize($meta[0]));
-			}
-			unset($meta);
-
-			foreach($oldMeta as &$meta){
-				$meta[0]	= maybe_unserialize($meta[0]);
-				if(empty($meta[0])){
-					$meta[0]	= '';
-				}
-
-				$meta	= trim(maybe_serialize($meta[0]));
-			}
-			unset($meta);
-
-			$changed	= [];
-
-			foreach($oldMeta as $key=>$meta){
-				if(!isset($newMeta[$key]) && !empty($meta)){
-					$changed[$key]	= ['old'=>$meta, 'new'=>''];
-				}
-			}
-
-			foreach($newMeta as $key=>$meta){
-				if(!isset($oldMeta[$key]) && !empty($meta)){
-					$changed[$key]	= ['old'=>'', 'new'=>$meta];
-				}
-			}
-
-			foreach(array_intersect($newMeta, $oldMeta) as $key=>$value){
-				if($oldMeta[$key] != $value){
-					if(is_array($newValue)){
-						foreach($newValue as $k=>$v){
-							$newV	= maybe_unserialize($v);
-							$oldV	= maybe_unserialize($oldValue[$k]);
-
-							if($newV != $oldV){
-								$changed[$k]	= ['old'=>$oldV, 'new'=>$newV];
-							}
-						}
-					}elseif($newValue != $oldValue){
-						$changed[$key]	= ['old'=>$oldValue, 'new'=>$newValue];
-					}
-				}
-			}
-
-			foreach($changed as $key=>$change){
-				$diff	= wp_text_diff($change['old'], $change['new']);
-				if(empty($diff)){
-					continue;
-				}
-
-				// picture id to picture html
-				if($key == '_thumbnail_id'){
-					if(is_numeric($change['old'])){
-						$diff	= str_replace($change['old'], wp_get_attachment_image( $change['old']), $diff);
-					}
-
-					if(is_numeric($change['new'])){
-						$diff	= str_replace($change['new'], wp_get_attachment_image( $change['new']), $diff);
-					}
-					$key	= 'Featured image';
-				}
-
-				$result[]	= array(
-					'id'	=> 'post_meta',
-					'name'	=> ucfirst(str_replace('_', ' ', $key)),
-					'diff'	=> $diff
-				);
-			}
-
-			?>
-			<button type='button' class='button small show-diff'>Show what is changed</button>
-			<fieldset class='post-diff-wrapper hidden'>
-			<legend>
-				<h4>Change list</h4>
-			</legend>
-				<?php
-				foreach($result as $r){
-					echo  "<h4>{$r['name']}</h4>";
-					echo  $r['diff'];
-				}
-				?>
-			</fieldset>
-			<?php
+		if($this->post->post_status != 'inherit'){
+			return;
 		}
+
+		// Get changes in title and content
+		if(!function_exists('wp_get_revision_ui_diff')){
+			include_once ABSPATH . 'wp-admin/includes/revision.php';
+		}
+
+		add_filter( "_wp_post_revision_field_post_content", function($text){
+			return preg_replace('/<!-- .* -->/i', '', $text);
+		});
+
+		$result		= wp_get_revision_ui_diff($this->post->post_parent, $this->post->post_parent, $this->post->ID);
+
+		// Get changes in meta values
+		$newMeta	= get_post_meta($this->postId);
+		if(!$newMeta){
+			$newMeta	= [];
+		}
+		
+		$oldMeta	= get_post_meta($this->orgPost->ID);
+		if(!$oldMeta){
+			$oldMeta	= [];
+		}
+
+		//exclude certain keys
+		$exclusion	= ['pending_notification_send', '_edit_lock', '_edit_last', '_themeisle_gutenberg_block_stylesheet', '_wp_page_template'];
+		foreach($exclusion as $exclude){
+			if(isset($oldMeta[$exclude])){
+				unset($oldMeta[$exclude]);
+			}
+
+			if(isset($newMeta[$exclude])){
+				unset($newMeta[$exclude]);
+			}
+		}
+
+		// Unserialize the meta values
+		foreach($newMeta as &$meta){
+			$meta[0]	= maybe_unserialize($meta[0]);
+
+			if(empty($meta[0])){
+				$meta[0]	= '';
+			}
+
+			$meta	= trim(maybe_serialize($meta[0]));
+		}
+		unset($meta);
+
+		foreach($oldMeta as &$meta){
+			$meta[0]	= maybe_unserialize($meta[0]);
+			if(empty($meta[0])){
+				$meta[0]	= '';
+			}
+
+			$meta	= trim(maybe_serialize($meta[0]));
+		}
+		unset($meta);
+
+		// Check which meta values have been changed
+		$changed	= [];
+
+		foreach($newMeta as $key=>$meta){
+			if(!isset($oldMeta[$key]) && !empty($meta)){
+				$changed[$key]	= ['old'=>'', 'new'=>$meta];
+			}
+		}
+
+		// Check which values have been added
+		foreach(array_intersect($newMeta, $oldMeta) as $key=>$value){
+			if($oldMeta[$key] != $value){
+				if(is_array($newValue)){
+					foreach($newValue as $k=>$v){
+						$newV	= maybe_unserialize($v);
+						$oldV	= maybe_unserialize($oldValue[$k]);
+
+						if($newV != $oldV){
+							$changed[$k]	= ['old'=>$oldV, 'new'=>$newV];
+						}
+					}
+				}elseif($newValue != $oldValue){
+					$changed[$key]	= ['old'=>$oldValue, 'new'=>$newValue];
+				}
+			}
+		}
+
+		foreach($changed as $key=>$change){
+			$diff	= wp_text_diff($change['old'], $change['new']);
+			if(empty($diff)){
+				continue;
+			}
+
+			// picture id to picture html
+			if($key == '_thumbnail_id'){
+				if(is_numeric($change['old'])){
+					$diff	= str_replace($change['old'], wp_get_attachment_image( $change['old']), $diff);
+				}
+
+				if(is_numeric($change['new'])){
+					$diff	= str_replace($change['new'], wp_get_attachment_image( $change['new']), $diff);
+				}
+				$key	= 'Featured image';
+			}
+
+			$result[]	= array(
+				'id'	=> 'post_meta',
+				'name'	=> ucfirst(str_replace('_', ' ', $key)),
+				'diff'	=> $diff
+			);
+		}
+
+		?>
+		<button type='button' class='button small show-diff'>Show what is changed</button>
+		<fieldset class='post-diff-wrapper hidden'>
+		<legend>
+			<h4>Change list</h4>
+		</legend>
+			<?php
+			foreach($result as $r){
+				echo  "<h4>{$r['name']}</h4>";
+				echo  $r['diff'];
+			}
+			?>
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -1574,8 +1588,8 @@ class FrontEndContent{
 		$value  = get_post_meta($this->postId, $key, true);
 	
 		// use parent value if the revision value is non existing
-		if(empty($value) && !empty($this->postParent)){
-			$value    =  get_post_meta($this->postParent, $key, true);
+		if(empty($value) && !empty($this->orgPost)){
+			$value    =  get_post_meta($this->orgPost->ID, $key, true);
 		}
 	
 		return $value;

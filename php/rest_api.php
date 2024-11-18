@@ -2,7 +2,8 @@
 namespace SIM\FRONTENDPOSTING;
 use SIM;
 
-add_action( 'rest_api_init', function () {
+add_action( 'rest_api_init', __NAMESPACE__.'\restApiInit');
+function restApiInit() {
 	// get_attachment_contents
 	register_rest_route(
 		RESTAPIPREFIX.'/frontend_posting',
@@ -269,7 +270,7 @@ add_action( 'rest_api_init', function () {
 		)
 	);
 
-} );
+}
 
 /**
  * Converts a files contents to html
