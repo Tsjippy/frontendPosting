@@ -164,10 +164,11 @@ function pendingPostIcon(){
 }
 
 //Add shortcode for the post edit form
-add_shortcode("front_end_post", function(){
+add_shortcode("front_end_post", __NAMESPACE__.'\fontEndPost');
+function fontEndPost(){
 	$frontEndContent	= new FrontEndContent();
 	return $frontEndContent->frontendPost();
-});
+}
 
 //Add shortcode for the post edit form
 add_shortcode("old-pages", __NAMESPACE__.'\oldPages');
