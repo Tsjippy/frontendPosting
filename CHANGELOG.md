@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- save tinymce plain text value before submitting the post
 
 ### Updated
+
+## [8.0.6] - 2025-02-04
+
+
+### Fixed
+- save tinymce plain text value before submitting the post
 
 ## [8.0.5] - 2025-02-04
 
