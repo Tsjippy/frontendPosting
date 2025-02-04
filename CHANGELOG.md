@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- save tinymce plain text value before submitting the post
 
 ### Updated
 
