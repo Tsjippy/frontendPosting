@@ -184,7 +184,7 @@ class FrontEndContent{
 		 		<div id="featured-image-div" <?php if($this->postImageId == 0){echo ' class="hidden"';}?>>
 					<h4 name="post_image_label">Featured image:</h4>
 
-					<span id='featured_image_wrapper'>
+					<span id='featured_image_wrapper' style='max-height:150px;'>
 						<?php
 						if($this->postImageId != 0){
 							echo get_the_post_thumbnail(

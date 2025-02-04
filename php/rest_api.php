@@ -273,7 +273,7 @@ function restApiInit() {
 }
 
 /**
- * Converts a files contents to html
+ * Converts a file's contents to html
  */
 function getAttachmentContents(\WP_REST_Request $request ){
 	$path	= get_attached_file($request['attachment_id']);

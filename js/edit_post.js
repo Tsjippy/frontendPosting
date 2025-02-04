@@ -23,12 +23,6 @@ let editPostSwitch = async function (event){
 	if(response){
 		wrapper.innerHTML	= response.html;
 
-		// Enable any inline js script
-		let scripts = wrapper.getElementsByTagName('script');
-		for (let n = 0; n < scripts.length; n++){
-    		eval(scripts[n].innerHTML)				//run script inside div
-		}
-
 		addStyles(response, document);	// runs also the afterScriptsLoaded function
 	}else{
 		loader.outerHTML	= button.outerHTML;

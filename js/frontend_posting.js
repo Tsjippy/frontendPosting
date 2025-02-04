@@ -255,6 +255,9 @@ async function addCatType(target){
 }
 
 async function submitPost(target){
+	// make sure we save the latest plain text edits
+	tinymce.triggerSave(true, true);
+
 	let response	= await FormSubmit.submitForm(target, 'frontend_posting/submit_post');
 	
 	if(response){
@@ -282,12 +285,6 @@ async function submitPost(target){
 		}
 
 		document.querySelector('main').innerHTML	= response.html;
-
-		// Enable any inline js script
-		let scripts = document.querySelector('main').getElementsByTagName('script');
-		for (let n = 0; n < scripts.length; n++){
-    		eval(scripts[n].innerHTML)				//run script inside div
-		}
 
 		addStyles(response, document);
 
