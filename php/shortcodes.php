@@ -112,7 +112,7 @@ function pendingPages(){
 				$date	= date('d-M-Y', strtotime($post->post_date_gmt));
 				$html .= "<li>$post->post_title (scheduled for $date) <a href='$url'>Publish now</a></li>";
 			}else{
-				$html .= '<li>'.$post->post_title.' <a href="'.$url.'">Review and publish</a></li>';
+				$html .= "<li>$post->post_title <a href='$url' target='_blank'>Review and publish</a></li>";
 			}
 		}
 		$html .= "</ul>";
