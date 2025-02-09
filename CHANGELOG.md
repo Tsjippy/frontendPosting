@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- open pending post in new tab
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [8.0.7] - 2025-02-09
+
+
+### Added
+- open pending post in new tab
 
 ## [8.0.6] - 2025-02-04
 
