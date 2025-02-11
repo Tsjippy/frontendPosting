@@ -4,12 +4,17 @@
 ### Added
 
 ### Changed
-- sim_module_updated filter to new format
-- use site date and time format
 
 ### Fixed
 
 ### Updated
+
+## [8.0.8] - 2025-02-11
+
+
+### Changed
+- sim_module_updated filter to new format
+- use site date and time format
 
 ## [8.0.7] - 2025-02-09
 
