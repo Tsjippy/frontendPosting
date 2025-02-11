@@ -175,13 +175,8 @@ function emailSettings($optionsHtml, $moduleSlug, $settings){
 	return ob_get_clean();
 }
 
-add_filter('sim_module_updated', __NAMESPACE__.'\moduleUpdated', 10, 3);
-function moduleUpdated($options, $moduleSlug, $oldOptions){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $options;
-	}
-
+add_filter('sim_module_frontendposting_after_save', __NAMESPACE__.'\moduleUpdated', 10, 2);
+function moduleUpdated($options, $oldOptions){
 	// Create frontend posting page
 	$options	= SIM\ADMIN\createDefaultPage($options, 'front_end_post_pages', 'Add content', '[front_end_post]', $oldOptions);
 
