@@ -11,13 +11,8 @@ DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
 DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 
-add_filter('sim_submenu_description', __NAMESPACE__.'\subMenuDescription', 10, 2);
+add_filter('sim_submenu_frontendposting_description', __NAMESPACE__.'\subMenuDescription', 10, 2);
 function subMenuDescription($description, $moduleSlug){
-	//module slug should be the same as the constant
-	if($moduleSlug != MODULE_SLUG)	{
-		return $description;
-	}
-
 	ob_start();
 
 	$url		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'front_end_post_pages');
@@ -36,13 +31,8 @@ function subMenuDescription($description, $moduleSlug){
 	return $description.ob_get_clean();
 }
 
-add_filter('sim_submenu_options', __NAMESPACE__.'\subMenuOptions', 10, 3);
-function subMenuOptions($optionsHtml, $moduleSlug, $settings){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $optionsHtml;
-	}
-
+add_filter('sim_submenu_frontendposting_options', __NAMESPACE__.'\subMenuOptions', 10, 2);
+function subMenuOptions($optionsHtml, $settings){
 	if(!isset($settings['pending-channels']) || !is_array($settings['pending-channels'])){
 		$settings['pending-channels']	= [];
 	}
@@ -115,16 +105,11 @@ function subMenuOptions($optionsHtml, $moduleSlug, $settings){
 		</label>
 	</label>
 	<?php
-	return ob_get_clean();
+	return $optionsHtml.ob_get_clean();
 }
 
-add_filter('sim_email_settings', __NAMESPACE__.'\emailSettings', 10, 3);
-function emailSettings($optionsHtml, $moduleSlug, $settings){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $optionsHtml;
-	}
-
+add_filter('sim_email_frontendposting_settings', __NAMESPACE__.'\emailSettings', 10, 2);
+function emailSettings($html, $settings){
 	ob_start();
 	?>
 	<h4>E-mail send to people when a page is out of date</h4>
@@ -172,7 +157,7 @@ function emailSettings($optionsHtml, $moduleSlug, $settings){
 	$email->printPlaceholders();
 	$email->printInputs($settings);
 
-	return ob_get_clean();
+	return $html.ob_get_clean();
 }
 
 add_filter('sim_module_frontendposting_after_save', __NAMESPACE__.'\moduleUpdated', 10, 2);
@@ -199,13 +184,8 @@ function postStatus( $states, $post ) {
     return $states;
 }
 
-add_action('sim_module_deactivated', __NAMESPACE__.'\moduleDeactivate', 10, 2);
-function moduleDeactivate($moduleSlug, $options){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG)	{
-		return;
-	}
-
+add_action('sim_module_frontendposting_deactivated', __NAMESPACE__.'\moduleDeactivate');
+function moduleDeactivate($options){
 	foreach($options['front_end_post_pages'] as $page){
 		// Remove the auto created page
 		wp_delete_post($page, true);

@@ -189,11 +189,8 @@ function publish_missed_posts(){
 }
 
 // Remove scheduled tasks upon module deactivatio
-add_action('sim_module_deactivated', __NAMESPACE__.'\moduleDeactivated');
-function moduleDeactivated($moduleSlug){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG)	{return;}
-
+add_action('sim_module_frontendposting_deactivated', __NAMESPACE__.'\moduleDeactivated');
+function moduleDeactivated(){
 	wp_clear_scheduled_hook( 'expired_posts_check_action' );
 	wp_clear_scheduled_hook( 'page_age_warning_action' );
 	wp_clear_scheduled_hook( 'publish_sheduled_posts_action' );
