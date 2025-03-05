@@ -452,12 +452,12 @@ function checkForDuplicate(\WP_REST_Request $request ){
 	$type	= $request->get_param('type');
 	$exclude= $request->get_param('exclude');
 
-	$query	= "SELECT * FROM {$wpdb->prefix}posts WHERE post_title LIKE '%$title%' AND post_type = '$type'";
+	$query	= "SELECT * FROM {$wpdb->prefix}posts WHERE post_title LIKE %s AND post_type = %s";
 
 	if(is_numeric($exclude)){
-		$query	.= " AND ID != $exclude";
+		$query	.= " AND ID != %d";
 	}
-	$posts 	= $wpdb->get_results($query, OBJECT);
+	$posts 	= $wpdb->get_results($wpdb->prepare($query, ["%$title%", $type, $exclude]), OBJECT);
 
 	$html	= "";
 
