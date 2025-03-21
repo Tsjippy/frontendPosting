@@ -72,11 +72,6 @@ function sendPendingPostWarning( object $post, $update){
 	$authorName		= get_userdata($post->post_author)->display_name;
 	
 	foreach($users as $user){
-		if(in_array('signal', $channels)){
-			//send signal message
-			SIM\trySendSignal("$authorName just $actionText a $type. Please review it here:\n\n$url", $user->ID, true);
-		}
-
 		if(in_array('email', $channels)){
 			$pendinfPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
 			$pendinfPostEmail->filterMail();
