@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- removed signal messaging
 
 ### Fixed
 
 ### Updated
+
+## [8.1.1] - 2025-05-08
+
+
+### Changed
+- removed signal messaging
 
 ## [8.1.0] - 2025-03-21
 
