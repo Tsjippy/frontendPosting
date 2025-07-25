@@ -67,7 +67,7 @@ tinymce.create(
 				function(){
 					dialog 							= editor.windowManager.open(selectUserDialog);
 					var select						= document.querySelector('.wp-editor-help [name="user_selection"]');
-					select._niceselect 				= NiceSelect.bind(select, {searchable: true});
+					NiceSelect.bind(select, {searchable: true});
 					var niceselect 					= select._niceselect.dropdown
 					niceselect.style.position		= 'relative';
 					niceselect.style.width			= "200px";
