@@ -1086,6 +1086,11 @@ class FrontEndContent{
 
 		$postContent	= apply_filters('sim_post_content', $postContent);
 
+		// Make sure its UTF-8
+		$postContent	= mb_convert_encoding($postContent, 'UTF-8', 'UTF-8');
+
+		$postContent	= html_entity_decode($postContent, ENT_QUOTES, 'UTF-8');
+
 		return $postContent;
 	}
 
