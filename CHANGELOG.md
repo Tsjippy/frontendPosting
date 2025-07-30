@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- bug with encoding issues
 
 ### Updated
+
+## [8.1.2] - 2025-07-30
+
+
+### Fixed
+- bug with encoding issues
 
 ## [8.1.1] - 2025-05-08
 
