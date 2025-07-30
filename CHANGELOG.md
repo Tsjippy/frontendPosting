@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- bug with encoding issues
 
 ### Updated
 
