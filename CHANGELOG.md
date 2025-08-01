@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- edit posts
 
 ### Updated
+
+## [8.1.3] - 2025-08-01
+
+
+### Fixed
+- edit posts
 
 ## [8.1.2] - 2025-07-30
 
