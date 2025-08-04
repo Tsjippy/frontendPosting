@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- add categories
 
 ### Updated
 
