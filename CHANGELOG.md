@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- add categories
 
 ### Updated
+
+## [8.1.4] - 2025-08-04
+
+
+### Fixed
+- add categories
 
 ## [8.1.3] - 2025-08-01
 
