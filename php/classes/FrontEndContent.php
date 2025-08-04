@@ -642,8 +642,7 @@ class FrontEndContent{
 		$postTypes		= apply_filters('sim_frontend_posting_modals', ['attachment']);
 
 		foreach($postTypes as $type){
-			$taxonomy	= get_object_taxonomies($type)[0];
-
+			$taxonomy	= end(get_object_taxonomies($type));
 			$categories = get_categories( array(
 				'orderby' 	=> 'name',
 				'order'   	=> 'ASC',
@@ -678,7 +677,6 @@ class FrontEndContent{
 							}
 							?>
 						</select>
-
 
 						<?php echo SIM\addSaveButton("add_{$type}_type", "Add $type category"); ?>
 					</form>

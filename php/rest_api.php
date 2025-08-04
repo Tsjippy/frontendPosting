@@ -33,12 +33,6 @@ function restApiInit() {
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
 				'cat_name'		=> array('required'	=> true),
-				'cat_parent'	=> array(
-					'required'	=> true,
-					'validate_callback' => function($catParentId){
-						return is_numeric($catParentId);
-					}
-				),
 				'post_type'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($param) {
@@ -293,7 +287,7 @@ function addCategory(\WP_REST_Request $request ){
 	$parent		= $request->get_param('cat_parent');
 	$postType	= $request->get_param('post_type');
 
-	$taxonomy	= get_object_taxonomies($postType)[0];
+	$taxonomy	= end(get_object_taxonomies($postType));
 	
 	$args 		= ['slug' => strtolower($name)];
 	if(is_numeric($parent)){

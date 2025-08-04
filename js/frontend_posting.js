@@ -480,7 +480,7 @@ document.addEventListener("click", event =>{
 		document.querySelector('[name="add-featured-image"]').textContent = 'Add featured image';
 	}
 	
-	// SHow add category modal
+	// Show add category modal
 	if(target.classList.contains('add_cat')){
 		document.getElementById('add_'+target.dataset.type+'_type').classList.remove('hidden');
 	}
