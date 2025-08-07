@@ -1119,7 +1119,7 @@ class FrontEndContent{
 
 		$this->update = true;
 
-		$newPostData = ['ID'=>$this->postId];
+		$newPostData = ['ID' => $this->postId];
 
 		//Check for updates
 		if($this->postTitle != $post->post_title){
@@ -1135,6 +1135,7 @@ class FrontEndContent{
 				'post_status'	=> 'any',
 				'name'          => $postName,
 				'numberposts'	=> -1,
+				'exclude'		=> [$this->postId],
 			);
 			$posts	= get_posts( $args);
 
