@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- issue when updating post title
 
 ### Updated
 
