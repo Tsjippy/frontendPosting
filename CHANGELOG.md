@@ -7,6 +7,7 @@
 
 ### Fixed
 - issue when updating post title
+- new post message
 
 ### Updated
 
