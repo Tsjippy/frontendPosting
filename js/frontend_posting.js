@@ -263,7 +263,11 @@ async function submitPost(target){
 	if(response){
 		// If no html found, reload the page
 		if(!response.html || !response.js){
-			Main.displayMessage(response.message+response.data);
+			let message = response.message || 'Post submitted successfully. Reloading page...';
+			if(response.data != undefined){
+				message = message + ' ' + response.data;
+			}
+			Main.displayMessage(message, 'success');
 
 			location.href	= response.url;
 			return;
