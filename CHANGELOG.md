@@ -6,10 +6,15 @@
 ### Changed
 
 ### Fixed
-- issue when updating post title
-- new post message
 
 ### Updated
+
+## [8.1.6] - 2025-08-08
+
+
+### Fixed
+- issue when updating post title
+- new post message
 
 ## [8.1.5] - 2025-08-06
 
