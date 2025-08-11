@@ -693,9 +693,9 @@ class FrontEndContent{
 	**/
 	public function postCategories(){
 		$categories = get_categories( array(
-			'orderby' => 'name',
-			'order'   => 'ASC',
-			'hide_empty' => false,
+			'orderby' 		=> 'name',
+			'order'   		=> 'ASC',
+			'hide_empty' 	=> false,
 		) );
 		?>
 		<div id="post-category" class="categorywrapper property post page <?php if(!in_array($this->postType, ['post', 'page', 'attachment'])){echo 'hidden';} ?>">
