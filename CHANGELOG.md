@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- page filtering
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [8.1.7] - 2025-08-27
+
+
+### Added
+- page filtering
 
 ## [8.1.6] - 2025-08-08
 
