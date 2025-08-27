@@ -162,11 +162,26 @@ function filterContent( $content ) {
 		$postId 		= get_the_ID();
 	}
 
-	$blockedRoles	= get_post_meta($postId, 'excluded_roles', true);
-	if(is_array($blockedRoles)){
-		$roles 		= get_userdata(get_current_user_id())->roles;
-		if(array_intersect($blockedRoles, $roles)){
-			return '<div class="error">You have no permission to see this</div>';
+	$postViewRoles	= get_post_meta($postId, 'post_view_roles');
+	if(is_array($postViewRoles)){
+		$type		= get_post_meta($postId, 'permission_filter_type', true);
+		
+		if(!empty($type)){
+			$roles 		= get_userdata(get_current_user_id())->roles;
+			$match		= array_intersect($postViewRoles, $roles);
+
+			if(
+				(
+					$type 	== 'block'	&&
+					$match	== true		
+				) ||
+				(
+					$type 	== 'allow'	&&
+					$match	== false		
+				)
+			){
+				return '<div class="error">You have no permission to see this</div>';
+			}
 		}
 	}
 	

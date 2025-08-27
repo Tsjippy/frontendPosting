@@ -953,36 +953,42 @@ class FrontEndContent{
 
 			?>
 			<h4>View Permissions</h4>
-			<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='block'>Block this page 
-			<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='allow'>Allow this page <br>
+			<label>
+				<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='block'>
+				Block this page
+			</label>
+			<label>
+				<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='allow'>
+				Allow this page
+			</label>
+			<br>
 			for accounts with one of the following roles:<br>
 			<?php
 			global $wp_roles;
 
 			$userRoles	= $wp_roles->role_names;
 
-			$selected	= [];
+			$viewRoles	= [];
 
 			if(is_numeric($this->postId)){
-				$selected	= (array)get_post_meta($this->postId, 'excluded_roles', true);
+				$viewRoles	= get_post_meta($this->postId, 'post_view_roles');
 			}
 
-			foreach($userRoles as $key=>$roleName){
-				$checked = '';
-				if(in_array($key, $selected)){
-					$checked	= 'checked';
+			?>
+			<select name='post_view_roles[]' multiple>
+				<option value=''>---</option>
+
+				<?php
+				foreach($userRoles as $key=>$roleName){
+					if(in_array($key, $viewRoles)){
+						$selected = 'selected';
+					}else{
+						$selected = '';
+					}
+					echo "<option value='$key' $selected>$roleName</option>";
 				}
 				?>
-				<label>
-					<input type='checkbox' name='roles[<?php echo $key;?>]' value='<?php echo $roleName;?>' <?php echo $checked;?>>
-					<?php
-					echo $roleName;
-					?>
-				</label>
-				<br>
-				<?php
-			}
-			?>
+			</select>
 		</div>
 		<?php
 	}
@@ -1438,11 +1444,16 @@ class FrontEndContent{
 			delete_post_meta($this->postId, 'static_content');
 		}
 
-		// Role exclusions
-		if(isset($_POST['roles'])){
-			update_metadata( 'post', $this->postId, 'excluded_roles', array_keys($_POST['roles']));
-		}else{
-			delete_post_meta($this->postId, 'excluded_roles');
+		// Role view rights
+		delete_post_meta($this->postId, 'post_view_roles');
+		if(isset($_POST['post_view_roles'])){
+			if(in_array($_POST['permissionfiltertype'], ['blobk', 'allow'])){
+				update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permissionfiltertype']);
+			}
+
+			foreach($_POST['post_view_roles'] as $role){
+				add_metadata( 'post', $this->postId, 'post_view_roles', $role);
+			}
 		}
 
 		//Expiry date
