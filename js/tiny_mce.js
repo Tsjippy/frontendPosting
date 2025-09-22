@@ -68,11 +68,11 @@ tinymce.create(
 					dialog 							= editor.windowManager.open(selectUserDialog);
 					let select						= document.querySelector('.wp-editor-help [name="user_selection"]');
 					Main.attachNiceSelect(select);
-					let niceselect 					= select._niceselect.dropdown
-					niceselect.style.position		= 'relative';
-					niceselect.style.width			= "200px";
-					niceselect.style.border			= '2px solid #303030';
-					niceselect.style.marginBottom	= '10px';
+					let niceSelect 					= select._niceSelect.dropdown
+					niceSelect.style.position		= 'relative';
+					niceSelect.style.width			= "200px";
+					niceSelect.style.border			= '2px solid #303030';
+					niceSelect.style.marginBottom	= '10px';
 				}
 			);
 			
