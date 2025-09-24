@@ -267,7 +267,7 @@ class FrontEndContent{
 
 					echo "<div class='submit_wrapper' style='display: flex;'>";
 						echo "<button type='button' class='button savedraft' name='draft_post'>$buttonText</button>";
-						echo "<img class='loadergif hidden' src='".SIM\LOADERIMAGEURL."' loading='lazy'>";
+						echo SIM\LOADERIMAGE;
 					echo "</div>";
 
 				}
@@ -277,7 +277,7 @@ class FrontEndContent{
 					?>
 					<div class='submit_wrapper' style='display: flex;'>
 						<button type='button' name='publish_post' class='button'>Publish <span class='replaceposttype'><?php echo $this->postName;?></span></button>
-						<img class='loadergif hidden' src='<?php echo SIM\LOADERIMAGEURL;?>' loading='lazy' alt=''>
+						<?php echo SIM\LOADERIMAGE;?>
 					</div>
 					<?php
 				}
@@ -290,7 +290,7 @@ class FrontEndContent{
 						<button type='submit' class='button' name='archive_post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
 							Archive <?php echo  esc_html($this->post->post_type); ?>
 						</button>
-						<img class='loadergif hidden' src='<?php echo SIM\LOADERIMAGEURL; ?>' alt='' loading='lazy' style='max-height:30px;margin-top:0px;'>
+						<?php echo SIM\loaderImage(30);?>
 					</div>
 					<?php
 				}
@@ -302,7 +302,7 @@ class FrontEndContent{
 						<button type='button' class='button' name='delete_post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
 							Delete <?php echo  esc_html($this->post->post_type); ?>
 						</button>
-						<img class='loadergif hidden' src='<?php echo SIM\LOADERIMAGEURL; ?>' alt='' loading='lazy'>
+						<?php echo SIM\loaderImage(50, '', true);?>
 					</div>
 					<?php
 				}
