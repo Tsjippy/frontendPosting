@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- new loader image
 
 ### Fixed
 - nice selects
