@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [8.1.8] - 2025-09-24
+
+
+### Changed
 - new loader image
 
 ### Fixed
 - nice selects
-
-### Updated
 
 ## [8.1.7] - 2025-08-27
 
