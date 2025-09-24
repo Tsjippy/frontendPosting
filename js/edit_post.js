@@ -24,6 +24,8 @@ let editPostSwitch = async function (event){
 		wrapper.innerHTML	= response.html;
 
 		addStyles(response, document);	// runs also the afterScriptsLoaded function
+
+		loader.remove();
 	}else{
 		loader.outerHTML	= button.outerHTML;
 	}

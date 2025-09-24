@@ -27,7 +27,7 @@ async function confirmPostDelete( event, type='delete' ) {
 
 	if (confirmed.isConfirmed) {
 		let postId = target.dataset.post_id;
-		target.closest('div').querySelector('.loadergif').classList.remove('hidden');
+		target.closest('div').querySelector('.loader_wrapper').classList.remove('hidden');
 	
 		var formData = new FormData();
 		formData.append('post_id', postId);
@@ -357,7 +357,7 @@ function insertMediaContents(){
 						if (result.isConfirmed) {
 							let options = {
 								title: 'Please wait...',
-								html: "<IMG src='"+sim.loadingGif+"' width=100 height=100>",
+								html: sim.loaderHtml,
 								showConfirmButton: false,
 								showClass: {
 									backdrop: 'swal2-noanimation', // disable backdrop animation
