@@ -16,7 +16,7 @@ let editPostSwitch = async function (event){
 
 	window.history.pushState({}, '', url);
 
-	let loader	= Main.showLoader(button, true, 'Requesting form...');
+	let loader	= Main.showLoader(button, true, 50, 'Requesting form...');
 
 	let response = await FormSubmit.fetchRestApi('frontend_posting/post_edit', formData);
 

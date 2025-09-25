@@ -353,11 +353,13 @@ function insertMediaContents(){
 						options['target']	= document.fullscreenElement;
 					}
 
+					let html = Main.showLoader(null, false, 50, '', true);
+
 					Swal.fire(options).then((result) => {
 						if (result.isConfirmed) {
 							let options = {
 								title: 'Please wait...',
-								html: sim.loaderHtml,
+								html: html,
 								showConfirmButton: false,
 								showClass: {
 									backdrop: 'swal2-noanimation', // disable backdrop animation
