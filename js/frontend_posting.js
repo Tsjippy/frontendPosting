@@ -27,7 +27,7 @@ async function confirmPostDelete( event, type='delete' ) {
 
 	if (confirmed.isConfirmed) {
 		let postId = target.dataset.post_id;
-		target.closest('div').querySelector('.loader_wrapper').classList.remove('hidden');
+		target.closest('div').querySelector('.loader-wrapper').classList.remove('hidden');
 	
 		var formData = new FormData();
 		formData.append('post_id', postId);
@@ -160,7 +160,7 @@ function addFeaturedImage(event) {
 		var attachment = file_frame.state().get('selection').first().toJSON();
 		
 		//Store the id
-		parent.querySelector('[name="post_image_id"]').value = attachment.id;
+		parent.querySelector('[name="post-image-id"]').value = attachment.id;
 		
 		//Show the image
 	
@@ -477,7 +477,7 @@ document.addEventListener("click", event =>{
 	}
 	
 	if(target.matches('.remove_featured_image')){
-		document.querySelector('[name="post_image_id"]').value	= 0;
+		document.querySelector('[name="post-image-id"]').value	= 0;
 		
 		let parent	= document.getElementById('featured-image-div');
 		parent.classList.add('hidden');
@@ -491,7 +491,7 @@ document.addEventListener("click", event =>{
 		document.getElementById('add_'+target.dataset.type+'_type').classList.remove('hidden');
 	}
 
-	if(target.matches('.add_category .form_submit')){
+	if(target.matches('.add_category .form-submit')){
 		addCatType(target);
 	}
 

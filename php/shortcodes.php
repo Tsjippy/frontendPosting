@@ -23,7 +23,7 @@ function yourPosts(){
 		)
 	);
 	
-	$html = "<h2 class='table_title'>Content submitted by you</h2>";
+	$html = "<h2 class='table-title'>Content submitted by you</h2>";
 		$html .= "<table class='sim-table' id='user_posts'>";
 			$html .= "<thead>";
 				$html .= "<tr>";

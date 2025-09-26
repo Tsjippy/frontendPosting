@@ -141,7 +141,7 @@ class FrontEndContent{
 			<form id="postform">
 				<input type="hidden" name="post_status" 	value="pending">
 				<input type="hidden" name="post_type" 		value="<?php echo $this->postType; ?>">
-				<input type="hidden" name="post_image_id" 	value="<?php echo $this->postImageId;?>">
+				<input type="hidden" name="post-image-id" 	value="<?php echo $this->postImageId;?>">
 				<input type="hidden" name="update" 			value="<?php echo $this->update;?>">
 				<input type='hidden' name='post_id' 		value='<?php echo $this->postId;?>'>
 
@@ -265,7 +265,7 @@ class FrontEndContent{
 						$buttonText = "Update this <span class='replaceposttype'>{$this->postName}</span> draft";
 					}
 
-					echo "<div class='submit_wrapper' style='display: flex;'>";
+					echo "<div class='submit-wrapper' style='display: flex;'>";
 						echo "<button type='button' class='button savedraft' name='draft_post'>$buttonText</button>";
 						echo SIM\LOADERIMAGE;
 					echo "</div>";
@@ -275,7 +275,7 @@ class FrontEndContent{
 
 				if($this->fullrights){
 					?>
-					<div class='submit_wrapper' style='display: flex;'>
+					<div class='submit-wrapper' style='display: flex;'>
 						<button type='button' name='publish_post' class='button'>Publish <span class='replaceposttype'><?php echo $this->postName;?></span></button>
 						<?php echo SIM\loaderImage(30, '', true);?>
 					</div>
@@ -286,7 +286,7 @@ class FrontEndContent{
 				// Add archive button
 				if(!empty($this->post) && $this->post->post_status != 'archived'){
 					?>
-					<div class='submit_wrapper'>
+					<div class='submit-wrapper'>
 						<button type='submit' class='button' name='archive_post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
 							Archive <?php echo  esc_html($this->post->post_type); ?>
 						</button>
@@ -298,7 +298,7 @@ class FrontEndContent{
 				// Add delete button
 				if(!empty($this->post) && $this->post->post_status != 'trash'){
 					?>
-					<div class='submit_wrapper'>
+					<div class='submit-wrapper'>
 						<button type='button' class='button' name='delete_post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
 							Delete <?php echo  esc_html($this->post->post_type); ?>
 						</button>
@@ -729,7 +729,7 @@ class FrontEndContent{
 						echo "<label class='option-label category-select'>$name</label>";
 
 						if(!empty($catDescription)){
-							echo "<span class='info_text'>$catDescription</span>";
+							echo "<span class='info-text'>$catDescription</span>";
 						}
 
 					echo '</div>';
@@ -860,7 +860,7 @@ class FrontEndContent{
 
 							//Add infobox if needed
 							if(!empty($catDescription)){
-								$$html .= "<span class='info_text'>$catDescription</span>";
+								$$html .= "<span class='info-text'>$catDescription</span>";
 							}
 
 						$$html .= '</div>';
@@ -1431,8 +1431,8 @@ class FrontEndContent{
 		}
 
 		//Set the featured image
-		if(isset($_POST['post_image_id']) && $_POST['post_image_id'] != 0){
-			set_post_thumbnail($this->postId, $_POST['post_image_id']);
+		if(isset($_POST['post-image-id']) && $_POST['post-image-id'] != 0){
+			set_post_thumbnail($this->postId, $_POST['post-image-id']);
 		}elseif($this->update){
 			delete_post_thumbnail($this->postId);
 		}

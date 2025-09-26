@@ -49,5 +49,5 @@ document.addEventListener("scriptsloaded", function() {
 	document.querySelectorAll('#frontend_upload_form').forEach(el=>el.classList.remove('hidden'));
 
 	document.querySelectorAll('.content-wrapper').forEach(el=>el.classList.remove('hidden'));
-	document.querySelectorAll('.loaderwrapper:not(.hidden)').forEach(el=>el.remove());
+	document.querySelectorAll('.loader-wrapper:not(.hidden)').forEach(el=>el.remove());
 });
