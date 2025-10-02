@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- in-button loader
 
 ### Fixed
 
