@@ -265,11 +265,11 @@ class FrontEndContent{
 						$buttonText = "Update this <span class='replaceposttype'>{$this->postName}</span> draft";
 					}
 
-					echo "<div class='submit-wrapper' style='display: flex;'>";
-						echo "<button type='button' class='button savedraft' name='draft_post'>$buttonText</button>";
-						echo SIM\LOADERIMAGE;
-					echo "</div>";
-
+					?>
+					<div class='submit-wrapper' style='display: flex;'>
+						<button type='button' class='button savedraft' name='draft_post'><?php echo $buttonText;?></button>
+					</div>
+					<?php
 				}
 				echo  SIM\addSaveButton('submit_post', $this->action);
 

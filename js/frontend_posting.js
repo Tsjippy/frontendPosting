@@ -7,11 +7,11 @@ async function confirmPostDelete( event, type='delete' ) {
 	let url;
 	let target	= event.target;
 	event.preventDefault();
-	parent = target.closest('#frontend_upload_form');
+	parent 		= target.closest('#frontend_upload_form');
 
 	let options = {
 		title: 'Are you sure?',
-		text: `Are you sure you want to ${type} this ${document.querySelector('[name="post_type"]').value}}?`,
+		text: `Are you sure you want to ${type} this ${document.querySelector('[name="post_type"]').value}?`,
 		icon: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
@@ -26,9 +26,16 @@ async function confirmPostDelete( event, type='delete' ) {
 	var confirmed = await Swal.fire(options);
 
 	if (confirmed.isConfirmed) {
-		let postId = target.dataset.post_id;
-		target.closest('div').querySelector('.loader-wrapper').classList.remove('hidden');
+		let postId 			= target.dataset.post_id;
+		
+		let buttonText 		= target.innerHTML;
+
+		// Show loader in button
+		let text			= buttonText.split(' ')[0];
+		text				= text.substring(0, text.length - 1)+'ing...';
+		target.innerHTML	= Main.showLoader(null, false, 20, text, true, true);
 	
+		// Submit the delete request
 		var formData = new FormData();
 		formData.append('post_id', postId);
 
@@ -43,6 +50,9 @@ async function confirmPostDelete( event, type='delete' ) {
 		if(response){
 			Main.displayMessage(response);
 		}
+
+		// restore button text
+		target.innerHTML	= buttonText;	
 	}
 }
 
@@ -293,9 +303,7 @@ async function submitPost(target){
 		addStyles(response, document);
 
 		// Scroll page to top
-		window.scrollTo(0,0);
-		
-		console.log('scrolling')
+		window.scrollTo(0, 0);
 
 		document.getElementById('page-edit').classList.remove('hidden');
 
