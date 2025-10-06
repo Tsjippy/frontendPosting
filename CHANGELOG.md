@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- in-button loader
 
 ### Fixed
 
 ### Updated
+
+## [8.2.2] - 2025-10-06
+
+
+### Changed
+- in-button loader
 
 ## [8.2.1] - 2025-09-26
 
