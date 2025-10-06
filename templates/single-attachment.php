@@ -101,7 +101,7 @@ get_header(); ?>
                                 ?>
                             </div>
 
-                            <div class="buttonwrapper">
+                            <div class="button-wrapper">
                                 <?php
 
                                 if(!empty($description)){
