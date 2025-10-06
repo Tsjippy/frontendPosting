@@ -5,7 +5,6 @@
 
 ### Changed
 - in-button loader
-- classnames
 
 ### Fixed
 
