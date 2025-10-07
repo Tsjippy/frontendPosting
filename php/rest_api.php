@@ -437,7 +437,7 @@ function submitPost(){
 function checkForDuplicate(\WP_REST_Request $request ){
 	global $wpdb;
 
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	if(!$url){
 		return;
 	}

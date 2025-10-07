@@ -35,8 +35,8 @@ let selectUserDialog = {
 	buttons: [{
 		text: 'Insert link',
 		onclick: function(){
-			var userid = document.querySelector('.wp-editor-help [name="user-selection"]').value;
-			if(userid != ''){
+			var userId = document.querySelector('.wp-editor-help [name="user-selection"]').value;
+			if(userId != ''){
 				var options = '';
 				if(document.getElementById('insert-picture').checked){
 					options += ' picture=true';
@@ -47,7 +47,7 @@ let selectUserDialog = {
 				if(document.getElementById('insert-email').checked){
 					options += ' email=true';
 				}
-				tinymce.activeEditor.insertContent('[user-link id="'+userid+'"'+options+']');
+				tinymce.activeEditor.insertContent(`[user-link id="${userId}"${options}]`);
 			}
 			dialog.close();
 		}

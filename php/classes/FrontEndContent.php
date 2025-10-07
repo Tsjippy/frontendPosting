@@ -287,7 +287,7 @@ class FrontEndContent{
 				if(!empty($this->post) && $this->post->post_status != 'archived'){
 					?>
 					<div class='submit-wrapper'>
-						<button type='submit' class='button' name='archive-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
+						<button type='submit' class='button' name='archive-post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
 							Archive <?php echo  esc_html($this->post->post_type); ?>
 						</button>
 						<?php echo SIM\loaderImage(30, '', true);?>
@@ -299,7 +299,8 @@ class FrontEndContent{
 				if(!empty($this->post) && $this->post->post_status != 'trash'){
 					?>
 					<div class='submit-wrapper'>
-						<button type='button' class='button' name='delete-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
+						<button type='button' class='button' name='delete-post' data-post_
+						id='<?php echo  esc_html($this->postId); ?>'>
 							Delete <?php echo  esc_html($this->post->post_type); ?>
 						</button>
 						<?php echo SIM\loaderImage(50, '', true);?>
@@ -620,7 +621,7 @@ class FrontEndContent{
 		if(is_numeric($this->postId)){
 			?>
 			<form action="" method="post" name="change_post_type">
-				<input type="hidden" name="userid" value="<?php echo  esc_html($this->user->ID); ?>">
+				<input type="hidden" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
 				<input type="hidden" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
 				<?php
 				echo  $html;
@@ -658,7 +659,7 @@ class FrontEndContent{
 					<form action="" method="post" id="add_<?php echo $type;?>_type_form" class="add-category">
 						<p>Please fill in the form to add a new <?php echo $type;?> category</p>
 						<input type="hidden" name="post-type" value="<?php echo $type;?>">
-						<input type="hidden" name="userid" value="<?php echo $this->user->ID; ?>">
+						<input type="hidden" name="user-id" value="<?php echo $this->user->ID; ?>">
 
 						<label>
 							<h4>Category name<span class="required">*</span></h4>
@@ -770,7 +771,7 @@ class FrontEndContent{
 			<div id="parentpage" class="frontend-form">
 				<h4>Select a parent page</h4>
 				<?php
-				echo SIM\pageSelect('parent_page', $this->postParent, '', ['page'], false);
+				echo SIM\pageSelect('parent-page', $this->postParent, '', ['page'], false);
 				?>
 			</div>
 
@@ -916,7 +917,7 @@ class FrontEndContent{
 				$authorId = $this->post->post_author;
 			}
 
-			echo SIM\userSelect('Author', true, false, '', 'post_author', [], $authorId);
+			echo SIM\userSelect('Author', true, false, '', 'post-author', [], $authorId);
 
 			// Only show publish date if not yet published
 			if(empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])){
@@ -954,11 +955,11 @@ class FrontEndContent{
 			?>
 			<h4>View Permissions</h4>
 			<label>
-				<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='block'>
+				<input type='radio' name='permission-filter-type' id='permission-filter-type' value='block'>
 				Block this page
 			</label>
 			<label>
-				<input type='radio' name='permissionfiltertype' id='permissionfiltertype' value='allow'>
+				<input type='radio' name='permission-filter-type' id='permission-filter-type' value='allow'>
 				Allow this page
 			</label>
 			<br>
@@ -1184,8 +1185,8 @@ class FrontEndContent{
 			$newPostData['post_author']		= $_POST['post-author'];
 		}
 
-		if($_POST['parent_page'] != $post->post_parent){
-			$newPostData['post_parent'] 	= $_POST['parent_page'];
+		if($_POST['parent-page'] != $post->post_parent){
+			$newPostData['post_parent'] 	= $_POST['parent-page'];
 		}
 
 		if($this->categories != $post->post_category){
@@ -1288,8 +1289,8 @@ class FrontEndContent{
 			$this->postId 	= SIM\addToLibrary(SIM\urlToPath($_POST['attachment'][0]), $this->postTitle, $this->postContent);
 			$post['ID']	= $this->postId;
 		}else{
-			if(is_numeric($_POST['parent_page'])){
-				$post['post_parent'] = $_POST['parent_page'];
+			if(is_numeric($_POST['parent-page'])){
+				$post['post_parent'] = $_POST['parent-page'];
 			}
 
 			if(!empty(count($this->categories))){
@@ -1354,7 +1355,7 @@ class FrontEndContent{
 	public function submitPost($status=''){
 		$this->status	= $status;
 		if(empty($this->status)){
-			$this->status	= sanitize_text_field($_POST['post_status']);
+			$this->status	= sanitize_text_field($_POST['post-status']);
 		}
 
 		if(
@@ -1369,7 +1370,7 @@ class FrontEndContent{
 		$this->postType 	= sanitize_text_field($_POST['post-type']);
 		
 		//First letter should be capital in the title
-		$this->postTitle 	= ucfirst(trim(sanitize_text_field($_POST['post_title'])));
+		$this->postTitle 	= ucfirst(trim(sanitize_text_field($_POST['post-status'])));
 
 		$this->oldPost		= '';
 		if(is_numeric($_POST['post-id'])){
@@ -1447,8 +1448,8 @@ class FrontEndContent{
 		// Role view rights
 		delete_post_meta($this->postId, 'post_view_roles');
 		if(isset($_POST['post-view-roles'])){
-			if(in_array($_POST['permissionfiltertype'], ['blobk', 'allow'])){
-				update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permissionfiltertype']);
+			if(in_array($_POST['permission-filter-type'], ['blobk', 'allow'])){
+				update_metadata('post', $this->postId, 'permission_filter_type', $_POST['permission-filter-type']);
 			}
 
 			foreach($_POST['post-view-roles'] as $role){
