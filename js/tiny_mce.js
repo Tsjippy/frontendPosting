@@ -8,17 +8,17 @@ let selectUserHtml =
 	${userSelect.html}
 	
 	<label>
-		<input type="checkbox" id="insert_picture">
+		<input type="checkbox" id="insert-picture">
 		Show user picture
 	</label>
 	<br>
 	<label>
-		<input type="checkbox" id="insert_phonenumbers">
+		<input type="checkbox" id="insert-phonenumbers">
 		Show user phonenumbers
 	</label>
 	<br>
 	<label>
-		<input type="checkbox" id="insert_email">
+		<input type="checkbox" id="insert-email">
 		Show user e-mail
 	</label>
 </div>`;
@@ -35,19 +35,19 @@ let selectUserDialog = {
 	buttons: [{
 		text: 'Insert link',
 		onclick: function(){
-			var userid = document.querySelector('.wp-editor-help [name="user_selection"]').value;
+			var userid = document.querySelector('.wp-editor-help [name="user-selection"]').value;
 			if(userid != ''){
 				var options = '';
-				if(document.getElementById('insert_picture').checked){
+				if(document.getElementById('insert-picture').checked){
 					options += ' picture=true';
 				}
-				if(document.getElementById('insert_phonenumbers').checked){
+				if(document.getElementById('insert-phonenumbers').checked){
 					options += ' phone=true';
 				}
-				if(document.getElementById('insert_email').checked){
+				if(document.getElementById('insert-email').checked){
 					options += ' email=true';
 				}
-				tinymce.activeEditor.insertContent('[user_link id="'+userid+'"'+options+']');
+				tinymce.activeEditor.insertContent('[user-link id="'+userid+'"'+options+']');
 			}
 			dialog.close();
 		}
@@ -66,7 +66,7 @@ tinymce.create(
 			editor.addCommand('mceSelect_user',
 				function(){
 					dialog 							= editor.windowManager.open(selectUserDialog);
-					let select						= document.querySelector('.wp-editor-help [name="user_selection"]');
+					let select						= document.querySelector('.wp-editor-help [name="user-selection"]');
 					Main.attachNiceSelect(select);
 					let niceSelect 					= select._niceSelect.dropdown
 					niceSelect.style.position		= 'relative';

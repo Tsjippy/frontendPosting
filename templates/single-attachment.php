@@ -59,7 +59,7 @@ get_header(); ?>
                         if(!empty($categories)){
                             ?>
                             <div class='category media meta' style='padding-top:10px;'>
-                                <img src='<?php echo $url;?>' alt='category' loading='lazy' class='media_icon'>
+                                <img src='<?php echo $url;?>' alt='category' loading='lazy' class='media-icon'>
 
                                 <?php
                                 //now loop over the array to print the categories
@@ -84,7 +84,7 @@ get_header(); ?>
                             <div class='vimeo media meta'>
                                 <?php
                                 $imageUrl   = SIM\pathToUrl(MODULE_PATH.'pictures/vimeo.png');
-                                $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media_icon'>";
+                                $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media-icon'>";
                                 echo "<a href='https://vimeo.com/$vimeoId' title='vimeo id'>$icon $vimeoId</a>";
                                 ?>
                             </div>

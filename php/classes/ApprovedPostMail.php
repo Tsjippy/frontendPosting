@@ -14,12 +14,12 @@ class ApprovedPostMail extends ADMIN\MailSetting{
 		parent::__construct('approved_post', MODULE_SLUG);
 
         $this->replaceArray['%author_name%']    = $authorName;
-        $this->replaceArray['%post_type%']      = $postType;
+        $this->replaceArray['%post-type%']      = $postType;
         $this->replaceArray['%url%']            = $url;
 
-        $this->defaultSubject    = "Your %post_type% is approved and published";
+        $this->defaultSubject    = "Your %post-type% is approved and published";
 
         $this->defaultMessage    = 'Hi %author_name%,<br><br>';
-		$this->defaultMessage   .= "Your %post_type% is approved and published. View it <a href='%url%'>here</a>";
+		$this->defaultMessage   .= "Your %post-type% is approved and published. View it <a href='%url%'>here</a>";
     }
 }

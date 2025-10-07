@@ -13,7 +13,7 @@ function restApiInit() {
 			'callback' 				=> __NAMESPACE__.'\getAttachmentContents',
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'attachment_id'		=> array(
+				'attachment-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($attachmentId){
 						return is_numeric($attachmentId);
@@ -32,8 +32,8 @@ function restApiInit() {
 			'callback' 				=> __NAMESPACE__.'\addCategory',
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'cat_name'		=> array('required'	=> true),
-				'post_type'		=> array(
+				'cat-name'		=> array('required'	=> true),
+				'post-type'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($param) {
 						return in_array($param, get_post_types());
@@ -52,22 +52,22 @@ function restApiInit() {
 			'callback' 				=> __NAMESPACE__.'\submitPost',
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'post_type'		=> array(
+				'post-type'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($param) {
 						return in_array($param, get_post_types());
 					}
 				),
-				'post_title'		=> array(
+				'post-title'		=> array(
 					'required'	=> true
 				),
-				'post_content'	=> array(
+				'post-content'	=> array(
 					'required'	=> true
 				),
-				'post_author'	=> array(
+				'post-author'	=> array(
 					'required'	=> true
 				),
-				'publish_date'	=> array(
+				'publish-date'	=> array(
 					'validate_callback' => function($param) {
 						return SIM\isDate($param);
 					}
@@ -91,7 +91,7 @@ function restApiInit() {
 				return $frontEndContent->fullrights;
 			},
 			'args'					=> array(
-				'post_id'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -116,7 +116,7 @@ function restApiInit() {
 				return $frontEndContent->fullrights;
 			},
 			'args'					=> array(
-				'post_id'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -137,7 +137,7 @@ function restApiInit() {
 					if(!function_exists('wp_set_post_lock')){
 						include ABSPATH . 'wp-admin/includes/post.php';
 					}
-					wp_set_post_lock($_POST['postid']);
+					wp_set_post_lock($_POST['post-id']);
 					return 'Succes';
 				}catch (\Exception $e) {
 					return $e;
@@ -145,7 +145,7 @@ function restApiInit() {
 			},
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -162,12 +162,12 @@ function restApiInit() {
 		array(
 			'methods' 				=> 'POST',
 			'callback' 				=> function(){
-				delete_post_meta( $_POST['postid'], '_edit_lock');
+				delete_post_meta( $_POST['post-id'], '_edit_lock');
 				return 'Succes';
 			},
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -192,13 +192,13 @@ function restApiInit() {
 				return $frontEndContent->fullrights;
 			},
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
 					}
 				),
-				'post_type_selector'		=> array(
+				'post-type-selector'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($param) {
 						return in_array($param, get_post_types());
@@ -216,10 +216,10 @@ function restApiInit() {
 			'methods' 				=> 'POST',
 			'callback' 				=> __NAMESPACE__.'\sendForm',
 			'permission_callback' 	=> function(){
-				return allowedToEdit($_REQUEST['postid']);
+				return allowedToEdit($_REQUEST['post-id']);
 			},
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'			=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -238,7 +238,7 @@ function restApiInit() {
 			'callback' 				=> __NAMESPACE__.'\sendPost',
 			'permission_callback' 	=> '__return_true',
 			'args'					=> array(
-				'postid'		=> array(
+				'post-id'		=> array(
 					'required'	=> true,
 					'validate_callback' => function($postId){
 						return is_numeric($postId);
@@ -270,7 +270,7 @@ function restApiInit() {
  * Converts a file's contents to html
  */
 function getAttachmentContents(\WP_REST_Request $request ){
-	$path	= get_attached_file($request['attachment_id']);
+	$path	= get_attached_file($request['attachment-id']);
 
 	if(!file_exists($path)){
 		return new \WP_Error('frontendposting', "File $path does not exist!");
@@ -283,9 +283,9 @@ function getAttachmentContents(\WP_REST_Request $request ){
  * Add a new category to a post type
  */
 function addCategory(\WP_REST_Request $request ){
-	$name		= $request->get_param('cat_name');
-	$parent		= $request->get_param('cat_parent');
-	$postType	= $request->get_param('post_type');
+	$name		= $request->get_param('cat-name');
+	$parent		= $request->get_param('cat-parent');
+	$postType	= $request->get_param('post-type');
 
 	$taxonomy	= end(get_object_taxonomies($postType));
 	
@@ -322,7 +322,7 @@ function sendForm(){
 	wp_enqueue_editor();
 
 	$frontEndContent			= new FrontEndContent();
-	$frontEndContent->postId	= $_REQUEST['postid'];
+	$frontEndContent->postId	= $_REQUEST['post-id'];
 	$html						= $frontEndContent->frontendPost(true);
 
 	\_WP_Editors::enqueue_scripts();
@@ -349,7 +349,7 @@ function sendForm(){
  * Gets a post
  */
 function sendPost(){
-	$postId	= $_REQUEST['postid'];
+	$postId	= $_REQUEST['post-id'];
 
 	// Get the picture
 	$url	= get_the_post_thumbnail_url($postId, 'full');
@@ -464,7 +464,7 @@ function checkForDuplicate(\WP_REST_Request $request ){
 
 		$html	.= "A post with title '$title' already exists.<br>";
 		$url1		= get_permalink($post);
-		$url2		= add_query_arg( ['post_id' => $post->ID], $url );
+		$url2		= add_query_arg( ['post-id' => $post->ID], $url );
 		$html		.= "See it <a href='$url1'>here</a>, or edit it <a href='$url2'>here</a>";
 
 		$found	= true;
@@ -478,7 +478,7 @@ function checkForDuplicate(\WP_REST_Request $request ){
 			$html	.= "A post with a similar title '$existingTitle' already exists.<br>";
 
 			$url1		= get_permalink($posts[0]);
-			$url2		= add_query_arg( ['post_id' => $posts[0]->ID], $url );
+			$url2		= add_query_arg( ['post-id' => $posts[0]->ID], $url );
 			$html		.= "See it <a href='$url1'>here</a>, or edit it <a href='$url2'>here</a>";
 			
 		}elseif( count($posts) > 1){
@@ -487,7 +487,7 @@ function checkForDuplicate(\WP_REST_Request $request ){
 
 			foreach($posts as $post){
 				$url1		= get_permalink($post);
-				$url2		= add_query_arg( ['post_id' => $post->ID], $url );
+				$url2		= add_query_arg( ['post-id' => $post->ID], $url );
 				$html		.= "$post->post_title <a href='$url1'>view</a>, or <a href='$url2'>edit</a><br>";
 			}
 

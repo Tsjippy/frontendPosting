@@ -7,11 +7,11 @@ async function confirmPostDelete( event, type='delete' ) {
 	let url;
 	let target	= event.target;
 	event.preventDefault();
-	parent 		= target.closest('#frontend_upload_form');
+	parent 		= target.closest('#frontend-upload-form');
 
 	let options = {
 		title: 'Are you sure?',
-		text: `Are you sure you want to ${type} this ${document.querySelector('[name="post_type"]').value}?`,
+		text: `Are you sure you want to ${type} this ${document.querySelector('[name="post-type"]').value}?`,
 		icon: 'warning',
 		showCancelButton: true,
 		confirmButtonColor: '#3085d6',
@@ -37,7 +37,7 @@ async function confirmPostDelete( event, type='delete' ) {
 	
 		// Submit the delete request
 		var formData = new FormData();
-		formData.append('post_id', postId);
+		formData.append('post-id', postId);
 
 		if(type == 'delete'){
 			url 	= 'frontend_posting/remove_post'
@@ -57,21 +57,21 @@ async function confirmPostDelete( event, type='delete' ) {
 }
 
 async function refreshPostLock(){
-	var postId = document.querySelector('[name="post_id"]');
+	var postId = document.querySelector('[name="post-id"]');
 
 	if(postId != null && postId.value != ''){
 		var formData	= new FormData();
-		formData.append('postid', postId.value);
+		formData.append('post-id', postId.value);
 		FormSubmit.fetchRestApi('frontend_posting/refresh_post_lock', formData);
 	}
 }
 
 async function deletePostLock(){
-	var postId = document.querySelector('[name="post_id"]');
+	var postId = document.querySelector('[name="post-id"]');
 
 	if(postId != null && postId.value != ''){
 		var formData	= new FormData();
-		formData.append('postid', postId.value);
+		formData.append('post-id', postId.value);
 		await FormSubmit.fetchRestApi('frontend_posting/delete_post_lock', formData);
 	}
 }
@@ -88,7 +88,7 @@ async function changePostType(target){
 // Switches the available fields on post type change
 function switchforms(target){
 	var postType;
-	var parent 			= document.getElementById('frontend_upload_form');
+	var parent 			= document.getElementById('frontend-upload-form');
 
 	if(target == null){
 		postType		= location.search.replace('?type=', '');
@@ -96,7 +96,7 @@ function switchforms(target){
 		postType 		= target.value;
 	}
 	
-	document.querySelector('#postform [name="post_type"]').value 	= postType;
+	document.querySelector('#postform [name="post-type"]').value 	= postType;
 	
 	//Change button text
 	parent.querySelectorAll('.replaceposttype').forEach(function(el){
@@ -110,10 +110,10 @@ function switchforms(target){
 		});
 		
 		//show the button to show all fields again
-		parent.querySelector('#showallfields').classList.add('hidden');
+		parent.querySelector('#show-all-fields').classList.add('hidden');
 	}
 
-	parent.querySelectorAll('#wp-post_content-media-buttons, .advancedpublishoptions, #advancedpublishoptionsbutton').forEach(el=>el.classList.remove('hidden'));
+	parent.querySelectorAll('#wp-post-content-media-buttons, .advanced-publish-options, #advanced-publish-options-button').forEach(el=>el.classList.remove('hidden'));
 	
 	//Show all page options
 	parent.querySelectorAll(`.property.${postType}`).forEach(el=>el.classList.remove('hidden'));
@@ -123,13 +123,13 @@ function switchforms(target){
 
 	if(postType == 'attachment') {
 		// tick the box to always include the url
-		parent.querySelector('[name="signal_url"]').checked=true;
+		parent.querySelector('[name="signal-url"]').checked=true;
 	}
 }
 
-function showallfields(target){
-	var parent = target.closest('#frontend_upload_form');
-	if(parent.querySelector("#showallfields").classList.contains('show')){
+function showAllFields(target){
+	var parent = target.closest('#frontend-upload-form');
+	if(parent.querySelector("#show-all-fields").classList.contains('show')){
 		//Show the lite elements if the button is clicked
 		parent.querySelectorAll('.lite').forEach(function(el){
 			el.classList.remove('hidden');
@@ -155,7 +155,7 @@ function showallfields(target){
 function addFeaturedImage(event) {
 	event.preventDefault();
 	
-	var parent = event.target.closest('#frontend_upload_form');
+	var parent = event.target.closest('#frontend-upload-form');
 
 	let file_frame = wp.media.frames.file_frame = wp.media({
 		title: 'Select featured image' ,
@@ -176,7 +176,7 @@ function addFeaturedImage(event) {
 	
 		document.getElementById('featured-image-div').classList.remove('hidden');
 
-		var imgdiv = document.getElementById('featured_image_wrapper');
+		var imgdiv = document.getElementById('featured_image-wrapper');
 		
 		//If already an image set, remove it
 		if(imgdiv.querySelector('img') != null){
@@ -195,7 +195,7 @@ function addFeaturedImage(event) {
 }
 
 function catChanged(target){
-	var parentId = target.closest('.infobox').dataset.parent;
+	var parentId = target.closest('.info-box').dataset.parent;
 	
 	var parentDiv = target.closest('.categories');
 	
@@ -230,9 +230,9 @@ async function addCatType(target){
 
 	if(response){
 		//Get the newly added category parent id
-		let parentCat  	= target.closest('form').querySelector('[name="cat_parent"]').value;
-		let postType	= target.closest('form').querySelector('[name="post_type"]').value;
-		let catName		= target.closest('form').querySelector('[name="cat_name"]').value;
+		let parentCat  	= target.closest('form').querySelector('[name="cat-parent"]').value;
+		let postType	= target.closest('form').querySelector('[name="post-type"]').value;
+		let catName		= target.closest('form').querySelector('[name="cat-name"]').value;
 		
 		//No parent category
 		if(parentCat == ''){
@@ -252,7 +252,7 @@ async function addCatType(target){
 		
 		//Add the new category as checkbox
 		let html = `
-		<div class="infobox" ${parentData}>
+		<div class="info-box" ${parentData}>
 			<input type="checkbox" class="${postType}type" id="${postType}type[]" value="${response.id}" checked>
 			<label class="option-label category-select">${catName}</label>
 		</div>
@@ -314,7 +314,7 @@ async function submitPost(target){
 //Retrieve file contents over AJAX
 async function readFileContents(attachmentId){
 	let formData	= new FormData();
-	formData.append('attachment_id', attachmentId);
+	formData.append('attachment-id', attachmentId);
 
 	let response	= await FormSubmit.fetchRestApi('frontend_posting/get_attachment_contents', formData);
 
@@ -402,8 +402,8 @@ async function checkForDuplicate(target){
 
 	let formData	= new FormData();
 	formData.append('title', target.value);
-	formData.append('type', target.closest('form').querySelector('[name="post_type"]').value);
-	formData.append('exclude', target.closest('form').querySelector('[name="post_id"]').value);
+	formData.append('type', target.closest('form').querySelector('[name="post-type"]').value);
+	formData.append('exclude', target.closest('form').querySelector('[name="post-id"]').value);
 
 	let response	= await FormSubmit.fetchRestApi('frontend_posting/check_duplicate', formData);
 
@@ -432,8 +432,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		setInterval(refreshPostLock, 60000);
 		
 		// run js if we open a specific post type
-		if(location.search.includes('?type') || location.search.includes('?post_id')){
-			switchforms(document.querySelector('#postform [name="post_type"]'));
+		if(location.search.includes('?type') || location.search.includes('?post-id')){
+			switchforms(document.querySelector('#postform [name="post-type"]'));
 		}
 
 		// Listen to insert media actions
@@ -453,28 +453,28 @@ document.addEventListener("click", event =>{
 
 	if(target.name == 'submit_post' || (target.parentNode != null && target.parentNode.name == 'submit_post')){
 		submitPost(target);
-	}else if(target.name == 'draft_post' || (target.parentNode != null && target.parentNode.name == 'draft_post')){
+	}else if(target.name == 'draft-post' || (target.parentNode != null && target.parentNode.name == 'draft-post')){
 		//change action value
-		target.closest('form').querySelector('[name="post_status"]').value = 'draft';
+		target.closest('form').querySelector('[name="post-status"]').value = 'draft';
 		
 		submitPost(target);
-	}else if(target.name == 'publish_post'){
+	}else if(target.name == 'publish-post'){
 		//change action value
-		target.closest('form').querySelector('[name="post_status"]').value = 'publish';
+		target.closest('form').querySelector('[name="post-status"]').value = 'publish';
 		
 		submitPost(target);
-	}else if(target.name == 'delete_post'){
+	}else if(target.name == 'delete-post'){
 		confirmPostDelete(event, 'delete');
-	}else if(target.name == 'archive_post'){
+	}else if(target.name == 'archive-post'){
 		confirmPostDelete(event, 'archive');
-	}else if(target.name == 'change_post_type'){
+	}else if(target.name == 'change-post-type'){
 		changePostType(target);
 	}else if(target.name == "add-featured-image"){
 		addFeaturedImage(event);
-	}else if(target.id == 'showallfields'){
-		showallfields(target);
-	}else if(target.id == 'advancedpublishoptionsbutton'){
-		let div = target.closest('form').querySelector('.advancedpublishoptions');
+	}else if(target.id == 'show-all-fields'){
+		showAllFields(target);
+	}else if(target.id == 'advanced-publish-options-button'){
+		let div = target.closest('form').querySelector('.advanced-publish-options');
 		if(div.classList.contains('hidden')){
 			div.classList.remove('hidden');
 			target.querySelector('span').textContent = 'Hide';
@@ -484,7 +484,7 @@ document.addEventListener("click", event =>{
 		}
 	}
 	
-	if(target.matches('.remove_featured_image')){
+	if(target.matches('.remove-featured-image')){
 		document.querySelector('[name="post-image-id"]').value	= 0;
 		
 		let parent	= document.getElementById('featured-image-div');
@@ -495,11 +495,11 @@ document.addEventListener("click", event =>{
 	}
 	
 	// Show add category modal
-	if(target.classList.contains('add_cat')){
+	if(target.classList.contains('add-cat')){
 		document.getElementById('add_'+target.dataset.type+'_type').classList.remove('hidden');
 	}
 
-	if(target.matches('.add_category .form-submit')){
+	if(target.matches('.add-category .form-submit')){
 		addCatType(target);
 	}
 
@@ -512,14 +512,14 @@ document.addEventListener('change', event=>{
 	let target = event.target;
 
 	//listen to change of post type
-	if(target.id == 'post_type_selector'){
+	if(target.id == 'post-type-selector'){
 		switchforms(target);
 
 		// title is not empty
-		if(	target.closest('#frontend_upload_form').querySelector('[name="post_title"]').value != ''){
-			checkForDuplicate(target.closest('#frontend_upload_form').querySelector('[name="post_title"]'));
+		if(	target.closest('#frontend-upload-form').querySelector('[name="post-title"]').value != ''){
+			checkForDuplicate(target.closest('#frontend-upload-form').querySelector('[name="post-title"]'));
 		}
-	}else if(target.name == 'post_title'){
+	}else if(target.name == 'post-title'){
 		checkForDuplicate(target);
 	}
 

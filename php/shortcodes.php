@@ -51,7 +51,7 @@ function yourPosts(){
 			if(!$editUrl){
 				$editUrl = '';
 			}
-			$editUrl 	= add_query_arg( ['post_id' => $post->ID], $editUrl);
+			$editUrl 	= add_query_arg( ['post-id' => $post->ID], $editUrl);
 			if($post->post_status == 'publish'){
 				$view = 'View';
 			}else{
@@ -107,7 +107,7 @@ function pendingPages(){
 		$html .= "<ul>";
 		//For each pending post add a link to edit the post
 		foreach ( $pendingPosts as $post ) {
-			$url = add_query_arg( ['post_id' => $post->ID], $url );
+			$url = add_query_arg( ['post-id' => $post->ID], $url );
 			if(strtotime($post->post_date_gmt) > time()){
 				$date	= date(DATEFORMAT, strtotime($post->post_date_gmt));
 				$html .= "<li>$post->post_title (scheduled for $date) <a href='$url'>Publish now</a></li>";
@@ -123,7 +123,7 @@ function pendingPages(){
 		$html .= "<ul>";
 		//For each pendingRevisions post add a link to edit the post
 		foreach ( $pendingRevisions as $post ) {
-			$url = add_query_arg( ['post_id' => $post->ID], $url );
+			$url = add_query_arg( ['post-id' => $post->ID], $url );
 			$html .= "<li>$post->post_title <a href='$url'>Review changes</a></li>";
 		}
 		$html .= "</ul>";

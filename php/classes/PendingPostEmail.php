@@ -19,12 +19,12 @@ class PendingPostEmail extends ADMIN\MailSetting{
 
         $this->replaceArray['%author_name%']    = $authorName;
         $this->replaceArray['%action_text%']    = $actionText;
-        $this->replaceArray['%post_type%']      = $postType;
+        $this->replaceArray['%post-type%']      = $postType;
         $this->replaceArray['%url%']            = $url;
 
-        $this->defaultSubject    = "Please review a %post_type%";
+        $this->defaultSubject    = "Please review a %post-type%";
 
         $this->defaultMessage    = 'Hi %first_name%,<br><br>';
-		$this->defaultMessage   .= "%author_name% just %action_text% a %post_type%. Please review it <a href='%url%'>here</a>";
+		$this->defaultMessage   .= "%author_name% just %action_text% a %post-type%. Please review it <a href='%url%'>here</a>";
     }
 }

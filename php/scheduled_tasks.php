@@ -16,7 +16,7 @@ function scheduleTasks(){
     SIM\scheduleTask('expired_posts_check_action', 'daily');
 	SIM\scheduleTask('publish_sheduled_posts_action', 'quarterly');
 
-	$freq	= SIM\getModuleOption(MODULE_SLUG, 'page_age_reminder');
+	$freq	= SIM\getModuleOption(MODULE_SLUG, 'page-age-reminder');
 	if($freq){
 		SIM\scheduleTask('page_age_warning_action', $freq);
 	}
@@ -85,7 +85,7 @@ function pageAgeWarning(){
 
 		//Get the edit page url
 		$url		= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
-		$url 		= add_query_arg( ['post_id' => $postId], $url );
+		$url 		= add_query_arg( ['post-id' => $postId], $url );
 
 		//Get the last modified date
 		$secondsSinceUpdated 	= time() - get_post_modified_time('U', true, $page);

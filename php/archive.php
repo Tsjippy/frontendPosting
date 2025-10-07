@@ -48,7 +48,7 @@ function addPostStatus(){
             // See: /wp-admin/js/inline-edit-post.js -> Window.inlineEditPost.edit
             var insertArchivedStatusToInlineEdit = function(t, postId, $row) {
                 // t = window.inlineEditPost
-                // post_id = post_id of the post (eg: div#inline_31042 -> 31042)
+                // post-id = post-id of the post (eg: div#inline_31042 -> 31042)
                 // $row = The original post row <tr> which contains the quick edit button, post title, columns, etc.
                 var $editRow        = jQuery('#edit-' + postId); // The quick edit row that appeared.
                 var $rowData        = jQuery('#inline_' + postId); // A hidden row that contains relevant post data

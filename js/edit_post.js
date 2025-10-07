@@ -9,10 +9,10 @@ let editPostSwitch = async function (event){
 
 	let formData    = new FormData();
     let postId      = button.dataset.id;
-    formData.append('postid', postId);
+    formData.append('post-id', postId);
 
 	const url 		= new URL(edit_post_url);
-	url.searchParams.set('post_id', postId);
+	url.searchParams.set('post-id', postId);
 
 	window.history.pushState({}, '', url);
 
@@ -46,7 +46,7 @@ document.addEventListener("click", function(ev) {
 
 // after scripts have been loaded over AJAX
 document.addEventListener("scriptsloaded", function() {
-	document.querySelectorAll('#frontend_upload_form').forEach(el=>el.classList.remove('hidden'));
+	document.querySelectorAll('#frontend-upload-form').forEach(el=>el.classList.remove('hidden'));
 
 	document.querySelectorAll('.content-wrapper').forEach(el=>el.classList.remove('hidden'));
 	document.querySelectorAll('.loader-wrapper:not(.hidden)').forEach(el=>el.remove());

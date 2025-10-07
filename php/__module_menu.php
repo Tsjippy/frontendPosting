@@ -72,17 +72,17 @@ function subMenuOptions($optionsHtml, $settings){
 	<br>
 
 	<label>How often should people be reminded of content which should be updated?</label>
-	<select name="page_age_reminder">
+	<select name="page-age-reminder">
 		<?php
-		SIM\ADMIN\recurrenceSelector($settings['page_age_reminder']);
+		SIM\ADMIN\recurrenceSelector($settings['page-age-reminder']);
 		?>
 	</select>
 	<br>
 	<label>What should be the max time in months for a page without any changes?</label>
-	<select name="max_page_age">
+	<select name="max-page-age">
 		<?php
 		for ($x = 0; $x <= 12; $x++) {
-			if($settings['max_page_age'] === strval($x)){
+			if($settings['max-page-age'] === strval($x)){
 				$selected = 'selected="selected"';
 			}else{
 				$selected = '';

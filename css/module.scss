@@ -22,9 +22,9 @@
 		}
 	}
 	
-	.postcontentwrapper,
+	.post-content-wrapper,
 	.wp-editor-wrap,
-	.titlewrapper
+	.title-wrapper
 	{
 		margin-top: 15px;
 	}
@@ -34,10 +34,10 @@
 		display: inline-block;
 	}
 	
-	.categorieswrapper{
+	.categories-wrapper{
 		margin-top:15px;
 		
-		.infobox{
+		.info-box{
 			float: unset;
 			
 			/* Only non ios devices */
@@ -51,7 +51,7 @@
 		}
 	}
 	
-	.infobox {
+	.info-box {
 		@media (min-width: 600px){
 			display: inline-table;
 		}
@@ -66,7 +66,7 @@
 	}
 	
 	#wp-post_content-wrap, 
-	.categorywrapper
+	.category-wrapper
 	{
 		margin-bottom: 20px;
 	}
@@ -75,7 +75,7 @@
 		margin-right: 10px;
 	}
 	
-	#location_childtypes{
+	#location-child-types{
 		margin-top: 5px;
 	}
 

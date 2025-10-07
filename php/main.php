@@ -8,7 +8,7 @@ use SIM;
  * @return	array	Array of post objects
  */
 function getOldPages(){
-	$maxAge	= SIM\getModuleOption(MODULE_SLUG, 'max_page_age');
+	$maxAge	= SIM\getModuleOption(MODULE_SLUG, 'max-page-age');
 	//$maxAge	= date('Y-m-d', strtotime("-$maxAge months"));
 
 	//Get all pages without the static content meta key who have been edited last more than X months ago
@@ -68,7 +68,7 @@ function sendPendingPostWarning( object $post, $update){
 		return;
 	}
 
-	$url			= add_query_arg( ['post_id' => $post->ID], $url );
+	$url			= add_query_arg( ['post-id' => $post->ID], $url );
 	$authorName		= get_userdata($post->post_author)->display_name;
 	
 	foreach($users as $user){
