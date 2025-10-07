@@ -748,7 +748,7 @@ class FrontEndContent{
 	public function postSpecificFields(){
 		?>
 		<div id="post-attributes"  class="property post<?php if($this->postType != 'post'){echo ' hidden';}?>">
-			<div id="expirydate_div" class="frontend-form">
+			<div id="expiry-date-div" class="frontend-form">
 				<h4>Expiry date</h4>
 				<label>
 					<input type='date' class='' name='expirydate' min="<?php echo date("Y-m-d"); ?>" value="<?php echo esc_html(get_post_meta($this->postId, 'expirydate', true)); ?>" style="display: unset; width:unset;">
