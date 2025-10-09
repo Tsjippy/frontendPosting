@@ -15,7 +15,7 @@ add_filter('sim_submenu_frontendposting_description', __NAMESPACE__.'\subMenuDes
 function subMenuDescription($description, $moduleSlug){
 	ob_start();
 
-	$url		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'front_end_post_pages');
+	$url		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'front-end-post-pages');
 	$url2		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'pending_pages');
 	
 	if(!empty($url)){
@@ -163,7 +163,7 @@ function emailSettings($html, $settings){
 add_filter('sim_module_frontendposting_after_save', __NAMESPACE__.'\moduleUpdated', 10, 2);
 function moduleUpdated($options, $oldOptions){
 	// Create frontend posting page
-	$options	= SIM\ADMIN\createDefaultPage($options, 'front_end_post_pages', 'Add content', '[front_end_post]', $oldOptions);
+	$options	= SIM\ADMIN\createDefaultPage($options, 'front-end-post-pages', 'Add content', '[front_end_post]', $oldOptions);
 
 	$options	= SIM\ADMIN\createDefaultPage($options, 'pending_pages', 'Pending Posts', '[pending_pages]', $oldOptions);
 
@@ -175,7 +175,7 @@ function moduleUpdated($options, $oldOptions){
 add_filter('display_post_states', __NAMESPACE__.'\postStatus', 10, 2);
 function postStatus( $states, $post ) {
 
-    if ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'front_end_post_pages', false))) {
+    if ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages', false))) {
         $states[] = __('Frontend posting page');
     }elseif ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'pending_pages', false))) {
         $states[] = __('Pending posts page');
@@ -186,7 +186,7 @@ function postStatus( $states, $post ) {
 
 add_action('sim_module_frontendposting_deactivated', __NAMESPACE__.'\moduleDeactivate');
 function moduleDeactivate($options){
-	foreach($options['front_end_post_pages'] as $page){
+	foreach($options['front-end-post-pages'] as $page){
 		// Remove the auto created page
 		wp_delete_post($page, true);
 	}

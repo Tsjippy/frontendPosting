@@ -184,7 +184,7 @@ class FrontEndContent{
 		 		<div id="featured-image-div" <?php if($this->postImageId == 0){echo ' class="hidden"';}?>>
 					<h4 name="post-image-label">Featured image:</h4>
 
-					<span id='featured_image-wrapper' style='max-height:150px;'>
+					<span id='featured-image-wrapper' style='max-height:150px;'>
 						<?php
 						if($this->postImageId != 0){
 							echo get_the_post_thumbnail(
@@ -652,11 +652,11 @@ class FrontEndContent{
 			) );
 
 			?>
-			<div id="add_<?php echo $type;?>_type" class="modal hidden">
+			<div id="add-<?php echo $type;?>-type" class="modal hidden">
 				<!-- Modal content -->
 				<div class="modal-content">
 					<span id="modal-close" class="close">&times;</span>
-					<form action="" method="post" id="add_<?php echo $type;?>_type_form" class="add-category">
+					<form action="" method="post" id="add-<?php echo $type;?>-type-form" class="add-category">
 						<p>Please fill in the form to add a new <?php echo $type;?> category</p>
 						<input type="hidden" name="post-type" value="<?php echo $type;?>">
 						<input type="hidden" name="user-id" value="<?php echo $this->user->ID; ?>">

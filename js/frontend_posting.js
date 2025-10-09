@@ -26,7 +26,7 @@ async function confirmPostDelete( event, type='delete' ) {
 	var confirmed = await Swal.fire(options);
 
 	if (confirmed.isConfirmed) {
-		let postId 			= target.dataset.post_id;
+		let postId 			= target.dataset.postId;
 		
 		let buttonText 		= target.innerHTML;
 
@@ -176,7 +176,7 @@ function addFeaturedImage(event) {
 	
 		document.getElementById('featured-image-div').classList.remove('hidden');
 
-		var imgdiv = document.getElementById('featured_image-wrapper');
+		var imgdiv = document.getElementById('featured-image-wrapper');
 		
 		//If already an image set, remove it
 		if(imgdiv.querySelector('img') != null){
@@ -525,9 +525,9 @@ document.addEventListener('change', event=>{
 
 	if(target.list != null){
 		//find the relevant datalist option
-		let datalist_op = target.list.querySelector(`[value='${target.value}' i]`);
-		if(datalist_op != null){
-			let value = datalist_op.dataset.value;
+		let datalistOp = target.list.querySelector(`[value='${target.value}' i]`);
+		if(datalistOp != null){
+			let value = datalistOp.dataset.value;
 
 			let valEl	= target.parentNode.querySelector('.datalistvalue');
 			if(valEl != null){

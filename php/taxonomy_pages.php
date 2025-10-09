@@ -95,7 +95,7 @@ function attachmentFieldsToEdit($formFields, $post ){
 
 add_action('sim_before_archive', __NAMESPACE__.'\beforeArchive');
 function beforeArchive($type){
-    $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+    $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	if(is_numeric($url)){
 		if($type == 'event'){
 			$text	= "Add an event to the calendar";
@@ -109,7 +109,7 @@ function beforeArchive($type){
 
 add_filter('sim_empty_description', __NAMESPACE__.'\emptyDescription', 10, 2);
 function emptyDescription($message, $post){
-    $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+    $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	$message	= "<div style='margin-top:10px;'>";
 		$message	.= "This {$post->post_type} lacks a description.<br>";
 		$message	.= "Please add one.<br>";
@@ -121,7 +121,7 @@ function emptyDescription($message, $post){
 
 add_filter('sim-empty-taxonomy', __NAMESPACE__.'\emptyTax', 10, 2);
 function emptyTax($message, $type){
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	$message	.= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";
 	return $message;
 }

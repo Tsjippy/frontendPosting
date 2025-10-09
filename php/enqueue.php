@@ -7,10 +7,10 @@ function afterInsertPost($postId, $post){
     if(has_shortcode($post->post_content, 'front_end_post')){
         global $Modules;
 
-        if(!is_array($Modules[MODULE_SLUG]['front_end_post_pages'])){
-            $Modules[MODULE_SLUG]['front_end_post_pages']    = [$postId];
+        if(!is_array($Modules[MODULE_SLUG]['front-end-post-pages'])){
+            $Modules[MODULE_SLUG]['front-end-post-pages']    = [$postId];
         }else{
-            $Modules[MODULE_SLUG]['front_end_post_pages'][]  = $postId;
+            $Modules[MODULE_SLUG]['front-end-post-pages'][]  = $postId;
         }
 
         update_option('sim_modules', $Modules);
@@ -20,10 +20,10 @@ function afterInsertPost($postId, $post){
 add_action( 'wp_trash_post',  __NAMESPACE__.'\trashPost');
 function trashPost($postId){
     global $Modules;
-    $index  = array_search($postId, $Modules[MODULE_SLUG]['front_end_post_pages']);
+    $index  = array_search($postId, $Modules[MODULE_SLUG]['front-end-post-pages']);
     if($index){
-        unset($Modules[MODULE_SLUG]['front_end_post_pages'][$index]);
-        $Modules[MODULE_SLUG]['front_end_post_pages']   = array_values($Modules[MODULE_SLUG]['front_end_post_pages']);
+        unset($Modules[MODULE_SLUG]['front-end-post-pages'][$index]);
+        $Modules[MODULE_SLUG]['front-end-post-pages']   = array_values($Modules[MODULE_SLUG]['front-end-post-pages']);
         update_option('sim_modules', $Modules);
     }
 }
@@ -40,10 +40,10 @@ function loadAssets() {
 
     wp_enqueue_script('sim_edit_post_script', SIM\pathToUrl(MODULE_PATH.'js/edit_post.min.js'), array('sim_formsubmit_script'), MODULE_VERSION, true);
     
-    $frontendEditUrl    = SIM\getValidPageLink(SIM\getModuleOption(MODULE_SLUG, 'front_end_post_pages'));
+    $frontendEditUrl    = SIM\getValidPageLink(SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages'));
     wp_add_inline_script('sim_edit_post_script', "var edit_post_url = '$frontendEditUrl'", 'before');
 
-    $frontEndPostPages   = SIM\getModuleOption(MODULE_SLUG, 'front_end_post_pages');
+    $frontEndPostPages   = SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages');
     if(is_numeric(get_the_ID()) && in_array(get_the_ID(), $frontEndPostPages)){
         wp_enqueue_style('sim_frontend_style');
     }

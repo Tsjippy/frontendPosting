@@ -84,7 +84,7 @@ function pageAgeWarning(){
 		$postTitle 				= $page->post_title;
 
 		//Get the edit page url
-		$url		= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+		$url		= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 		$url 		= add_query_arg( ['post-id' => $postId], $url );
 
 		//Get the last modified date

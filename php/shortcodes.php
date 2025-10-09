@@ -24,7 +24,7 @@ function yourPosts(){
 	);
 	
 	$html = "<h2 class='table-title'>Content submitted by you</h2>";
-		$html .= "<table class='sim-table' id='user_posts'>";
+		$html .= "<table class='sim-table' id='user-posts'>";
 			$html .= "<thead>";
 				$html .= "<tr>";
 					$html .= "<th>Date</th>";
@@ -47,7 +47,7 @@ function yourPosts(){
 			}
 			
 			$url 		= get_permalink($post);
-			$editUrl	= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+			$editUrl	= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 			if(!$editUrl){
 				$editUrl = '';
 			}
@@ -95,7 +95,7 @@ function pendingPages(){
 		
 	);
 
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	if(!$url){
 		return '';
 	}

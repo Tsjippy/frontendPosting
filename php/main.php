@@ -63,7 +63,7 @@ function sendPendingPostWarning( object $post, $update){
 	$type = $post->post_type;
 	
 	//send notification to all content managers
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front_end_post_pages');
+	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
 	if(!$url){
 		return;
 	}
