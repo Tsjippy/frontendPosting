@@ -5,26 +5,21 @@ use SIM;
 add_action( 'wp_after_insert_post',  __NAMESPACE__.'\afterInsertPost', 10, 2);
 function afterInsertPost($postId, $post){
     if(has_shortcode($post->post_content, 'front_end_post')){
-        global $Modules;
+        $pages  = SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages', false);
 
-        if(!is_array($Modules[MODULE_SLUG]['front-end-post-pages'])){
-            $Modules[MODULE_SLUG]['front-end-post-pages']    = [$postId];
-        }else{
-            $Modules[MODULE_SLUG]['front-end-post-pages'][]  = $postId;
-        }
+        $pages[]  = $postId;
 
-        update_option('sim_modules', $Modules);
+        SIM\updateModuleOptions(MODULE_SLUG, $pages, 'front-end-post-pages');
     }
 }
 
 add_action( 'wp_trash_post',  __NAMESPACE__.'\trashPost');
 function trashPost($postId){
-    global $Modules;
-    $index  = array_search($postId, $Modules[MODULE_SLUG]['front-end-post-pages']);
-    if($index){
-        unset($Modules[MODULE_SLUG]['front-end-post-pages'][$index]);
-        $Modules[MODULE_SLUG]['front-end-post-pages']   = array_values($Modules[MODULE_SLUG]['front-end-post-pages']);
-        update_option('sim_modules', $Modules);
+    $pages  = SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages', false);
+    $index  = array_search($postId, $pages);
+    if($index){ 
+        unset($pages[$index]);
+        SIM\updateModuleOptions(MODULE_SLUG, $pages, 'front-end-post-pages');
     }
 }
 
