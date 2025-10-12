@@ -287,7 +287,7 @@ class FrontEndContent{
 				if(!empty($this->post) && $this->post->post_status != 'archived'){
 					?>
 					<div class='submit-wrapper'>
-						<button type='submit' class='button' name='archive-post' data-post_id='<?php echo  esc_html($this->postId); ?>'>
+						<button type='submit' class='button' name='archive-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
 							Archive <?php echo  esc_html($this->post->post_type); ?>
 						</button>
 						<?php echo SIM\loaderImage(30, '', true);?>
@@ -299,7 +299,7 @@ class FrontEndContent{
 				if(!empty($this->post) && $this->post->post_status != 'trash'){
 					?>
 					<div class='submit-wrapper'>
-						<button type='button' class='button' name='delete-post' data-post_
+						<button type='button' class='button' name='delete-post' data-post-
 						id='<?php echo  esc_html($this->postId); ?>'>
 							Delete <?php echo  esc_html($this->post->post_type); ?>
 						</button>
