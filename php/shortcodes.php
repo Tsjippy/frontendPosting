@@ -73,7 +73,7 @@ function yourPosts(){
 }
 
 //Shortcode to display all pages and post who are pending
-add_shortcode("pending_pages", __NAMESPACE__.'\pendingPages');
+add_shortcode("pending-pages", __NAMESPACE__.'\pendingPages');
 
 function pendingPages(){
 	//Get all the posts with a pending status

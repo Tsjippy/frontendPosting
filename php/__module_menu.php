@@ -16,7 +16,7 @@ function subMenuDescription($description, $moduleSlug){
 	ob_start();
 
 	$url		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'front-end-post-pages');
-	$url2		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'pending_pages');
+	$url2		= SIM\ADMIN\getDefaultPageLink($moduleSlug, 'pending-pages');
 	
 	if(!empty($url)){
 		?>
@@ -165,7 +165,7 @@ function moduleUpdated($options, $oldOptions){
 	// Create frontend posting page
 	$options	= SIM\ADMIN\createDefaultPage($options, 'front-end-post-pages', 'Add content', '[front_end_post]', $oldOptions);
 
-	$options	= SIM\ADMIN\createDefaultPage($options, 'pending_pages', 'Pending Posts', '[pending_pages]', $oldOptions);
+	$options	= SIM\ADMIN\createDefaultPage($options, 'pending-pages', 'Pending Posts', '[pending-pages]', $oldOptions);
 
 	scheduleTasks();
 
@@ -177,7 +177,7 @@ function postStatus( $states, $post ) {
 
     if ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'front-end-post-pages', false))) {
         $states[] = __('Frontend posting page');
-    }elseif ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'pending_pages', false))) {
+    }elseif ( in_array($post->ID, SIM\getModuleOption(MODULE_SLUG, 'pending-pages', false))) {
         $states[] = __('Pending posts page');
     }
 
