@@ -7,6 +7,7 @@
 - classnames
 - data attribute names
 - pages maintenance
+- dataset names
 
 ### Fixed
 - bugs
