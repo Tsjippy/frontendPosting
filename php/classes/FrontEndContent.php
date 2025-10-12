@@ -219,7 +219,7 @@ class FrontEndContent{
 						}
 
 						echo "<h4 class='$class' name='post-content-label'>";
-							echo  '<span class="capitalize replaceposttype">'.ucfirst($this->postType).'</span> content';
+							echo  '<span class="capitalize replace-post-type">'.ucfirst($this->postType).'</span> content';
 						echo "</h4>";
 
 						echo "<h4 class='property attachment hidden' name='attachment-content-label'>Description:</h4>";
@@ -260,9 +260,9 @@ class FrontEndContent{
 				//Add a draft button for new posts
 				if($this->postId == null || ($this->post->post_status != 'publish' && $this->post->post_status != 'inherit')){
 					if($this->postId == null){
-						$buttonText = "Save <span class='replaceposttype'>{$this->postName}</span> as draft";
+						$buttonText = "Save <span class='replace-post-type'>{$this->postName}</span> as draft";
 					}else{
-						$buttonText = "Update this <span class='replaceposttype'>{$this->postName}</span> draft";
+						$buttonText = "Update this <span class='replace-post-type'>{$this->postName}</span> draft";
 					}
 
 					?>
@@ -276,7 +276,7 @@ class FrontEndContent{
 				if($this->fullrights){
 					?>
 					<div class='submit-wrapper' style='display: flex;'>
-						<button type='button' name='publish-post' class='button'>Publish <span class='replaceposttype'><?php echo $this->postName;?></span></button>
+						<button type='button' name='publish-post' class='button'>Publish <span class='replace-post-type'><?php echo $this->postName;?></span></button>
 						<?php echo SIM\loaderImage(30, '', true);?>
 					</div>
 					<?php
@@ -435,9 +435,9 @@ class FrontEndContent{
 		}
 
 		if($this->fullrights && is_numeric($this->postId) && $this->post->post_status == 'publish'){
-			$this->action = "Update <span class='replaceposttype'>{$this->postName}</span>";
+			$this->action = "Update <span class='replace-post-type'>{$this->postName}</span>";
 		}else{
-			$this->action = "Submit <span class='replaceposttype'>{$this->postName}</span> for review";
+			$this->action = "Submit <span class='replace-post-type'>{$this->postName}</span> for review";
 		}
 	}
 
@@ -701,7 +701,7 @@ class FrontEndContent{
 		?>
 		<div id="post-category" class="category-wrapper property post page <?php if(!in_array($this->postType, ['post', 'page', 'attachment'])){echo 'hidden';} ?>">
 			<h4>
-				<span class="capitalize replaceposttype"><?php echo  esc_html($this->postType);?></span> category
+				<span class="capitalize replace-post-type"><?php echo  esc_html($this->postType);?></span> category
 			</h4>
 			<div class='categories-wrapper'>
 				<?php

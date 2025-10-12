@@ -99,7 +99,7 @@ function switchforms(target){
 	document.querySelector('#postform [name="post-type"]').value 	= postType;
 	
 	//Change button text
-	parent.querySelectorAll('.replaceposttype').forEach(function(el){
+	parent.querySelectorAll('.replace-post-type').forEach(function(el){
 		el.textContent = postType;
 	});
 	
