@@ -188,7 +188,7 @@ function filterContent( $content ) {
 	$buttonHtml	= '';
 	//Add an edit page button if:
 	if ( allowedToEdit($postId) ){
-		$type 		= $post->post_type;
+		$type 		= str_replace('-', ' ', $post->post_type);
 		$buttonText = "Edit this $type";
 
 		if($type == 'attachment'){

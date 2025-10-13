@@ -426,6 +426,7 @@ class FrontEndContent{
 		if(!empty($_GET['type'])){
 			$this->postType 	= $_GET['type'];
 		}
+		$this->postType 										= apply_filters('sim-frontendcontent-posttype', $this->postType);
 
 		$this->postName 										= str_replace("_lite", "", $this->postType);
 
@@ -597,7 +598,7 @@ class FrontEndContent{
 			$labelText = "You are editing a {$this->postType}, use selector below if you want to change the post type";
 		}
 
-		$postTypes	= get_post_types(['public'=>true]);
+		$postTypes	= apply_filters('sim-frontendcontent-posttypes', get_post_types(['public' => true]));
 
 		$html	= "<h4>$labelText</h4>";
 		$html	.= "<select id='post-type-selector' name='post-type-selector' required>";
@@ -609,7 +610,7 @@ class FrontEndContent{
 				$selected = '';
 			}
 
-			$typeName	= ucfirst($postType);
+			$typeName	= ucfirst(str_replace("-", " ", $postType));
 			if($postType == 'attachment'){
 				$typeName = 'Picture/Video/Audio';
 			}
@@ -1370,11 +1371,13 @@ class FrontEndContent{
 		$this->postType 	= sanitize_text_field($_POST['post-type']);
 		
 		//First letter should be capital in the title
-		$this->postTitle 	= ucfirst(trim(sanitize_text_field($_POST['post-status'])));
+		$this->postTitle 	= ucfirst(trim(sanitize_text_field($_POST['post-title'])));
 
 		$this->oldPost		= '';
 		if(is_numeric($_POST['post-id'])){
 			$this->oldPost	= get_post($_POST['post-id']);
+
+			$this->postType	= $this->oldPost->post_type;
 
 			// find the parent with a correct posttype
 			while(in_array($this->oldPost->post_type, ['change', 'revision'])){
