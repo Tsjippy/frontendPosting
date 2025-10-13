@@ -82,7 +82,7 @@ function attachmentFieldsToEdit($formFields, $post ){
 				$html	.= "}";
 			$html	.= "}";
 		$html	.= "</script>";
-		$html	.= "<input type='hidden' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
+		$html	.= "<input type='hidden' class='no-reset' name='attachments[{$post->ID}][attachment-cat]' id='attachments[{$post->ID}][attachment-cat]' value='$catNames'>";
         $html   .= $checkboxes;
     $html   .= "</div>";
 

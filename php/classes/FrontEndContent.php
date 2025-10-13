@@ -139,11 +139,11 @@ class FrontEndContent{
 			//Write the form to create all posts except events
 			?>
 			<form id="postform">
-				<input type="hidden" name="post-status" 	value="pending">
-				<input type="hidden" name="post-type" 		value="<?php echo $this->postType; ?>">
-				<input type="hidden" name="post-image-id" 	value="<?php echo $this->postImageId;?>">
-				<input type="hidden" name="update" 			value="<?php echo $this->update;?>">
-				<input type='hidden' name='post-id' 		value='<?php echo $this->postId;?>'>
+				<input type="hidden" class="no-reset" name="post-status" 	value="pending">
+				<input type="hidden" class="no-reset" name="post-type" 		value="<?php echo $this->postType; ?>">
+				<input type="hidden" class="no-reset" name="post-image-id" 	value="<?php echo $this->postImageId;?>">
+				<input type="hidden" class="no-reset" name="update" 			value="<?php echo $this->update;?>">
+				<input type='hidden' class='no-reset' name='post-id' 		value='<?php echo $this->postId;?>'>
 
 				<h4>Title</h4>
 				<input type="text" name="post-title" class='block' value="<?php echo $this->postTitle;?>" required>
@@ -621,8 +621,8 @@ class FrontEndContent{
 		if(is_numeric($this->postId)){
 			?>
 			<form action="" method="post" name="change_post_type">
-				<input type="hidden" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
-				<input type="hidden" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
+				<input type="hidden" class="no-reset" name="user-id" value="<?php echo  esc_html($this->user->ID); ?>">
+				<input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
 				<?php
 				echo  $html;
 				echo SIM\addSaveButton('change-post-type','Change the post type');
@@ -658,8 +658,8 @@ class FrontEndContent{
 					<span id="modal-close" class="close">&times;</span>
 					<form action="" method="post" id="add-<?php echo $type;?>-type-form" class="add-category">
 						<p>Please fill in the form to add a new <?php echo $type;?> category</p>
-						<input type="hidden" name="post-type" value="<?php echo $type;?>">
-						<input type="hidden" name="user-id" value="<?php echo $this->user->ID; ?>">
+						<input type="hidden" class="no-reset" name="post-type" value="<?php echo $type;?>">
+						<input type="hidden" class="no-reset" name="user-id" value="<?php echo $this->user->ID; ?>">
 
 						<label>
 							<h4>Category name<span class="required">*</span></h4>
