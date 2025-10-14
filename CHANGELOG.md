@@ -2,6 +2,7 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+- edit buttons on nested posts
 
 ### Changed
 
