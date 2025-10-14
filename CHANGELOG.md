@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- edit buttons on nested posts
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [8.2.4] - 2025-10-14
+
+
+### Added
+- edit buttons on nested posts
 
 ## [8.2.3] - 2025-10-13
 
