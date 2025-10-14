@@ -141,7 +141,7 @@ function filterContent( $content ) {
 	if (
 		!is_user_logged_in() 							||	// not logged in or
 		str_contains($content, '[front_end_post]')  	||	// already on the post edit page
-		!is_singular() 									||  // it is not a single page
+		//!is_singular() 									||  // it is not a single page
 		is_tax()										||	// not an archive page
 		is_front_page()										// is the front page
 	){
@@ -159,11 +159,11 @@ function filterContent( $content ) {
 		}
 	//published
 	}else{
-		$postId 		= get_the_ID();
+		$postId 		= $post->ID;
 	}
 
 	$postViewRoles	= get_post_meta($postId, 'post_view_roles');
-	if(is_array($postViewRoles)){
+	if(!empty($postViewRoles) && is_array($postViewRoles)){
 		$type		= get_post_meta($postId, 'permission_filter_type', true);
 		
 		if(!empty($type)){
@@ -187,15 +187,15 @@ function filterContent( $content ) {
 	
 	$buttonHtml	= '';
 	//Add an edit page button if:
-	if ( allowedToEdit($postId) ){
+	if ( allowedToEdit($post) ){
 		$type 		= str_replace('-', ' ', $post->post_type);
 		$buttonText = "Edit this $type";
 
 		if($type == 'attachment'){
 			$url		= admin_url("post.php?post=$post->ID&action=edit");
-			$buttonHtml	= "<a href=$url class='button small hidden' id='page-edit'>$buttonText</a>";
+			$buttonHtml	= "<a href=$url class='button small hidden' class='page-edit'>$buttonText</a>";
 		}else{
-			$buttonHtml	= "<button class='button small hidden' id='page-edit' data-id='$postId'>$buttonText</button>";
+			$buttonHtml	= "<button type='button' class='button small hidden page-edit' data-id='$postId'>$buttonText</button>";
 		}
 	}
 	$buttonHtml	= apply_filters('post-edit-button', $buttonHtml, $post, $content);

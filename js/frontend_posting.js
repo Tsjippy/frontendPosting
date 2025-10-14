@@ -281,7 +281,7 @@ async function submitPost(target){
 
 			location.href	= response.url;
 			return;
-		}	
+		}
 
 		// Update the url
 		const url 		= new URL(response.url);
@@ -298,6 +298,10 @@ async function submitPost(target){
 			div.style.backgroundImage	= `url("${response.picture}")`;
 		}
 
+		// Close any modals to restore scrolling
+		Main.hideModals();
+
+		// Replace the main content with the returned html
 		document.querySelector('main').innerHTML	= response.html;
 
 		addStyles(response, document);
@@ -305,7 +309,7 @@ async function submitPost(target){
 		// Scroll page to top
 		window.scrollTo(0, 0);
 
-		document.getElementById('page-edit').classList.remove('hidden');
+		document.querySelector('.page-edit').classList.remove('hidden');
 
 		Main.displayMessage(response.message);
 	}

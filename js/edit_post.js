@@ -4,7 +4,11 @@ console.log("Edit post.js loaded");
 
 let editPostSwitch = async function (event){
 	let button	= event.target;
-	let wrapper	= button.closest('main').querySelector('.content-wrapper');
+	let wrapper	= button.closest('div').querySelector('.content-wrapper');
+	if(wrapper == null){
+		wrapper = button.closest('main').querySelector('.content-wrapper');
+	}
+
 	wrapper.classList.add('hidden');
 
 	let formData    = new FormData();
@@ -16,11 +20,16 @@ let editPostSwitch = async function (event){
 
 	window.history.pushState({}, '', url);
 
-	let loader	= Main.showLoader(button, true, 50, 'Requesting form...');
+	let loader		= Main.showLoader(wrapper.parentNode, true, 50, 'Requesting form...');
 
-	let response = await FormSubmit.fetchRestApi('frontend_posting/post_edit', formData);
+	let response 	= await FormSubmit.fetchRestApi('frontend_posting/post_edit', formData);
 
 	if(response){
+		wrapper 			= document.querySelector('.content-wrapper');
+
+		// Close any modals to restore scrolling
+		Main.hideModals();
+
 		wrapper.innerHTML	= response.html;
 
 		addStyles(response, document);	// runs also the afterScriptsLoaded function
@@ -33,13 +42,13 @@ let editPostSwitch = async function (event){
 
 document.addEventListener("DOMContentLoaded", function() {
 	
-	document.querySelectorAll('#page-edit.hidden').forEach(el=>{
+	document.querySelectorAll('.page-edit.hidden').forEach(el=>{
 		el.classList.remove('hidden');
 	});
 });
 
 document.addEventListener("click", function(ev) {	
-	if(ev.target.id == 'page-edit'){
+	if(ev.target.matches( '.page-edit')){
 		editPostSwitch(ev);
 	}
 });
