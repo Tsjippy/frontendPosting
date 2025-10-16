@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- loading edit page
 
 ### Updated
 
