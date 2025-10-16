@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- loading edit page
 
 ### Updated
+
+## [8.2.5] - 2025-10-16
+
+
+### Fixed
+- loading edit page
 
 ## [8.2.4] - 2025-10-14
 
