@@ -5,11 +5,7 @@ console.log("Edit post.js loaded");
 let editPostSwitch = async function (event){
 	let button	= event.target;
 	let wrapper	= button.closest('div').querySelector('.content-wrapper');
-	if(wrapper == null){
-		wrapper = button.closest('main').querySelector('.content-wrapper');
-	}
-
-	wrapper.classList.add('hidden');
+	let insertLocation	= wrapper.parentNode;
 
 	let formData    = new FormData();
     let postId      = button.dataset.id;
@@ -20,17 +16,22 @@ let editPostSwitch = async function (event){
 
 	window.history.pushState({}, '', url);
 
-	let loader		= Main.showLoader(wrapper.parentNode, true, 50, 'Requesting form...');
+	let loader		= Main.showLoader(wrapper, true, 50, 'Requesting form...');
 
 	let response 	= await FormSubmit.fetchRestApi('frontend_posting/post_edit', formData);
 
 	if(response){
-		wrapper 			= document.querySelector('.content-wrapper');
-
 		// Close any modals to restore scrolling
 		Main.hideModals();
 
-		wrapper.innerHTML	= response.html;
+		let div				= document.createElement('div');
+		div.classList.add('content-wrapper');
+		div.innerHTML		= response.html;
+
+		// remove previous content
+		document.querySelectorAll('.content-wrapper').forEach(el=>el.remove());
+
+		insertLocation.appendChild(div);
 
 		addStyles(response, document);	// runs also the afterScriptsLoaded function
 

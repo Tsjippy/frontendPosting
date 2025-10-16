@@ -500,7 +500,7 @@ document.addEventListener("click", event =>{
 	
 	// Show add category modal
 	if(target.classList.contains('add-cat')){
-		document.getElementById('add_'+target.dataset.type+'_type').classList.remove('hidden');
+		document.getElementById('add-'+target.dataset.type+'-type').classList.remove('hidden');
 	}
 
 	if(target.matches('.add-category .form-submit')){
