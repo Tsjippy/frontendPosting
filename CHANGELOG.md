@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- deleting posts
 
 ### Updated
 
