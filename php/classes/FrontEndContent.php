@@ -277,7 +277,6 @@ class FrontEndContent{
 					?>
 					<div class='submit-wrapper' style='display: flex;'>
 						<button type='button' name='publish-post' class='button'>Publish <span class='replace-post-type'><?php echo $this->postName;?></span></button>
-						<?php echo SIM\loaderImage(30, '', true);?>
 					</div>
 					<?php
 				}
@@ -290,7 +289,6 @@ class FrontEndContent{
 						<button type='submit' class='button' name='archive-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
 							Archive <?php echo  esc_html($this->post->post_type); ?>
 						</button>
-						<?php echo SIM\loaderImage(30, '', true);?>
 					</div>
 					<?php
 				}
@@ -299,11 +297,9 @@ class FrontEndContent{
 				if(!empty($this->post) && $this->post->post_status != 'trash'){
 					?>
 					<div class='submit-wrapper'>
-						<button type='button' class='button' name='delete-post' data-post-
-						id='<?php echo  esc_html($this->postId); ?>'>
+						<button type='button' class='button' name='delete-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
 							Delete <?php echo  esc_html($this->post->post_type); ?>
 						</button>
-						<?php echo SIM\loaderImage(50, '', true);?>
 					</div>
 					<?php
 				}
