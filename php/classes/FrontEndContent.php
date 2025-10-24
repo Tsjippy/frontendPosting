@@ -153,14 +153,7 @@ class FrontEndContent{
 
 				$this->postCategories();
 
-				$categories	= get_categories( array(
-					'orderby' 		=> 'name',
-					'order'   		=> 'ASC',
-					'taxonomy'		=> 'attachment_cat',
-					'hide_empty' 	=> false,
-				) );
-
-				$this->showCategories('attachment', $categories);
+				$this->showCategories('attachment', 'attachment_cat');
 
 				?>
 				<div class='property attachment hidden'>
@@ -287,7 +280,7 @@ class FrontEndContent{
 					?>
 					<div class='submit-wrapper'>
 						<button type='submit' class='button' name='archive-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
-							Archive <?php echo  esc_html($this->post->post_type); ?>
+							Archive <?php echo  esc_html($this->postName); ?>
 						</button>
 					</div>
 					<?php
@@ -298,7 +291,7 @@ class FrontEndContent{
 					?>
 					<div class='submit-wrapper'>
 						<button type='button' class='button' name='delete-post' data-post-id='<?php echo  esc_html($this->postId); ?>'>
-							Delete <?php echo  esc_html($this->post->post_type); ?>
+							Delete <?php echo esc_html($this->postName); ?>
 						</button>
 					</div>
 					<?php
@@ -424,7 +417,7 @@ class FrontEndContent{
 		}
 		$this->postType 										= apply_filters('sim-frontendcontent-posttype', $this->postType);
 
-		$this->postName 										= str_replace("_lite", "", $this->postType);
+		$this->postName 										= str_replace(["_lite", '-'], ["", ' '], $this->postType);
 
 		//show lite version of location by default
 		if(str_contains($this->postType, '_lite')){
@@ -791,10 +784,19 @@ class FrontEndContent{
 	 * Display the categories for a specific post_type
 	 *
 	 * @param    string     $type		The post_type the category is for
-	 * @param    array     	$categories	Array of categories
+	 * @param    string		$taxName	The name of the taxonomy to retrieve categories for
 	 *
 	**/
-	public function showCategories($type, $categories){
+	public function showCategories($type, $taxName){
+		$categories	= get_categories( array(
+			'orderby' 		=> 'name',
+			'order'   		=> 'ASC',
+			'taxonomy'		=> $taxName,
+			'hide_empty'	=> false,
+		) );
+
+		$postCats	= wp_get_post_terms($this->postId, $taxName, ['fields' => 'ids']);
+
 		?>
 		<div class="property <?php echo $type; if($this->postType != $type){echo ' hidden';} ?>">
 			<div class="frontend-form">
@@ -806,7 +808,7 @@ class FrontEndContent{
 					$hidden					= 'hidden';
 
 					foreach($categories as $category){
-						$name 				= str_replace('-', ' ', ucfirst($category->slug));
+						$name 				= $category->name;
 						$catId 				= $category->cat_ID;
 						$catDescription		= $category->description;
 						$parent				= $category->parent;
@@ -823,7 +825,7 @@ class FrontEndContent{
 						}
 
 						//if this cat belongs to this post
-						if(has_term($catId, $taxonomy, $this->postId)){
+						if(in_array($catId, $postCats)){
 							$checked = 'checked';
 
 							//If this type has child types, show the label
