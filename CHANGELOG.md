@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [8.2.6] - 2025-10-25
+
+
+### Changed
 - code cleanup
 
 ### Fixed
 - deleting posts
-
-### Updated
 
 ## [8.2.5] - 2025-10-16
 
