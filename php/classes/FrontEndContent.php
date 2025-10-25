@@ -22,7 +22,8 @@ class FrontEndContent{
 	public $update;
 	public $action;
 	public $status;
-	public $categories;
+	public $postTypes;			// possible categories of all post types
+	public $postCategories;		// category for the current post
 	public $actionText;
 	public $oldPost;
 	public $orgPost;
@@ -56,6 +57,19 @@ class FrontEndContent{
 			//add tinymce button
 			add_filter('mce_buttons', array($this,'registerButtons'));
 		}
+
+		$postTypes			= get_post_types(['public' => true]);
+		foreach($postTypes as $postType => &$taxonomy){
+			if($postType == 'post' || $postType == 'page'){
+				$taxonomy	= 'category';
+			}elseif($postType == 'attachment'){
+				$taxonomy	= 'attachment_cat';
+			}else{
+				$taxonomy	= $postType.'s';
+			}
+		}
+		
+		$this->postTypes	= apply_filters('sim_frontend_post_types_and_tax', $postTypes, $this);
 	}
 
 	/**
@@ -151,9 +165,7 @@ class FrontEndContent{
 				<?php
 				do_action('sim_frontend_post_before_content', $this);
 
-				$this->postCategories();
-
-				$this->showCategories('attachment', 'attachment_cat');
+				$this->showCategories();
 
 				?>
 				<div class='property attachment hidden'>
@@ -587,12 +599,10 @@ class FrontEndContent{
 			$labelText = "You are editing a {$this->postType}, use selector below if you want to change the post type";
 		}
 
-		$postTypes	= apply_filters('sim-frontendcontent-posttypes', get_post_types(['public' => true]));
-
 		$html	= "<h4>$labelText</h4>";
 		$html	.= "<select id='post-type-selector' name='post-type-selector' required>";
 
-		foreach($postTypes as $postType){
+		foreach($this->postTypes as $postType => $taxName){
 			if($this->postType == $postType){
 				$selected = 'selected="selected"';
 			}else{
@@ -630,10 +640,7 @@ class FrontEndContent{
 	 *
 	**/
 	public function addModals(){
-		$postTypes		= apply_filters('sim_frontend_posting_modals', ['attachment']);
-
-		foreach($postTypes as $type){
-			$taxonomy	= end(get_object_taxonomies($type));
+		foreach($this->postTypes as $postType => $taxonomy){
 			$categories = get_categories( array(
 				'orderby' 	=> 'name',
 				'order'   	=> 'ASC',
@@ -642,13 +649,13 @@ class FrontEndContent{
 			) );
 
 			?>
-			<div id="add-<?php echo $type;?>-type" class="modal hidden">
+			<div id="add-<?php echo $postType;?>-type" class="modal hidden">
 				<!-- Modal content -->
 				<div class="modal-content">
 					<span id="modal-close" class="close">&times;</span>
-					<form action="" method="post" id="add-<?php echo $type;?>-type-form" class="add-category">
-						<p>Please fill in the form to add a new <?php echo $type;?> category</p>
-						<input type="hidden" class="no-reset" name="post-type" value="<?php echo $type;?>">
+					<form action="" method="post" id="add-<?php echo $postType;?>-type-form" class="add-category">
+						<p>Please fill in the form to add a new <?php echo $postType;?> category</p>
+						<input type="hidden" class="no-reset" name="post-type" value="<?php echo $postType;?>">
 						<input type="hidden" class="no-reset" name="user-id" value="<?php echo $this->user->ID; ?>">
 
 						<label>
@@ -669,66 +676,12 @@ class FrontEndContent{
 							?>
 						</select>
 
-						<?php echo SIM\addSaveButton("add_{$type}_type", "Add $type category"); ?>
+						<?php echo SIM\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
 					</form>
 				</div>
 			</div>
 			<?php
 		}
-	}
-
-	/**
-	 *
-	 * Show the post categories
-	 *
-	**/
-	public function postCategories(){
-		$categories = get_categories( array(
-			'orderby' 		=> 'name',
-			'order'   		=> 'ASC',
-			'hide_empty' 	=> false,
-		) );
-		?>
-		<div id="post-category" class="category-wrapper property post page <?php if(!in_array($this->postType, ['post', 'page', 'attachment'])){echo 'hidden';} ?>">
-			<h4>
-				<span class="capitalize replace-post-type"><?php echo  esc_html($this->postType);?></span> category
-			</h4>
-			<div class='categories-wrapper'>
-				<?php
-				foreach($categories as $category){
-					$name 			= $category->name;
-					$catId 			= $category->cat_ID;
-					$catDescription	= $category->description;
-					$class			= 'property info-box post';
-
-					if($catId == get_cat_ID('Public') || $catId == get_cat_ID('Confidential') ){
-						$class	.= ' page';
-					//do not show categories other than public and confidential to non-post types
-					}elseif($this->postType != 'post'){
-						$class	.= ' hidden';
-					}
-
-					$checked	= '';
-					if(is_array($this->postCategory) && in_array($catId, $this->postCategory)){
-						$checked 	= 'checked';
-					}
-
-					echo "<div class='$class'>";
-
-						echo "<input type='checkbox' name='category-id[]' value='$catId' $checked>";
-
-						echo "<label class='option-label category-select'>$name</label>";
-
-						if(!empty($catDescription)){
-							echo "<span class='info-text'>$catDescription</span>";
-						}
-
-					echo '</div>';
-				}
-				?>
-			</div>
-		</div>
-		<?php
 	}
 
 	/**
@@ -783,108 +736,111 @@ class FrontEndContent{
 	 *
 	 * Display the categories for a specific post_type
 	 *
-	 * @param    string     $type		The post_type the category is for
-	 * @param    string		$taxName	The name of the taxonomy to retrieve categories for
-	 *
 	**/
-	public function showCategories($type, $taxName){
-		$categories	= get_categories( array(
-			'orderby' 		=> 'name',
-			'order'   		=> 'ASC',
-			'taxonomy'		=> $taxName,
-			'hide_empty'	=> false,
-		) );
+	public function showCategories(){
+		foreach($this->postTypes as $postType => $taxName){
+			$categories	= get_categories( array(
+				'orderby' 		=> 'name',
+				'order'   		=> 'ASC',
+				'taxonomy'		=> $taxName,
+				'hide_empty'	=> false,
+			) );
 
-		$postCats	= wp_get_post_terms($this->postId, $taxName, ['fields' => 'ids']);
+			$postCats	= [];
+			// check for the post categories if the current post type matches the type of the current post
+			if($this->postType == $postType){
+				$postCats	= wp_get_post_terms($this->postId, $taxName, ['fields' => 'ids']);
+			}
 
-		?>
-		<div class="property <?php echo $type; if($this->postType != $type){echo ' hidden';} ?>">
-			<div class="frontend-form">
-				<h4><?php echo ucfirst($type);?> type</h4>
-				<div class='categories'>
-					<?php
-					$parentCategoryHtml 	= '';
-					$childCategoryHtml 		= '';
-					$hidden					= 'hidden';
-
-					foreach($categories as $category){
-						$name 				= $category->name;
-						$catId 				= $category->cat_ID;
-						$catDescription		= $category->description;
-						$parent				= $category->parent;
-						$checked			= '';
-						$class				= 'info-box';
-						$taxonomy			= $category->taxonomy;
-
-						//This category is a not a child
-						if($parent == 0){
-							$html = 'parentCategoryHtml';
-						//has a parent
-						}else{
-							$html = 'childCategoryHtml';
-						}
-
-						//if this cat belongs to this post
-						if(in_array($catId, $postCats)){
-							$checked = 'checked';
-
-							//If this type has child types, show the label
-							if(count(get_term_children($category->cat_ID, $taxonomy))>0){
-								$hidden = '';
-							}
-						}
-
-						//if this is a child, hide it and attach the parent id as attribute
-						if($parent != 0){
-							//Hide subcategory if parent is not in the cat array
-							if(!has_term($parent, $taxonomy, $this->postId)){
-								$class .= " hidden";
-							}
-
-							//Store cat parent
-							$class .= "' data-parent='$parent";
-						}
-
-						//$$html --> use the value of $html as variable name
-						$$html .= "<div class='$class'>";
-							$checkboxClass = "{$type}type";
-							if(count(get_term_children($category->cat_ID, $taxonomy)) > 0){
-								$checkboxClass .= " parent_cat";
-							}
-
-							//Name of the category
-							$$html .= "<label class='option-label category-select'>";
-								$$html .= "<input type='checkbox' class='$checkboxClass' name='{$taxonomy}-ids[]' value='$catId' $checked>";
-								$$html .= $name;
-							$$html .= "</label>";
-
-							//Add info-box if needed
-							if(!empty($catDescription)){
-								$$html .= "<span class='info-text'>$catDescription</span>";
-							}
-
-						$$html .= '</div>';
-					}
-
-					?>
-					<div id='<?php echo $type;?>_parenttypes'>
+			?>
+			<div class="property <?php echo $postType; if($this->postType != $postType){echo ' hidden';} ?>">
+				<div class="frontend-form">
+					<h4><?php echo ucfirst($postType);?> type</h4>
+					<div class='categories'>
 						<?php
-						echo $parentCategoryHtml;
-						?>
-						<button type='button' name='add-<?php echo $type;?>-type-button' class='button add-cat' data-type='<?php echo $type;?>'>Add category</button>
-					</div>
+						$parentCategoryHtml 	= '';
+						$childCategoryHtml 		= '';
+						$hidden					= 'hidden';
 
-					<label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>Sub-category</label>
+						foreach($categories as $category){
+							$name 				= $category->name;
+							$catId 				= $category->cat_ID;
+							$catDescription		= $category->description;
+							$parent				= $category->parent;
+							$checked			= '';
+							$class				= 'info-box';
+							$taxonomy			= $category->taxonomy;
 
-					<div id='<?php echo $type;?>_childtypes' class='childtypes'>
-						<?php
-						echo $childCategoryHtml;
+							//This category is a not a child
+							if($parent == 0){
+								$html = 'parentCategoryHtml';
+							//has a parent
+							}else{
+								$html = 'childCategoryHtml';
+							}
+
+							//if this cat belongs to this post
+							if(in_array($catId, $postCats)){
+								$checked = 'checked';
+
+								//If this type has child types, show the label
+								if(count(get_term_children($category->cat_ID, $taxonomy))>0){
+									$hidden = '';
+								}
+							}
+
+							//if this is a child, hide it and attach the parent id as attribute
+							if($parent != 0){
+								//Hide subcategory if parent is not in the cat array
+								if(!has_term($parent, $taxonomy, $this->postId)){
+									$class .= " hidden";
+								}
+
+								//Store cat parent
+								$class .= "' data-parent='$parent";
+							}
+
+							//$$html --> use the value of $html as variable name
+							$$html .= "<div class='$class'>";
+								$checkboxClass = "{$postType}type";
+								if(count(get_term_children($category->cat_ID, $taxonomy)) > 0){
+									$checkboxClass .= " parent_cat";
+								}
+
+								//Name of the category
+								$$html .= "<label class='option-label category-select'>";
+									$$html .= "<input type='checkbox' class='$checkboxClass' name='{$taxonomy}-ids[]' value='$catId' $checked>";
+									$$html .= $name;
+								$$html .= "</label>";
+
+								//Add info-box if needed
+								if(!empty($catDescription)){
+									$$html .= "<span class='info-text'>$catDescription</span>";
+								}
+
+							$$html .= '</div>';
+						}
+
 						?>
+						<div id='<?php echo $postType;?>_parenttypes'>
+							<?php
+							echo $parentCategoryHtml;
+							?>
+							<button type='button' name='add-<?php echo $postType;?>-type-button' class='button add-cat' data-type='<?php echo $postType;?>'>Add category</button>
+						</div>
+
+						<label id='subcategorylabel' class='frontend-profile-label <?php echo $hidden ?>'>Sub-category</label>
+
+						<div id='<?php echo $postType;?>_childtypes' class='childtypes'>
+							<?php
+							echo $childCategoryHtml;
+							?>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		<?php
+		}
 	}
 
 	/**
@@ -1038,23 +994,23 @@ class FrontEndContent{
 	/**
 	 * Store categories of custom post type
 	 *
-	 * @param	string	$taxonomy	The name of the categorie taxonomy
-	 *
 	 */
-	public function storeCustomCategories($post, $taxonomy){
-		$cats = [];
-		if(@is_array($_POST[$taxonomy.'-ids'])){
-			foreach($_POST[$taxonomy.'-ids'] as $catId) {
-				if(is_numeric($catId)){
-					$cats[] = $catId;
+	public function storeCustomCategories($post){
+		foreach($this->postTypes as $postType => $taxonomy){
+			$cats = [];
+			if(@is_array($_POST[$taxonomy.'-ids'])){
+				foreach($_POST[$taxonomy.'-ids'] as $catId) {
+					if(is_numeric($catId)){
+						$cats[] = $catId;
+					}
 				}
+
+				//Make sure we only send integers
+				$cats = array_map( 'intval', $cats );
+
+				// Store
+				wp_set_post_terms($post->ID, $cats, $taxonomy);
 			}
-
-			//Make sure we only send integers
-			$cats = array_map( 'intval', $cats );
-
-			// Store
-			wp_set_post_terms($post->ID, $cats, $taxonomy);
 		}
 	}
 
@@ -1184,12 +1140,13 @@ class FrontEndContent{
 			$newPostData['post_author']		= $_POST['post-author'];
 		}
 
-		if($_POST['parent-page'] != $post->post_parent){
-			$newPostData['post_parent'] 	= $_POST['parent-page'];
+		//parent
+		if(isset($_POST["parent-$post->post_type"])){
+			$newPostData['post_parent']		= $_POST["parent-$post->post_type"];
 		}
 
-		if($this->categories != $post->post_category){
-			$newPostData['post_category'] 	= $this->categories;
+		if($this->postCategories != $post->post_category){
+			$newPostData['post_category'] 	= $this->postCategories;
 		}
 
 		//we cannot change the post type here
@@ -1288,12 +1245,12 @@ class FrontEndContent{
 			$this->postId 	= SIM\addToLibrary(SIM\urlToPath($_POST['attachment'][0]), $this->postTitle, $this->postContent);
 			$post['ID']	= $this->postId;
 		}else{
-			if(is_numeric($_POST['parent-page'])){
-				$post['post_parent'] = $_POST['parent-page'];
+			if(isset($_POST["parent-$this->postType"])){
+				$newPostData['post_parent']		= $_POST["parent-$this->postType"];
 			}
 
-			if(!empty(count($this->categories))){
-				$post['post_category'] = $this->categories;
+			if(!empty(count($this->postCategories))){
+				$post['post_category'] = $this->postCategories;
 			}
 
 			//Schedule the post if in the future
@@ -1406,11 +1363,11 @@ class FrontEndContent{
 
 		$this->postContent 	= $this->preparePostContent($_POST['post-content']);
 
-		$this->categories = [];
+		$this->postCategories = [];
 		if(is_array($_POST['category-id'])){
 			foreach($_POST['category-id'] as $categoryId) {
 				if(!empty($categoryId)){
-					$this->categories[] = $categoryId;
+					$this->postCategories[] = $categoryId;
 				}
 			}
 		}
@@ -1479,10 +1436,8 @@ class FrontEndContent{
 			sendPendingPostWarning($post, $this->update);
 		}
 
-		if($post->post_type == 'attachment'){
-			//store attachment categories
-			$this->storeCustomCategories($post, 'attachment_cat');
-		}
+		//store attachment categories
+		$this->storeCustomCategories($post);
 
 		do_action('sim_after_post_save', (object)$post, $this);
 
