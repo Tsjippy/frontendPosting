@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- less hooks
 
 ### Fixed
 
 ### Updated
+
+## [8.2.7] - 2025-10-30
+
+
+### Changed
+- less hooks
 
 ## [8.2.6] - 2025-10-25
 
