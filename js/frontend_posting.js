@@ -488,7 +488,7 @@ document.addEventListener("click", event =>{
 		}
 	}
 	
-	if(target.matches('.remove-featured-image')){
+	else if(target.matches('.remove-featured-image')){
 		document.querySelector('[name="post-image-id"]').value	= 0;
 		
 		let parent	= document.getElementById('featured-image-div');
@@ -499,17 +499,21 @@ document.addEventListener("click", event =>{
 	}
 	
 	// Show add category modal
-	if(target.classList.contains('add-cat')){
+	else if(target.classList.contains('add-cat')){
 		document.getElementById('add-'+target.dataset.type+'-type').classList.remove('hidden');
 	}
 
-	if(target.matches('.add-category .form-submit')){
+	else if(target.matches('.add-category .form-submit')){
 		addCatType(target);
 	}
 
-	if(target.matches('button.show-diff')){
+	else if(target.matches('button.show-diff')){
 		target.parentNode.querySelector('.post-diff-wrapper').classList.toggle('hidden');
+	}else{
+		return;
 	}
+
+	event.stopImmediatePropagation();
 });
 
 document.addEventListener('change', event=>{
@@ -527,7 +531,7 @@ document.addEventListener('change', event=>{
 		checkForDuplicate(target);
 	}
 
-	if(target.list != null){
+	else if(target.list != null){
 		//find the relevant datalist option
 		let datalistOp = target.list.querySelector(`[value='${target.value}' i]`);
 		if(datalistOp != null){
@@ -541,7 +545,11 @@ document.addEventListener('change', event=>{
 	}
 	
 	//listen for parent type select
-	if(target.classList.contains('parent_cat')){
+	else if(target.classList.contains('parent_cat')){
 		catChanged(target);
+	}else{
+		return;
 	}
+
+	event.stopImmediatePropagation();
 });
