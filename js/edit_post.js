@@ -8,7 +8,7 @@ let editPostSwitch = async function (event){
 	let insertLocation	= wrapper.parentNode;
 
 	let formData    = new FormData();
-    let postId      = button.dataset.id;
+    let postId      = button.dataset.postId;
     formData.append('post-id', postId);
 
 	const url 		= new URL(edit_post_url);

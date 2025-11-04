@@ -195,7 +195,7 @@ function filterContent( $content ) {
 			$url		= admin_url("post.php?post=$post->ID&action=edit");
 			$buttonHtml	= "<a href=$url class='button small hidden' class='page-edit'>$buttonText</a>";
 		}else{
-			$buttonHtml	= "<button type='button' class='button small hidden page-edit' data-id='$postId'>$buttonText</button>";
+			$buttonHtml	= "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
 		}
 	}
 	$buttonHtml	= apply_filters('post-edit-button', $buttonHtml, $post, $content);
