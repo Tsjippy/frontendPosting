@@ -276,7 +276,7 @@ function getAttachmentContents(\WP_REST_Request $request ){
 		return new \WP_Error('frontendposting', "File $path does not exist!");
 	}
 
-	return SIM\readTextFile($path);
+	return readTextFile($path);
 }
 
 /**
