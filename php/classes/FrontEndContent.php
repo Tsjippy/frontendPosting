@@ -1042,7 +1042,6 @@ class FrontEndContent{
 		$postContent 	= preg_replace_callback('/src="image\/(\w+);base64,([^"]*)"/is', array($this, 'uploadImages'), $postContent);
 
 		//Find display names in content and replaces them with a link
-		//$postContent	= SIM\userPageLinks($postContent);
 		$userPageLinks	= new SIM\UserPageLinks($postContent, true);
 
 		$postContent	= apply_filters('sim_post_content', $userPageLinks->string);
