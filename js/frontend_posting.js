@@ -1,5 +1,5 @@
 import './../../locations/js/user_location.js';
-import { addStyles } from '../../../plugins/sim-plugin/includes/js/partials/load_assets.js';
+import { addStyles } from '../../../plugins/sim-base/includes/js/partials/load_assets.js';
 
 console.log("Frontendposting.js loaded");
 

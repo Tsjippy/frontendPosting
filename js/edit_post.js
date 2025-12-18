@@ -1,4 +1,4 @@
-import { addStyles } from '../../../plugins/sim-plugin/includes/js/partials/load_assets.js';
+import { addStyles } from '../../../plugins/sim-base/includes/js/partials/load_assets.js';
 
 console.log("Edit post.js loaded");
 
