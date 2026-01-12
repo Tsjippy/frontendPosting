@@ -131,8 +131,8 @@ function pageAgeWarning(){
 		}
 	}
 
-	foreach($emails as $address=>$email){
-		wp_mail( $address, $email->subject, $email->message);
+	foreach($emails as $address => $email){
+		wp_mail( $address, $email['subject'], $email['message']);
 	}
 }
 
