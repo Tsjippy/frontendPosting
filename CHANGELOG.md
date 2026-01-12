@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- old content warnings
 
 ### Updated
+
+## [8.3.2] - 2026-01-12
+
+
+### Fixed
+- old content warnings
 
 ## [8.3.1] - 2025-12-01
 
