@@ -135,15 +135,16 @@ function allowedToEdit($post){
 }
 
 //Add post edit button
-add_filter( 'the_content', __NAMESPACE__.'\filterContent', 15);
-function filterContent( $content ) {
+add_filter( 'the_content', __NAMESPACE__.'\filterContent', 15, 2);
+function filterContent( $content, $caller='' ) {
 	//Do not show if:
 	if (
 		!is_user_logged_in() 							||	// not logged in or
 		str_contains($content, '[front_end_post]')  	||	// already on the post edit page
 		//!is_singular() 									||  // it is not a single page
 		is_tax()										||	// not an archive page
-		is_front_page()										// is the front page
+		is_front_page()									||	// is the front page
+		$caller == 'mailchimp'								// mailchimp
 	){
 		return $content;
 	}
