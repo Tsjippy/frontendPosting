@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- no edit button in mailchimp campaigns
 
 ### Fixed
 
