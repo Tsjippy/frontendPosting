@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- no edit button in mailchimp campaigns
 
 ### Fixed
 
 ### Updated
+
+## [8.3.3] - 2026-01-30
+
+
+### Changed
+- no edit button in mailchimp campaigns
 
 ## [8.3.2] - 2026-01-12
 
