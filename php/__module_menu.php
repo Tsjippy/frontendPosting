@@ -108,8 +108,8 @@ function subMenuOptions($optionsHtml, $settings){
 	return $optionsHtml.ob_get_clean();
 }
 
-add_filter('sim_email_frontendposting_settings', __NAMESPACE__.'\emailSettings', 10, 2);
-function emailSettings($html, $settings){
+add_filter('sim_email_frontendposting_settings', __NAMESPACE__.'\emailSettings');
+function emailSettings($html){
 	ob_start();
 	?>
 	<h4>E-mail send to people when a page is out of date</h4>
@@ -121,7 +121,7 @@ function emailSettings($html, $settings){
 	<?php
 	$email    = new PostOutOfDateEmail(wp_get_current_user());
 	$email->printPlaceholders();
-	$email->printInputs($settings);
+	$email->printInputs();
 	?>
 	<br>
 	<br>
@@ -133,7 +133,7 @@ function emailSettings($html, $settings){
 	<?php
 	$email    = new PostOutOfDateEmails(wp_get_current_user());
 	$email->printPlaceholders();
-	$email->printInputs($settings);
+	$email->printInputs();
 	?>
 	<br>
 	<br>
@@ -144,7 +144,7 @@ function emailSettings($html, $settings){
 	<?php
 	$email    = new PendingPostEmail(wp_get_current_user());
 	$email->printPlaceholders();
-	$email->printInputs($settings);
+	$email->printInputs();
 	?>
 	<br>
 	<br>
@@ -155,7 +155,7 @@ function emailSettings($html, $settings){
 	<?php
 	$email    = new ApprovedPostMail(wp_get_current_user());
 	$email->printPlaceholders();
-	$email->printInputs($settings);
+	$email->printInputs();
 
 	return $html.ob_get_clean();
 }
