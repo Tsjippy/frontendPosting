@@ -73,7 +73,7 @@ class FrontEndContent{
 			}
 		}
 		
-		$this->postTypes	= apply_filters('sim_frontend_post_types_and_tax', $postTypes, $this);
+		$this->postTypes	= apply_filters('tsjippy_frontend_post_types_and_tax', $postTypes, $this);
 	}
 
 	/**
@@ -89,8 +89,8 @@ class FrontEndContent{
 		}
 
 		//Load js
-		wp_enqueue_style('sim_frontend_style');
-		wp_enqueue_script('sim_frontend_script');
+		wp_enqueue_style('tsjippy_frontend_style');
+		wp_enqueue_script('tsjippy_frontend_script');
 		wp_enqueue_media();
 
 		ob_start();
@@ -145,12 +145,12 @@ class FrontEndContent{
 			if(is_numeric($this->postId) && $this->post->post_status == 'publish'){
 				$this->update	= true;
 			}
-			echo "<button class='button sim $hidden show' id='show-all-fields'>Show all fields</button>";
+			echo "<button class='button tsjippy $hidden show' id='show-all-fields'>Show all fields</button>";
 
 			$this->postTypeSelector();
 
 			$this->addModals();
-			do_action('sim_frontend_post_modal');
+			do_action('tsjippy_frontend_post_modal');
 
 			$this->showChanges();
 
@@ -167,7 +167,7 @@ class FrontEndContent{
 				<input type="text" name="post-title" class='block' value="<?php echo $this->postTitle;?>" required>
 
 				<?php
-				do_action('sim_frontend_post_before_content', $this);
+				do_action('tsjippy_frontend_post_before_content', $this);
 
 				$this->showCategories();
 
@@ -179,7 +179,7 @@ class FrontEndContent{
 						$image	= wp_get_attachment_image($this->postId);
 
 						echo "<h4>Attachment preview</h4>";
-						echo apply_filters('sim_attachment_preview', $image, $this->postId);
+						echo apply_filters('tsjippy_attachment_preview', $image, $this->postId);
 					}else{
 						?>
 						<h4>Upload your file</h4>
@@ -233,7 +233,7 @@ class FrontEndContent{
 
 						echo "<h4 class='property attachment hidden' name='attachment-content-label'>Description:</h4>";
 
-						do_action('sim_frontend_post_content_title', $this->postType);
+						do_action('tsjippy_frontend_post_content_title', $this->postType);
 					echo "</div>";
 
 					//make it possible to select or upload a featured image
@@ -313,7 +313,7 @@ class FrontEndContent{
 					<?php
 				}
 
-				echo apply_filters('sim-frontend-buttons', ob_get_clean(), $this);
+				echo apply_filters('tsjippy-frontend-buttons', ob_get_clean(), $this);
 				?>
 			</form>
 		</div>
@@ -332,7 +332,7 @@ class FrontEndContent{
 	 *
 	**/
 	public function addTinymcePlugin($plugins) {
-		wp_localize_script( 'sim_frontend_script',
+		wp_localize_script( 'tsjippy_frontend_script',
 			'userSelect',
 			['html'=>TSJIPPY\userSelect("Select a person to show the link to",true)],
 		);
@@ -380,7 +380,7 @@ class FrontEndContent{
 				$this->editRight	= true;
 			}
 
-			$this->editRight	= apply_filters('sim_frontend_content_edit_rights', $this->editRight, $this->postCategory);
+			$this->editRight	= apply_filters('tsjippy_frontend_content_edit_rights', $this->editRight, $this->postCategory);
 		}
 	}
 
@@ -431,7 +431,7 @@ class FrontEndContent{
 		if(!empty($_GET['type'])){
 			$this->postType 	= $_GET['type'];
 		}
-		$this->postType 										= apply_filters('sim-frontendcontent-posttype', $this->postType);
+		$this->postType 										= apply_filters('tsjippy-frontendcontent-posttype', $this->postType);
 
 		$this->postName 										= str_replace(["_lite", '-'], ["", ' '], $this->postType);
 
@@ -723,7 +723,7 @@ class FrontEndContent{
 			</div>
 
 			<?php
-			do_action('sim_page_specific_fields', $this->postId);
+			do_action('tsjippy_page_specific_fields', $this->postId);
 			?>
 			<div id="static-content" class="frontend-form">
 				<h4>Update warnings</h4>
@@ -909,7 +909,7 @@ class FrontEndContent{
 
 			$this->pageSpecificFields();
 
-			do_action('sim_frontend_post_after_content', $this);
+			do_action('tsjippy_frontend_post_after_content', $this);
 
 			?>
 			<h4>View Permissions</h4>
@@ -1048,7 +1048,7 @@ class FrontEndContent{
 		//Find display names in content and replaces them with a link
 		$userPageLinks	= new TSJIPPY\UserPageLinks($postContent, true);
 
-		$postContent	= apply_filters('sim_post_content', $userPageLinks->string);
+		$postContent	= apply_filters('tsjippy_post_content', $userPageLinks->string);
 
 		// Make sure its UTF-8
 		$postContent	= mb_convert_encoding($postContent, 'UTF-8', 'UTF-8');
@@ -1377,7 +1377,7 @@ class FrontEndContent{
 		}
 
 		// Create the possibility of pre-publish checks
-		$error	= apply_filters('sim_frontend_content_validation', '', $this);
+		$error	= apply_filters('tsjippy_frontend_content_validation', '', $this);
 		if(is_wp_error($error)){
 			return $error;
 		}
@@ -1443,7 +1443,7 @@ class FrontEndContent{
 		//store attachment categories
 		$this->storeCustomCategories($post);
 
-		do_action('sim_after_post_save', (object)$post, $this);
+		do_action('tsjippy_after_post_save', (object)$post, $this);
 
 		wp_after_insert_post( $post, $this->update, $this->oldPost );
 

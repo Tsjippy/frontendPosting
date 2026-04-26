@@ -9,7 +9,7 @@ const Edit = () => {
 	useEffect( 
 		() => {
 			async function getHtml(){
-				const response = await apiFetch({path: sim.restApiPrefix+'/frontendposting/pending_pages'});
+				const response = await apiFetch({path: tsjippy.restApiPrefix+'/frontendposting/pending_pages'});
 				setHtml( response );
 			}
 			getHtml();

@@ -190,7 +190,7 @@ function publish_missed_posts(){
 }
 
 // Remove scheduled tasks upon module deactivatio
-add_action('sim_module_frontendposting_deactivated', __NAMESPACE__.'\moduleDeactivated');
+add_action('tsjippy_module_frontendposting_deactivated', __NAMESPACE__.'\moduleDeactivated');
 function moduleDeactivated(){
 	wp_clear_scheduled_hook( 'expired_posts_check_action' );
 	wp_clear_scheduled_hook( 'page_age_warning_action' );

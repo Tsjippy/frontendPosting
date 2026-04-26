@@ -10,7 +10,7 @@ const Edit = ({attributes, setAttributes}) => {
 	useEffect( 
 		() => {
 			async function getHTML(){
-				const response = await apiFetch({path: sim.restApiPrefix+'/frontendposting/your_posts'});
+				const response = await apiFetch({path: tsjippy.restApiPrefix+'/frontendposting/your_posts'});
 				setHtml( response );
 			}
 		} ,

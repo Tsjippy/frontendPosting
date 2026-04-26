@@ -40,10 +40,10 @@ add_action( 'enqueue_block_editor_assets', __NAMESPACE__.'\loadBlockAssets');
 function loadBlockAssets(){
 	TSJIPPY\registerScripts();
 
-	wp_enqueue_script( 'sim_table_script');
+	wp_enqueue_script( 'tsjippy_table_script');
 
     wp_enqueue_script(
-        'sim-expiry-date-block',
+        'tsjippy-expiry-date-block',
         TSJIPPY\pathToUrl(PLUGINPATH.'blocks/expiry-date/build/index.js'),
         [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
         PLUGINVERSION

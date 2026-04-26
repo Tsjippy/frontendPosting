@@ -304,7 +304,7 @@ function addCategory(\WP_REST_Request $request ){
 		return $result;
 	}
 
-	do_action('sim_after_category_add', $postType, strtolower($name), $result);
+	do_action('tsjippy_after_category_add', $postType, strtolower($name), $result);
 	
 	if(is_wp_error($result)){
 		return new \WP_Error('Event Cat error', $result->get_error_message(), ['status' => 500]);
@@ -331,7 +331,7 @@ function sendForm(){
 
 	\_WP_Editors::enqueue_scripts();
 	ob_start();
-	wp_print_scripts(["sim_frontend_script"]);
+	wp_print_scripts(["tsjippy_frontend_script"]);
 	print_footer_scripts();
 	\_WP_Editors::editor_js();
 	wp_print_media_templates();

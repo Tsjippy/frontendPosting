@@ -110,10 +110,10 @@ get_header(); ?>
                                     <?php
                                 }
 
-                                $url            = apply_filters('sim_media_gallery_download_url', $url, $id);
+                                $url            = apply_filters('tsjippy_media_gallery_download_url', $url, $id);
 
                                 if(file_exists(TSJIPPY\urlToPath($url))){
-                                    $fileName   = apply_filters('sim_media_gallery_download_filename', '', $type, $id);
+                                    $fileName   = apply_filters('tsjippy_media_gallery_download_filename', '', $type, $id);
                                     ?>
                                     <button type="button" class="button small download">
                                         Download

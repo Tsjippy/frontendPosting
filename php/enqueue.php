@@ -36,30 +36,30 @@ function trashPost($postId){
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\loadAssets');
 function loadAssets() {
-    wp_register_style('sim_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/frontend_posting.min.css'), array(), PLUGINVERSION);
+    wp_register_style('tsjippy_frontend_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/frontend_posting.min.css'), array(), PLUGINVERSION);
 	
     //Load js
-    wp_register_script('sim_forms_script', TSJIPPY\pathToUrl(PLUGINPATH.'../forms/js/forms.min.js'), array('sweetalert', 'sim_formsubmit_script'), PLUGINVERSION,true);
+    wp_register_script('tsjippy_forms_script', TSJIPPY\pathToUrl(PLUGINPATH.'../forms/js/forms.min.js'), array('sweetalert', 'tsjippy_formsubmit_script'), PLUGINVERSION,true);
 
-    $dependables    = apply_filters('sim-frontend-content-js', array('sim_fileupload_script', 'sim_forms_script'));
-	wp_register_script('sim_frontend_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/frontend_posting.min.js'), $dependables, PLUGINVERSION, true);
+    $dependables    = apply_filters('tsjippy-frontend-content-js', array('tsjippy_fileupload_script', 'tsjippy_forms_script'));
+	wp_register_script('tsjippy_frontend_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/frontend_posting.min.js'), $dependables, PLUGINVERSION, true);
 
-    wp_enqueue_script('sim_edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/edit_post.min.js'), array('sim_formsubmit_script'), PLUGINVERSION, true);
+    wp_enqueue_script('tsjippy_edit_post_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/edit_post.min.js'), array('tsjippy_formsubmit_script'), PLUGINVERSION, true);
     
     $frontendEditUrl    = TSJIPPY\getValidPageLink(SETTINGS['front-end-post-pages'] ??[]);
-    wp_add_inline_script('sim_edit_post_script', "var edit_post_url = '$frontendEditUrl'", 'before');
+    wp_add_inline_script('tsjippy_edit_post_script', "var edit_post_url = '$frontendEditUrl'", 'before');
 
     $frontEndPostPages   = SETTINGS['front-end-post-pages'] ?? [];
     if(is_numeric(get_the_ID()) && in_array(get_the_ID(), $frontEndPostPages)){
-        wp_enqueue_style('sim_frontend_style');
+        wp_enqueue_style('tsjippy_frontend_style');
     }
 }
 
 add_action( 'wp_enqueue_media', __NAMESPACE__.'\loadMediaAssets');
 function loadMediaAssets(){
-    wp_enqueue_script('sim_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/library.min.js'), [], PLUGINVERSION);
+    wp_enqueue_script('tsjippy_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/library.min.js'), [], PLUGINVERSION);
     wp_localize_script(
-        'sim_library_cat_script',
+        'tsjippy_library_cat_script',
         'categories',
         get_categories( array(
             'taxonomy'		=> 'attachment_cat',

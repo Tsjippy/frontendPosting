@@ -10,7 +10,7 @@ add_shortcode('your_posts', __NAMESPACE__.'\yourPosts');
 
 function yourPosts(){
 	//load js
-	wp_enqueue_script('sim_table_script');
+	wp_enqueue_script('tsjippy_table_script');
 	
 	//Get all posts for the current user
 	$postTypes	= get_post_types(['public'=>true]);
@@ -28,7 +28,7 @@ function yourPosts(){
 	);
 	
 	$html = "<h2 class='table-title'>Content submitted by you</h2>";
-		$html .= "<table class='sim-table' id='user-posts'>";
+		$html .= "<table class='tsjippy table' id='user-posts'>";
 			$html .= "<thead>";
 				$html .= "<tr>";
 					$html .= "<th>Date</th>";
@@ -179,7 +179,7 @@ add_shortcode("old-pages", __NAMESPACE__.'\oldPages');
 function oldPages(){
 	$oldPages	= getOldPages();
 
-	$html	= '<table class="sim-table">';
+	$html	= '<table class="tsjippy table">';
 		$html	.= "<tr>";
 			$html	.= "<th>";
 				$html	.= "Title";

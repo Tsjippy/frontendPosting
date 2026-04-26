@@ -97,7 +97,7 @@ function attachmentFieldsToEdit($formFields, $post ){
     return $formFields;
 }
 
-add_action('sim_before_archive', __NAMESPACE__.'\beforeArchive');
+add_action('tsjippy_before_archive', __NAMESPACE__.'\beforeArchive');
 function beforeArchive($type){
     $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	if(is_numeric($url)){
@@ -111,7 +111,7 @@ function beforeArchive($type){
 	}
 }
 
-add_filter('sim_empty_description', __NAMESPACE__.'\emptyDescription', 10, 2);
+add_filter('tsjippy_empty_description', __NAMESPACE__.'\emptyDescription', 10, 2);
 function emptyDescription($message, $post){
     $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	$message	= "<div style='margin-top:10px;'>";
@@ -123,7 +123,7 @@ function emptyDescription($message, $post){
 	return $message;
 }
 
-add_filter('sim-empty-taxonomy', __NAMESPACE__.'\emptyTax', 10, 2);
+add_filter('tsjippy-empty-taxonomy', __NAMESPACE__.'\emptyTax', 10, 2);
 function emptyTax($message, $type){
 	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	$message	.= "<br><a href='$url?type=$type' class='button'>Add a $type</a>";

@@ -124,7 +124,7 @@ function allowedToEdit($post){
 		$postAuthor == $user->ID 															|| 	// Own page
 		in_array($post->ID, array_keys($ministries))										||	// ministry pafe
 		$userPageId == $postId																||	// pseronal user page
-		apply_filters('sim_frontend_content_edit_rights', false, $postCategory)				||	// external filter
+		apply_filters('tsjippy_frontend_content_edit_rights', false, $postCategory)				||	// external filter
 		$user->has_cap( 'edit_others_posts' )													// user has permission to edit any post
 	){
 		return true;
@@ -203,7 +203,7 @@ function filterContent( $content, $caller='' ) {
 	return $buttonHtml."<div class='content-wrapper'>$content</div>";
 }
 
-add_filter('sim-template-filter',  __NAMESPACE__.'\templateFilter');
+add_filter('tsjippy-template-filter',  __NAMESPACE__.'\templateFilter');
 function templateFilter($templateFile){
 	if(str_contains($templateFile, 'single-attachment')){
 		return PLUGINPATH.'templates/single-attachment.php';
