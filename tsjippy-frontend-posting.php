@@ -4,7 +4,7 @@ use TSJIPPY;
 
 /**
  * Plugin Name:  		Tsjippy Frontend Posting
- * Description:  		This module makes it possible to add and edit pages, posts and custom post types. Just place this shortcode on any page: <code>[front_end_post]</code>. An overview of the posts created by the current user can be displayed using the: <code>[your_posts]</code> shortcode. If anyone without publish rights tries to add or edit a page, it will be stored as pending. An overview of pending content can be shown using the <code>[pending_pages]</code> shortcode. You can use the <code>[pending_post_icon]</code> shortcode as an indicator, displaying the amount of pending posts in menu items. This module also adds a custom post status: archived. Meaning a post is not visible but still kept for reference
+ * Description:  		This plugin makes it possible to add and edit pages, posts and custom post types. Just place this shortcode on any page: <code>[front_end_post]</code>. An overview of the posts created by the current user can be displayed using the: <code>[your_posts]</code> shortcode. If anyone without publish rights tries to add or edit a page, it will be stored as pending. An overview of pending content can be shown using the <code>[pending_pages]</code> shortcode. You can use the <code>[pending_post_icon]</code> shortcode as an indicator, displaying the amount of pending posts in menu items. This plugin also adds a custom post status: archived. Meaning a post is not visible but still kept for reference
  * Version:      		1.0.0
  * Author:       		Ewald Harmsen
  * AuthorURI:			harmseninnigeria.nl
@@ -47,4 +47,9 @@ register_deactivation_hook( __FILE__, function(){
 		// Remove the auto created page
 		wp_delete_post($page, true);
 	}
+
+	wp_clear_scheduled_hook( 'expired_posts_check_action' );
+	wp_clear_scheduled_hook( 'page_age_warning_action' );
+	wp_clear_scheduled_hook( 'publish_sheduled_posts_action' );
+
 } );
