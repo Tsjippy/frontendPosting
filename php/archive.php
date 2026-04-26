@@ -1,5 +1,5 @@
 <?php
-namespace SIM\ARCHIVE;
+namespace SIM\FRONTENDPOSTING;
 use SIM;
 
 // Registering custom post status

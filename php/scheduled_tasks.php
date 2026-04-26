@@ -16,7 +16,7 @@ function scheduleTasks(){
     SIM\scheduleTask('expired_posts_check_action', 'daily');
 	SIM\scheduleTask('publish_sheduled_posts_action', 'quarterly');
 
-	$freq	= SIM\getModuleOption(MODULE_SLUG, 'page-age-reminder');
+	$freq	= SETTINGS['page-age-reminder'] ?? false;
 	if($freq){
 		SIM\scheduleTask('page_age_warning_action', $freq);
 	}
@@ -45,10 +45,7 @@ function expiredPostsCheck(){
 	));
 	
 	foreach($posts as $post){
-		$status	= SIM\getModuleOption(MODULE_SLUG, 'expired-post-type');
-		if(!$status){
-			$status	= 'trash';
-		}
+		$status	= SETTINGS['expired-post-type'] ?? 'trash';
 
 		if($status == 'trash'){
 			wp_trash_post($post->ID);

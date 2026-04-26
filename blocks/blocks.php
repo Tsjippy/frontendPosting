@@ -44,8 +44,8 @@ function loadBlockAssets(){
 
     wp_enqueue_script(
         'sim-expiry-date-block',
-        SIM\pathToUrl(MODULE_PATH.'blocks/expiry-date/build/index.js'),
+        SIM\pathToUrl(PLUGINPATH.'blocks/expiry-date/build/index.js'),
         [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
-        MODULE_VERSION
+        PLUGINVERSION
     );
 }

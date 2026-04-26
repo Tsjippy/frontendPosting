@@ -8,8 +8,7 @@ use SIM;
  * @return	array	Array of post objects
  */
 function getOldPages(){
-	$maxAge	= SIM\getModuleOption(MODULE_SLUG, 'max-page-age');
-	//$maxAge	= date('Y-m-d', strtotime("-$maxAge months"));
+	$maxAge	= SETTINGS['max-page-age'] ?? 6;
 
 	//Get all pages without the static content meta key who have been edited last more than X months ago
 	return get_posts(array(
@@ -41,13 +40,9 @@ function sendPendingPostWarning( object $post, $update){
 		return;
 	}
 
-	$channels	= SIM\getModuleOption(MODULE_SLUG, 'pending-channels', false);
-
-	if(empty($channels)){
-		return;
-	}
+	$channels	= SETTINGS['pending-channels'] ?? ['email'];
 	
-	$roles	= SIM\getModuleOption(MODULE_SLUG, 'content-manager-roles');
+	$roles		= SETTINGS['content-manager-roles'] ?? [];
 	
 	//get all the content managers
 	$users = get_users( array(
@@ -207,8 +202,20 @@ function filterContent( $content, $caller='' ) {
 add_filter('sim-template-filter',  __NAMESPACE__.'\templateFilter');
 function templateFilter($templateFile){
 	if(str_contains($templateFile, 'single-attachment')){
-		return MODULE_PATH.'templates/single-attachment.php';
+		return PLUGINPATH.'templates/single-attachment.php';
 	}
 
 	return $templateFile;
+}
+
+add_filter('display_post_states', __NAMESPACE__.'\postStatus', 10, 2);
+function postStatus( $states, $post ) {
+
+    if ( in_array($post->ID, SETTINGS['front-end-post-pages'] ?? [])) {
+        $states[] = __('Frontend posting page');
+    }elseif ( in_array($post->ID, SETTINGS['pending-pages'] ?? [])) {
+        $states[] = __('Pending posts page');
+    }
+
+    return $states;
 }
