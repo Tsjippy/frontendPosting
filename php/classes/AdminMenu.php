@@ -1,10 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
-use SIM\ADMIN;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+use TSJIPPY\ADMIN;
 
-use function SIM\addElement;
-use function SIM\addRawHtml;
+use function TSJIPPY\addElement;
+use function TSJIPPY\addRawHtml;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

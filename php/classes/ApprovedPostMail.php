@@ -1,7 +1,11 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
-use SIM\ADMIN;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+use TSJIPPY\ADMIN;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class ApprovedPostMail extends ADMIN\MailSetting{
 
@@ -11,7 +15,7 @@ class ApprovedPostMail extends ADMIN\MailSetting{
 
     public function __construct($authorName='', $postType='', $url='') {
         // call parent constructor
-		parent::__construct('approved_post', MODULE_SLUG);
+		parent::__construct('approved_post', PLUGINSLUG);
 
         $this->replaceArray['%author_name%']    = $authorName;
         $this->replaceArray['%post-type%']      = $postType;

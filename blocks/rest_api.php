@@ -1,6 +1,6 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
 
 add_action( 'rest_api_init',  __NAMESPACE__.'\restApiInitBlocks');
 function restApiInitBlocks() {

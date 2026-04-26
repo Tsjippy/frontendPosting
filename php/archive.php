@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Registering custom post status
 add_action( 'init', __NAMESPACE__.'\initPostStatus');

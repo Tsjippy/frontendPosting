@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 function readTextFile($path){
 	// Ensure the WordPress Filesystem API is loaded

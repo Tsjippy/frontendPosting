@@ -1,6 +1,6 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
 
 /**
  * Plugin Name:  		Tsjippy Frontend Posting
@@ -14,6 +14,7 @@ use SIM;
  * Plugin URI:			https://github.com/Tsjippy/frontendposting/
  * Tested:				6.9
  * TextDomain:			tsjippy
+ * Requires Plugins:	tsjippy-shared-functionality
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
@@ -28,15 +29,16 @@ $pluginData = get_plugin_data(__FILE__, false, false);
 // Define constants
 define(__NAMESPACE__ .'\PLUGIN', plugin_basename(__FILE__));
 define(__NAMESPACE__ .'\PLUGINPATH', __DIR__.'/');
+define(__NAMESPACE__ .'\PLUGINSLUG', basename(__FILE__, '.php'));
 define(__NAMESPACE__ .'\PLUGINVERSION', $pluginData['Version']);
 define(__NAMESPACE__ .'\SETTINGS', get_option('tsjippy_frontendposting_settings', []));
 
 // run on activation
 register_activation_hook( __FILE__, function(){
     // Create frontend posting page
-	$options	= SIM\ADMIN\createDefaultPage(SETTINGS, 'front-end-post-pages', 'Add content', '[front_end_post]', SETTINGS);
+	$options	= TSJIPPY\ADMIN\createDefaultPage(SETTINGS, 'front-end-post-pages', 'Add content', '[front_end_post]', SETTINGS);
 
-	$options	= SIM\ADMIN\createDefaultPage(SETTINGS, 'pending-pages', 'Pending Posts', '[pending-pages]', SETTINGS);
+	$options	= TSJIPPY\ADMIN\createDefaultPage(SETTINGS, 'pending-pages', 'Pending Posts', '[pending-pages]', SETTINGS);
 });
 
 // run on deactivation

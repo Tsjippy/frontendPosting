@@ -1,8 +1,12 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
 use stdClass;
 use WP_Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class FrontEndContent{
 	public $postId;
@@ -180,7 +184,7 @@ class FrontEndContent{
 						?>
 						<h4>Upload your file</h4>
 						<?php
-						$uploader = new SIM\FILEUPLOAD\FileUpload($this->user->ID);
+						$uploader = new TSJIPPY\FILEUPLOAD\FileUpload($this->user->ID);
 						echo $uploader->getUploadHtml('attachment', 'private', false, '', true);
 					}
 					?>
@@ -259,7 +263,7 @@ class FrontEndContent{
 				try{
 					$this->contentManagerOptions();
 				}catch(\Exception $e) {
-					SIM\printArray($e);
+					TSJIPPY\printArray($e);
 				}
 
 				//Add a draft button for new posts
@@ -276,7 +280,7 @@ class FrontEndContent{
 					</div>
 					<?php
 				}
-				echo  SIM\addSaveButton('submit_post', $this->action);
+				echo  TSJIPPY\addSaveButton('submit_post', $this->action);
 
 				if($this->fullrights){
 					?>
@@ -330,10 +334,10 @@ class FrontEndContent{
 	public function addTinymcePlugin($plugins) {
 		wp_localize_script( 'sim_frontend_script',
 			'userSelect',
-			['html'=>SIM\userSelect("Select a person to show the link to",true)],
+			['html'=>TSJIPPY\userSelect("Select a person to show the link to",true)],
 		);
 
-		$url					= SIM\pathToUrl(PLUGINPATH."js/tiny_mce.js?ver=".PLUGINVERSION);
+		$url					= TSJIPPY\pathToUrl(PLUGINPATH."js/tiny_mce.js?ver=".PLUGINVERSION);
 
 		if($url){
 			$plugins['select_user'] = $url;
@@ -625,7 +629,7 @@ class FrontEndContent{
 				<input type="hidden" class="no-reset" name="post-id" value="<?php echo  esc_html($this->postId); ?>">
 				<?php
 				echo  $html;
-				echo SIM\addSaveButton('change-post-type','Change the post type');
+				echo TSJIPPY\addSaveButton('change-post-type','Change the post type');
 				?>
 			</form>
 			<?php
@@ -676,7 +680,7 @@ class FrontEndContent{
 							?>
 						</select>
 
-						<?php echo SIM\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
+						<?php echo TSJIPPY\addSaveButton("add_{$postType}_type", "Add $postType category"); ?>
 					</form>
 				</div>
 			</div>
@@ -714,7 +718,7 @@ class FrontEndContent{
 			<div id="parentpage" class="frontend-form">
 				<h4>Select a parent page</h4>
 				<?php
-				echo SIM\pageSelect('parent-page', $this->postParent, '', ['page'], false);
+				echo TSJIPPY\pageSelect('parent-page', $this->postParent, '', ['page'], false);
 				?>
 			</div>
 
@@ -872,7 +876,7 @@ class FrontEndContent{
 				$authorId = $this->post->post_author;
 			}
 
-			echo SIM\userSelect('Author', true, false, '', 'post-author', [], $authorId);
+			echo TSJIPPY\userSelect('Author', true, false, '', 'post-author', [], $authorId);
 
 			// Only show publish date if not yet published
 			if(empty($this->post->post_status) || !in_array($this->post->post_status, ['publish', 'inherit'])){
@@ -980,9 +984,9 @@ class FrontEndContent{
 			//Save the image in the uploads folder
 			file_put_contents($newFilePath, $fileContents);
 
-			$uploadId		= SIM\addToLibrary($newFilePath);
+			$uploadId		= TSJIPPY\addToLibrary($newFilePath);
 		}else{
-			SIM\printArray('Not a valid image');
+			TSJIPPY\printArray('Not a valid image');
 			return '';
 		}
 
@@ -1042,7 +1046,7 @@ class FrontEndContent{
 		$postContent 	= preg_replace_callback('/src="image\/(\w+);base64,([^"]*)"/is', array($this, 'uploadImages'), $postContent);
 
 		//Find display names in content and replaces them with a link
-		$userPageLinks	= new SIM\UserPageLinks($postContent, true);
+		$userPageLinks	= new TSJIPPY\UserPageLinks($postContent, true);
 
 		$postContent	= apply_filters('sim_post_content', $userPageLinks->string);
 
@@ -1242,7 +1246,7 @@ class FrontEndContent{
 		);
 
 		if($this->postType == 'attachment'){
-			$this->postId 	= SIM\addToLibrary(SIM\urlToPath($_POST['attachment'][0]), $this->postTitle, $this->postContent);
+			$this->postId 	= TSJIPPY\addToLibrary(TSJIPPY\urlToPath($_POST['attachment'][0]), $this->postTitle, $this->postContent);
 			$post['ID']	= $this->postId;
 		}else{
 			if(isset($_POST["parent-$this->postType"])){

@@ -1,6 +1,6 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -26,7 +26,7 @@ get_header(); ?>
 
 					the_post();
 
-                    $url	= SIM\pathToUrl(PLUGINPATH.'pictures/media.png');
+                    $url	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/media.png');
 
                     $categories = wp_get_post_terms(
                         get_the_ID(),
@@ -83,7 +83,7 @@ get_header(); ?>
                             ?>
                             <div class='vimeo media meta'>
                                 <?php
-                                $imageUrl   = SIM\pathToUrl(PLUGINPATH.'pictures/vimeo.png');
+                                $imageUrl   = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/vimeo.png');
                                 $icon       = "<img src='$imageUrl' alt='vimeo' loading='lazy' class='media-icon'>";
                                 echo "<a href='https://vimeo.com/$vimeoId' title='vimeo id'>$icon $vimeoId</a>";
                                 ?>
@@ -112,7 +112,7 @@ get_header(); ?>
 
                                 $url            = apply_filters('sim_media_gallery_download_url', $url, $id);
 
-                                if(file_exists(SIM\urlToPath($url))){
+                                if(file_exists(TSJIPPY\urlToPath($url))){
                                     $fileName   = apply_filters('sim_media_gallery_download_filename', '', $type, $id);
                                     ?>
                                     <button type="button" class="button small download">

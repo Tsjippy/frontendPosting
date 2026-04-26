@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Gets all the pages who have not been edited recently and are not static
@@ -58,7 +62,7 @@ function sendPendingPostWarning( object $post, $update){
 	$type = $post->post_type;
 	
 	//send notification to all content managers
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	if(!$url){
 		return;
 	}
@@ -113,7 +117,7 @@ function allowedToEdit($post){
 	$user 			= wp_get_current_user();
 	$postAuthor 	= $post->post_author;
 	$postCategory 	= $post->post_category;
-	$userPageId 	= SIM\maybeGetUserPageId($user->ID);
+	$userPageId 	= TSJIPPY\maybeGetUserPageId($user->ID);
 	$ministries 	= (array)get_user_meta($user->ID, "jobs", true);
 
 	if (

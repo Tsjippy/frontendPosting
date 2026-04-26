@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action( 'rest_api_init', __NAMESPACE__.'\restApiInit');
 function restApiInit() {
@@ -69,7 +73,7 @@ function restApiInit() {
 				),
 				'publish-date'	=> array(
 					'validate_callback' => function($param) {
-						return SIM\isDate($param);
+						return TSJIPPY\isDate($param);
 					}
 				),
 			)
@@ -437,7 +441,7 @@ function submitPost(){
 function checkForDuplicate(\WP_REST_Request $request ){
 	global $wpdb;
 
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	if(!$url){
 		return;
 	}

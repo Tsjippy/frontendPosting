@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action('init', __NAMESPACE__.'\initTasks');
 function initTasks(){
@@ -13,12 +17,12 @@ function initTasks(){
 }
 
 function scheduleTasks(){
-    SIM\scheduleTask('expired_posts_check_action', 'daily');
-	SIM\scheduleTask('publish_sheduled_posts_action', 'quarterly');
+    TSJIPPY\scheduleTask('expired_posts_check_action', 'daily');
+	TSJIPPY\scheduleTask('publish_sheduled_posts_action', 'quarterly');
 
 	$freq	= SETTINGS['page-age-reminder'] ?? false;
 	if($freq){
-		SIM\scheduleTask('page_age_warning_action', $freq);
+		TSJIPPY\scheduleTask('page_age_warning_action', $freq);
 	}
 }
 
@@ -59,7 +63,7 @@ function expiredPostsCheck(){
 				false
 			);
 		}
-		SIM\printArray("Moving '{$post->post_title}' to $status as it has expired");
+		TSJIPPY\printArray("Moving '{$post->post_title}' to $status as it has expired");
 
 	}
 }
@@ -81,7 +85,7 @@ function pageAgeWarning(){
 		$postTitle 				= $page->post_title;
 
 		//Get the edit page url
-		$url		= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+		$url		= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 		$url 		= add_query_arg( ['post-id' => $postId], $url );
 
 		//Get the last modified date

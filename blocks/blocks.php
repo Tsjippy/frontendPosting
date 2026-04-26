@@ -1,6 +1,6 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
 
 add_action('init', __NAMESPACE__.'\initBlocks');
 function initBlocks() {
@@ -38,13 +38,13 @@ function initBlocks() {
 
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__.'\loadBlockAssets');
 function loadBlockAssets(){
-	SIM\registerScripts();
+	TSJIPPY\registerScripts();
 
 	wp_enqueue_script( 'sim_table_script');
 
     wp_enqueue_script(
         'sim-expiry-date-block',
-        SIM\pathToUrl(PLUGINPATH.'blocks/expiry-date/build/index.js'),
+        TSJIPPY\pathToUrl(PLUGINPATH.'blocks/expiry-date/build/index.js'),
         [ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' ],
         PLUGINVERSION
     );

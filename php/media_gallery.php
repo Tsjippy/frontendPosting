@@ -1,10 +1,14 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_filter('sim-media-edit-link', __NAMESPACE__.'\editLink', 10, 2);
 function editLink($link, $id){
-    $url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+    $url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	if($url){
 		return"<a href='$url?post-id=$id' class='button'>Edit</a>";
     }

@@ -1,6 +1,10 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_shortcode('your_posts', __NAMESPACE__.'\yourPosts');
 
@@ -47,7 +51,7 @@ function yourPosts(){
 			}
 			
 			$url 		= get_permalink($post);
-			$editUrl	= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+			$editUrl	= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 			if(!$editUrl){
 				$editUrl = '';
 			}
@@ -95,7 +99,7 @@ function pendingPages(){
 		
 	);
 
-	$url			= SIM\ADMIN\getDefaultPageLink(MODULE_SLUG, 'front-end-post-pages');
+	$url			= TSJIPPY\ADMIN\getDefaultPageLink(PLUGINSLUG, 'front-end-post-pages');
 	if(!$url){
 		return '';
 	}
@@ -190,7 +194,7 @@ function oldPages(){
 		
 		foreach($oldPages as $page){
 			$url					= get_permalink($page);
-			$authorUrl				= SIM\maybeGetUserPageUrl($page->post_author);
+			$authorUrl				= TSJIPPY\maybeGetUserPageUrl($page->post_author);
 			$authorName				= get_userdata($page->post_author)->first_name;
 			$secondsSinceUpdated 	= time() - get_post_modified_time('U', true, $page);
 			$pageAge				= round($secondsSinceUpdated /60 /60 /24);

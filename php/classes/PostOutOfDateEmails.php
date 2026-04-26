@@ -1,7 +1,11 @@
 <?php
-namespace SIM\FRONTENDPOSTING;
-use SIM;
-use SIM\ADMIN;
+namespace TSJIPPY\FRONTENDPOSTING;
+use TSJIPPY;
+use TSJIPPY\ADMIN;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class PostOutOfDateEmails extends ADMIN\MailSetting{
 
@@ -12,7 +16,7 @@ class PostOutOfDateEmails extends ADMIN\MailSetting{
 
     public function __construct($user, $postTitle='', $pageAge='', $url='') {
         // call parent constructor
-		parent::__construct('page_age_multiple', MODULE_SLUG);
+		parent::__construct('page_age_multiple', PLUGINSLUG);
 
         $this->addUser($user);
 
