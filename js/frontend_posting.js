@@ -1,5 +1,5 @@
-import './../../locations/js/user_location.js';
-import { addStyles } from '../../../plugins/tsjippy-shared-functionality/includes/js/partials/load_assets.js';
+import './../../tsjippy-locations/js/user_location.js';
+import { addStyles } from '../../tsjippy-shared-functionality/includes/js/partials/load_assets.js';
 
 console.log("Frontendposting.js loaded");
 

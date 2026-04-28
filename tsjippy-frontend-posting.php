@@ -29,16 +29,19 @@ $pluginData = get_plugin_data(__FILE__, false, false);
 // Define constants
 define(__NAMESPACE__ .'\PLUGIN', plugin_basename(__FILE__));
 define(__NAMESPACE__ .'\PLUGINPATH', __DIR__.'/');
-define(__NAMESPACE__ .'\PLUGINSLUG', basename(__FILE__, '.php'));
+define(__NAMESPACE__ .'\PLUGINSLUG', str_replace('tsjippy-', '', basename(__FILE__, '.php')));
 define(__NAMESPACE__ .'\PLUGINVERSION', $pluginData['Version']);
 define(__NAMESPACE__ .'\SETTINGS', get_option('tsjippy_frontendposting_settings', []));
 
 // run on activation
 register_activation_hook( __FILE__, function(){
     // Create frontend posting page
-	$options	= TSJIPPY\ADMIN\createDefaultPage(SETTINGS, 'front-end-post-pages', 'Add content', '[front_end_post]', SETTINGS);
+	$settings	= SETTINGS;
+	$settings['front-end-post-page']	= TSJIPPY\ADMIN\createDefaultPage( 'Add content', '[front_end_post]');
 
-	$options	= TSJIPPY\ADMIN\createDefaultPage(SETTINGS, 'pending-pages', 'Pending Posts', '[pending-pages]', SETTINGS);
+	$settings['pending-posts-page']		= TSJIPPY\ADMIN\createDefaultPage('Pending Posts', '[pending-pages]');
+
+	update_option('tsjippy_frontendposting_settings', $settings);
 });
 
 // run on deactivation
