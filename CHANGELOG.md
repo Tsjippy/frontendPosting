@@ -12,6 +12,7 @@
 - block apt to version 3
 - PLUGINCONSTANT value
 - lib updates
+- recurrence selector code
 
 ### Fixed
 
