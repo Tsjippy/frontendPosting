@@ -10,6 +10,7 @@
 - filternames to include tsjippy
 - block apt to version 3
 - PLUGINCONSTANT value
+- lib updates
 
 ### Fixed
 
