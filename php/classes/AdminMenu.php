@@ -53,8 +53,7 @@ class AdminMenu extends ADMIN\SubAdminMenu{
 
         addElement('br', $parent);
 
-        addElement('label', $parent, [], 'How often should people be reminded of content which should be updated?');
-        $this->recurrenceSelector("page-age-reminder", $this->settings['page-age-reminder'], $parent);
+        $this->recurrenceSelector("page-age-reminder", $this->settings['page-age-reminder'], 'How often should people be reminded of content which should be updated?', $parent);
 
         addElement('br', $parent);
 
