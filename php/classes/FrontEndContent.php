@@ -64,14 +64,6 @@ class FrontEndContent
             $this->fullrights = false;
         }
 
-        if (get_class($this) == __NAMESPACE__ . '\FrontEndContent') {
-            //Add tinymce plugin
-            add_filter('mce_external_plugins', array($this, 'addTinymcePlugin'), 999);
-
-            //add tinymce button
-            add_filter('mce_buttons', array($this, 'registerButtons'));
-        }
-
         $postTypes            = get_post_types(['public' => true]);
         foreach ($postTypes as $postType => &$taxonomy) {
             if ($postType == 'post' || $postType == 'page') {
@@ -150,7 +142,7 @@ class FrontEndContent
             $currentEditingUser = wp_check_post_lock($this->postId);
             if (is_numeric($currentEditingUser)) {
                 header("Refresh: 30;");
-                return "<div class='error' id='    '>" . get_userdata($currentEditingUser)->display_name . " is currently editing this {$this->postType}, please wait.<br>We will refresh this page every 30 seconds to see if you can go ahead.</div>";
+                return "<div class='error' id='    '>" . wp_kses_post(get_userdata($currentEditingUser)->display_name) . " is currently editing this {$this->postType}, please wait.<br>We will refresh this page every 30 seconds to see if you can go ahead.</div>";
             }
 
             //Current time minus last modified time
@@ -406,48 +398,9 @@ class FrontEndContent
             </form>
         </div>
 
-    <?php
+        <?php
 
         return ob_get_clean();
-    }
-
-    /**
-     *
-     * Add a new plugin to the TinyMCE window to select an user and insert a user shortcode
-     *
-     * @param    array     $plugins    Array of existing plugins
-     * @return   array                 Array of new plugins
-     *
-     **/
-    public function addTinymcePlugin($plugins)
-    {
-        wp_localize_script(
-            'tsjippy_frontend_script',
-            'userSelect',
-            ['html' => TSJIPPY\userSelect("Select a person to show the link to", true)],
-        );
-
-        $url                    = TSJIPPY\pathToUrl(PLUGINPATH . "js/tiny_mce.js?ver=" . PLUGINVERSION);
-
-        if ($url) {
-            $plugins['select_user'] = $url;
-        }
-
-        return $plugins;
-    }
-
-    /**
-     *
-     * Add a new button to the TinyMCE window to select an user and insert a user shortcode
-     *
-     * @param    array     $buttons    Array of existing buttons
-     * @return   array                 Array of new buttons
-     *
-     **/
-    public function registerButtons($buttons)
-    {
-        array_push($buttons, 'select_user');
-        return $buttons;
     }
 
     /**

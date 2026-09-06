@@ -30,7 +30,7 @@ function loadAssets()
 
     $url    = TSJIPPY\getValidPageLink($frontEndPostPage);
     if ($url) {
-        wp_add_inline_script('tsjippy_edit_post_script', "var edit_post_url = '$url'", 'before');
+        wp_add_inline_script('tsjippy_edit_post_script', "var edit_post_url = '" . esc_url($url) . "'", 'before');
     }
 
     if (is_numeric(get_the_ID()) && get_the_ID() == $frontEndPostPage) {
@@ -49,7 +49,7 @@ function loadMediaAssets()
     wp_enqueue_script('tsjippy_library_cat_script', TSJIPPY\pathToUrl(PLUGINPATH . 'js/library.min.js'), [], PLUGINVERSION, true);
     wp_localize_script(
         'tsjippy_library_cat_script',
-        'categories',
+        'tsjippy_library_categories',
         get_categories(array(
             'taxonomy'        => 'attachment_cat',
             'hide_empty'     => false

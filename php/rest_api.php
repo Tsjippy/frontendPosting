@@ -67,7 +67,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\submitPost',
             'permission_callback'     => function () {
-                return current_user_can('edit_posts');
+                return current_user_can('edit_posts') && allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-type'        => array(
@@ -153,7 +153,7 @@ function restApiInit()
             'callback'                 => function () {
                 try {
                     if (!function_exists('wp_set_post_lock')) {
-                        include ABSPATH . 'wp-admin/includes/post.php';
+                        include_once ABSPATH . 'wp-admin/includes/post.php';
                     }
                     wp_set_post_lock((int) $_POST['post-id']);
                     return 'Succes';
@@ -186,7 +186,7 @@ function restApiInit()
                 return 'Succes';
             },
             'permission_callback'     => function () {
-                return current_user_can('read');
+                return current_user_can('read') && allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -484,12 +484,16 @@ function checkForDuplicate(\WP_REST_Request $request)
             continue;
         }
 
-        $html    .= "A post with title '$title' already exists.<br>";
-        $url1        = get_permalink($post);
-        $url2        = add_query_arg(['post-id' => $post->ID], $url);
-        $html        .= "See it <a href='$url1'>here</a>, or edit it <a href='$url2'>here</a>";
+        $html .= "A post with title '$title' already exists.<br>";
+        $url1  = get_permalink($post);
+        $html .= "See it <a href='$url1'>here</a>";
 
-        $found    = true;
+        if(allowedToEdit($post)){
+            $url2  = add_query_arg(['post-id' => $post->ID], $url);
+            $html .= ", or edit it <a href='$url2'>here</a>";
+        }
+
+        $found = true;
         break;
     }
 
@@ -501,7 +505,12 @@ function checkForDuplicate(\WP_REST_Request $request)
 
             $url1        = get_permalink($posts[0]);
             $url2        = add_query_arg(['post-id' => $posts[0]->ID], $url);
-            $html        .= "See it <a href='$url1'>here</a>, or edit it <a href='$url2'>here</a>";
+            $html        .= "See it <a href='$url1'>here</a>";
+
+            if(allowedToEdit($post)){
+                $url2  = add_query_arg(['post-id' => $post->ID], $url);
+                $html .= ", or edit it <a href='$url2'>here</a>";
+            }
         } elseif (count($posts) > 1) {
             $count    = count($posts);
             $html    .= "$count posts with a similar title already exist:<br>";
@@ -509,7 +518,11 @@ function checkForDuplicate(\WP_REST_Request $request)
             foreach ($posts as $post) {
                 $url1        = get_permalink($post);
                 $url2        = add_query_arg(['post-id' => $post->ID], $url);
-                $html        .= "$post->post_title <a href='$url1'>view</a>, or <a href='$url2'>edit</a><br>";
+                $html        .= "$post->post_title <a href='$url1'>view</a>";
+                if(allowedToEdit($post)){
+                    $url2  = add_query_arg(['post-id' => $post->ID], $url);
+                    $html .= ", or <a href='$url2'>edit</a><br>";
+                }
             }
         }
     }

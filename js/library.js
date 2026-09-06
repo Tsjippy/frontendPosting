@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         filters["all"]["props"] = {};
         filters["all"]["props"]["category"] = "";
 
-        categories.forEach((cat) => {
+        tsjippy_library_categories.forEach((cat) => {
           filters[cat.slug] = {
             text: cat.name,
           };

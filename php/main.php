@@ -74,9 +74,7 @@ function sendPendingPostWarning(object $post, $update)
     $url            = get_permalink(SETTINGS['front-end-post-page'] ?? createDefaultPages('front-end-post-page'));
 
     $url            = add_query_arg(['post-id' => $post->ID], $url);
-    TSJIPPY\printArray($post);
     $authorName        = get_userdata($post->post_author)->display_name;
-    TSJIPPY\printArray($authorName);
 
     foreach ($users as $user) {
         $pendingPostEmail    = new PendingPostEmail($user, $authorName, $actionText, $type, $url);
@@ -147,7 +145,7 @@ function allowedToEdit($post)
 
     if (
         $postAuthor == $user->ID                                                     ||    // Own page
-        isset($ministries[$post->ID])                                                ||    // ministry pafe
+        isset($ministries[$post->ID])                                                ||    // ministry safe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
         $user->has_cap('edit_others_posts')                                                // user has permission to edit any post
     ) {
