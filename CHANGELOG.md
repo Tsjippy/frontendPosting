@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- several fixes
 
 ### Fixed
 
 ### Updated
+
+## [10.7.1] - 2026-09-06
+
+
+### Changed
+- several fixes
 
 ## [10.7.0] - 2026-09-03
 
