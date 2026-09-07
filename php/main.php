@@ -230,10 +230,10 @@ function filterContent($content, $caller = '')
 
         if (has_blocks($post->post_content)) {
             $url    = get_edit_post_link($post->ID);
-            $buttonHtml    = "<a href='$url' class='button small' class='page-edit'>$buttonText</a>";
+            $buttonHtml    = "<a href='$url' class='button' class='page-edit'>$buttonText</a>";
         }elseif ($type == 'attachment') {
             $url        = admin_url("post.php?post=$post->ID&action=edit");
-            $buttonHtml    = "<a href='$url' class='button small' class='page-edit'>$buttonText</a>";
+            $buttonHtml    = "<a href='$url' class='button' class='page-edit'>$buttonText</a>";
         } else {
             $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
         }
