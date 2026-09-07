@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- anchor button look
 
 ### Fixed
 
 ### Updated
+
+## [10.7.2] - 2026-09-07
+
+
+### Changed
+- anchor button look
 
 ## [10.7.1] - 2026-09-06
 
