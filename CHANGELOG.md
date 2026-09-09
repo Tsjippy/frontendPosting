@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- renamed ministries to jobs
 
 ### Fixed
 
