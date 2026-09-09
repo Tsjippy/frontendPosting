@@ -689,6 +689,10 @@ class FrontEndContent
      **/
     public function addModals()
     {
+        if(!current_user_can('manage_terms ')){
+            return;
+        }
+
         foreach ($this->postTypes as $postType => $taxonomy) {
             $categories = get_categories(array(
                 'orderby'     => 'name',
@@ -926,10 +930,15 @@ class FrontEndContent
                         <div id='<?php echo esc_attr($postType); ?>_parenttypes'>
                             <?php
                             echo wp_kses_post($parentCategoryHtml);
+
+                            if(!current_user_can('manage_terms ')){
                             ?>
                             <button type='button' name='add-<?php echo esc_attr($postType); ?>-type-button' class='button add-cat' data-type='<?php echo esc_attr($postType); ?>'>
                                 Add category
                             </button>
+                            <?php
+                            }
+                            ?>
                         </div>
 
                         <label id='subcategorylabel' class='frontend-profile-label <?php echo esc_html($hidden); ?>'>

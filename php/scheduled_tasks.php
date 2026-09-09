@@ -146,14 +146,14 @@ function getPageRecipients($page)
 
     $recipients = [];
 
-    //Get all the users with a ministry set
+    //Get all the users with a job set
     $users = get_users(
         array(
             'meta_key'     => 'tsjippy_jobs'
         )
     );
 
-    //Loop over the users to see if they have this ministry set
+    //Loop over the users to see if they have this job set
     foreach ($users as $user) {
         $jobs   = (array)get_user_meta($user->ID, 'tsjippy_jobs', true);
         if (isset( $jobs[$page->ID])) {

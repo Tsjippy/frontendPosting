@@ -1,11 +1,12 @@
 This plugin makes it possible to add and edit pages, posts and custom post types.<br>
 
 == Description ==
-Just place this shortcode on any page: <code>[front_end_post]</code>.<br>
-An overview of the posts created by the current user can be displayed using the: <code>[your_posts]</code> shortcode.<br>
-If anyone without publish rights tries to add or edit a page, it will be stored as pending.<br>
-An overview of pending content can be shown using the <code>[pending_pages]</code> shortcode.<br>
-You can use the <code>[pending_post_icon]</code> shortcode as an indicator, displaying the amount of pending posts in menu items.<br>
+This plugin adds the possibility to edit and create simple content on the frontend.<br>
+For some end-users the block editor can be overwhelming, this plugin adds a more simple alternative.
+Just add the "Frontend Posting Block" to add the functionality.<br>
+An overview of the posts created by the current user can be displayed using the "User Posts" block.<br>
+If anyone without publish rights addd or editd a post, it will be stored as pending, allowing the content to be reviewed before publishing.<br>
+An overview of pending content can be shown using the "Pending Posts" block.<br>
 This plugin also adds a custom post status: archived. Meaning a post is not visible but still kept for reference
 	
 

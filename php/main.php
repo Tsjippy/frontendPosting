@@ -141,13 +141,13 @@ function allowedToEdit($post)
     $user         = wp_get_current_user();
     $postAuthor   = $post->post_author;
     $postCategory = $post->post_category;
-    $ministries   = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
+    $jobs         = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
     if (
         $postAuthor == $user->ID                                                     ||    // Own page
-        isset($ministries[$post->ID])                                                ||    // ministry safe
+        isset($jobs[$post->ID])                                                      ||    // job safe
         apply_filters('tsjippy-frontend-content-edit-rights', false, $postCategory)  ||    // external filter
-        $user->has_cap('edit_others_posts')                                                // user has permission to edit any post
+        current_user_can('edit_post', $user->ID )                                          // user has permission to edit any post
     ) {
         return true;
     }
@@ -176,7 +176,6 @@ function filterContent($content, $caller = '')
     //Do not show if:
     if (
         !is_user_logged_in()                             ||    // not logged in or
-        str_contains($content, '[tsjippy_front_end_post]')      ||    // already on the post edit page
         //!is_singular()                                     ||  // it is not a single page
         is_tax()                                        ||    // not an archive page
         is_front_page()                                    ||    // is the front page
@@ -226,19 +225,19 @@ function filterContent($content, $caller = '')
     //Add an edit page button if:
     if (allowedToEdit($post)) {
         $type         = str_replace('-', ' ', $post->post_type);
-        $buttonText = "Edit this $type";
+        $buttonText = "Edit this " . esc_attr($type);
 
         if (has_blocks($post->post_content)) {
             $url    = get_edit_post_link($post->ID);
-            $buttonHtml    = "<a href='$url' class='button' class='page-edit'>$buttonText</a>";
+            $buttonHtml    = "<a href='" . esc_url($url) . "' class='button' class='page-edit'>" . esc_html($buttonText) . "</a>";
         }elseif ($type == 'attachment') {
-            $url        = admin_url("post.php?post=$post->ID&action=edit");
-            $buttonHtml    = "<a href='$url' class='button' class='page-edit'>$buttonText</a>";
+            $url            = admin_url("post.php?post=$post->ID&action=edit");
+            $buttonHtml    = "<a href='" . esc_url($url) . "' class='button' class='page-edit'>" . esc_html($buttonText) . "</a>";
         } else {
-            $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='$postId'>$buttonText</button>";
+            $buttonHtml    = "<button type='button' class='button small hidden page-edit' data-post-id='" . (int) $postId . "'>" . esc_html($buttonText) . "</button>";
         }
     }
-    $buttonHtml    = apply_filters('tsjippy-frontend-content-post-edit-button', $buttonHtml, $post, $content);
+    $buttonHtml    = wp_kses_post(apply_filters('tsjippy-frontend-content-post-edit-button', $buttonHtml, $post, $content));
 
     return $buttonHtml . "<div class='content-wrapper'>$content</div>";
 }

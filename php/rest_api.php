@@ -24,7 +24,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\getAttachmentContents',
             'permission_callback'     => function () {
-                return current_user_can('read');
+                return current_user_can('read', (int) $_POST['attachment-id']);
             },
             'args'                    => array(
                 'attachment-id'        => array(
@@ -45,7 +45,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\addCategory',
             'permission_callback'     => function () {
-                return current_user_can('edit_posts');
+                return current_user_can('manage_terms');
             },
             'args'                    => array(
                 'cat-name'        => array('required'    => true),
@@ -67,7 +67,7 @@ function restApiInit()
             'methods'                 => 'POST',
             'callback'                 => __NAMESPACE__ . '\submitPost',
             'permission_callback'     => function () {
-                return current_user_can('edit_posts') && allowedToEdit((int) $_POST['post-id']);
+                return current_user_can('edit_posts', (int) $_POST['post-id']) && allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-type'        => array(
@@ -186,7 +186,7 @@ function restApiInit()
                 return 'Succes';
             },
             'permission_callback'     => function () {
-                return current_user_can('read') && allowedToEdit((int) $_POST['post-id']);
+                return current_user_can( 'edit_post', (int) $_POST['post-id'] ) && allowedToEdit((int) $_POST['post-id']);
             },
             'args'                    => array(
                 'post-id'        => array(
@@ -485,8 +485,11 @@ function checkForDuplicate(\WP_REST_Request $request)
         }
 
         $html .= "A post with title '$title' already exists.<br>";
-        $url1  = get_permalink($post);
-        $html .= "See it <a href='$url1'>here</a>";
+
+        if(current_user_can('read', $post->ID)){
+            $url1  = get_permalink($post);
+            $html .= "See it <a href='$url1'>here</a>";
+        }
 
         if(allowedToEdit($post)){
             $url2  = add_query_arg(['post-id' => $post->ID], $url);
@@ -503,12 +506,13 @@ function checkForDuplicate(\WP_REST_Request $request)
             $existingTitle    = $posts[0]->post_title;
             $html    .= "A post with a similar title '$existingTitle' already exists.<br>";
 
-            $url1        = get_permalink($posts[0]);
-            $url2        = add_query_arg(['post-id' => $posts[0]->ID], $url);
-            $html        .= "See it <a href='$url1'>here</a>";
+            if(current_user_can('read', $post->ID)){
+                $url1        = get_permalink($posts[0]);
+                $html        .= "See it <a href='$url1'>here</a>";
+            }
 
             if(allowedToEdit($post)){
-                $url2  = add_query_arg(['post-id' => $post->ID], $url);
+                $url2  = add_query_arg(['post-id' => $posts[0]->ID], $url);
                 $html .= ", or edit it <a href='$url2'>here</a>";
             }
         } elseif (count($posts) > 1) {
@@ -516,9 +520,11 @@ function checkForDuplicate(\WP_REST_Request $request)
             $html    .= "$count posts with a similar title already exist:<br>";
 
             foreach ($posts as $post) {
-                $url1        = get_permalink($post);
-                $url2        = add_query_arg(['post-id' => $post->ID], $url);
-                $html        .= "$post->post_title <a href='$url1'>view</a>";
+                if(current_user_can('read', $post->ID)){
+                    $url1        = get_permalink($post);
+                    $html        .= "$post->post_title <a href='$url1'>view</a>";
+                }
+
                 if(allowedToEdit($post)){
                     $url2  = add_query_arg(['post-id' => $post->ID], $url);
                     $html .= ", or <a href='$url2'>edit</a><br>";
