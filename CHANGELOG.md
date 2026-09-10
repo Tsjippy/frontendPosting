@@ -7,6 +7,7 @@
 - renamed ministries to jobs
 
 ### Fixed
+- bug in edit rights
 
 ### Updated
 
